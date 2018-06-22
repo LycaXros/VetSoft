@@ -87,6 +87,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="script.sql" />
     <Content Include="VetSoftModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>VetSoftModel.Context.cs</LastGenOutput>
