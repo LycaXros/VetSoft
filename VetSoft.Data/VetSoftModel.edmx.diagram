@@ -6,6 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="fcb7b342f8ca47998eb48cb827911317" Name="Diagram1">
         <EntityTypeShape EntityType="VetSoftDBModel.Login" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VetSoftDBModel.Especie" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VetSoftDBModel.Raza" Width="1.5" PointX="5.125" PointY="0.75" />
+        <AssociationConnector Association="VetSoftDBModel.FK_Raza_Especie1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -28,6 +28,8 @@ namespace VetSoft.Data
         }
     
         public virtual DbSet<Login> Login { get; set; }
+        public virtual DbSet<Especie> Especie { get; set; }
+        public virtual DbSet<Raza> Raza { get; set; }
     
         public virtual ObjectResult<LoginByUsernamePassword_Result> LoginByUsernamePassword(string username, string password)
         {

@@ -195,7 +195,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EspeciesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RazasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -250,6 +252,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\_Layout.cshtml" />
+    <Content Include="Views\Razas\Create.cshtml" />
+    <Content Include="Views\Razas\Delete.cshtml" />
+    <Content Include="Views\Razas\Details.cshtml" />
+    <Content Include="Views\Razas\Edit.cshtml" />
+    <Content Include="Views\Razas\Index.cshtml" />
+    <Content Include="Views\Especies\Create.cshtml" />
+    <Content Include="Views\Especies\Delete.cshtml" />
+    <Content Include="Views\Especies\Details.cshtml" />
+    <Content Include="Views\Especies\Edit.cshtml" />
+    <Content Include="Views\Especies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
