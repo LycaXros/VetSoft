@@ -1,20 +1,34 @@
 ﻿@using VetSoft.Presentation.Models
 @model LoginViewModel
 @{
+    Layout = "~/Views/Account/_Layout.cshtml";
     ViewBag.Title = "Iniciar sesión";
 }
-
-<h2>@ViewBag.Title.</h2>
+<div class=" row">
+    &nbsp;
+</div>
 <div class="row">
+    <div class="col-md-12">
+        <img src="http://via.placeholder.com/80x80" alt="Placeholder" class="img-responsive" 
+             style="display:inline" />
+    
+        <h2 style="display:inline">@ViewBag.Title.</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 col-sm-12">
+        &nbsp;
+    </div>
     <div class="col-md-8">
         <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", 
-                new { ReturnUrl = ViewBag.ReturnUrl }, 
-                FormMethod.Post, 
+            @using (Html.BeginForm("Login", "Account",
+                new { ReturnUrl = ViewBag.ReturnUrl },
+                FormMethod.Post,
                 new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4>Use una cuenta local para iniciar sesión.</h4>
+                <h4>Use una cuenta de usuario para iniciar sesión.</h4>
+
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
@@ -44,10 +58,10 @@
         </section>
     </div>
     @*<div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>*@
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>*@
 </div>
 
 @section Scripts {

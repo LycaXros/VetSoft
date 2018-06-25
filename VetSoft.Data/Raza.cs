@@ -12,10 +12,12 @@ namespace VetSoft.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Login
+    public partial class Raza
     {
-        public int id { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
+        public int ID { get; set; }
+        public string Nombre { get; set; }
+        public int EspecieID { get; set; }
+    
+        public virtual Especie Especie { get; set; }
     }
 }
