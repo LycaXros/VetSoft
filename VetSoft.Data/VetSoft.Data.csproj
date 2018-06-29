@@ -59,6 +59,7 @@
     <Compile Include="LoginByUsernamePassword_Result.cs">
       <DependentUpon>VetSoftModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PassEncode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Raza.cs">
       <DependentUpon>VetSoftModel.tt</DependentUpon>

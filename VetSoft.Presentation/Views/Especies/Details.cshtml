@@ -1,4 +1,4 @@
-﻿@model VetSoft.Data.Especie
+﻿@model VetSoft.Presentation.Models.EspecieViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -7,7 +7,7 @@
 
 <h2>Detalle</h2>
 
-<div>
+<div class="container">
     <h4>Especie</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -20,19 +20,24 @@
         </dd>
 
         <dt>
-            Nombre Especifico @*@Html.DisplayNameFor(model => model.Nombre_Esp)*@
+            @Html.DisplayNameFor(model => model.Nombre_Esp)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Nombre_Esp)
+            @if (string.IsNullOrEmpty(Model.Nombre_Esp))
+            {
+                <span class="alert-danger">Sin Nombre especifico</span>
+            }else{ 
+                @Html.DisplayFor(model => model.Nombre_Esp);
+            }
         </dd>
 
     </dl>
     <hr />
     @if (Model.Razas.Count > 0)
     {
-        <h5>Razas</h5>
-        <div>
+        <h4>Razas (@Model.Razas.Count)</h4>
+        <div class="col-sm-6">
             <table class="table table-striped">
                 <tr>
                     <th>

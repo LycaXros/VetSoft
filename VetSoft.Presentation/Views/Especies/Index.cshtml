@@ -8,7 +8,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Crear Nueva Especie",   "Create")
+    @Html.ActionLink("Crear Nueva Especie", "Create")
 </p>
 <table class="table">
     <tr>
@@ -21,20 +21,27 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre_Esp)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Detalles", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @if (string.IsNullOrEmpty(item.Nombre_Esp))
+                {<span class="alert-danger">N/A</span>}
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Nombre_Esp);
+                }
+
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
