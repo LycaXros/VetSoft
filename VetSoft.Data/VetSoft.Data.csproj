@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Otros.cs" />
     <Compile Include="Especie.cs">
       <DependentUpon>VetSoftModel.tt</DependentUpon>
     </Compile>
@@ -59,8 +59,17 @@
     <Compile Include="LoginByUsernamePassword_Result.cs">
       <DependentUpon>VetSoftModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Paciente.cs">
+      <DependentUpon>VetSoftModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="PassEncode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Propietario.cs">
+      <DependentUpon>VetSoftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PropietarioPaciente.cs">
+      <DependentUpon>VetSoftModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Raza.cs">
       <DependentUpon>VetSoftModel.tt</DependentUpon>
     </Compile>

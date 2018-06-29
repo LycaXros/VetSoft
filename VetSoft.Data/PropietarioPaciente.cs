@@ -12,10 +12,14 @@ namespace VetSoft.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Login
+    public partial class PropietarioPaciente
     {
-        public int id { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
+        public int ClienteID { get; set; }
+        public int PacienteID { get; set; }
+        public int Tipo { get; set; }
+        public System.DateTime FechaRegistro { get; set; }
+    
+        public virtual Paciente Paciente { get; set; }
+        public virtual Propietario Propietario { get; set; }
     }
 }
