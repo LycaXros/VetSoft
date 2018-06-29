@@ -22,3 +22,28 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.spinnerBase::before {
+    content: "";
+    /* background-color: blue; */
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100px;
+    width: 100px;
+    margin-top: -50px;
+    margin-left: -50px;
+    border-radius: 50%;
+    border-top: 2px solid red;
+    border-bottom: 2px solid blue;
+    animation: spinner-A 0.7s ease infinite;
+}
+
+
+@keyframes spinner-A {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -9,6 +9,12 @@
         <EntityTypeShape EntityType="VetSoftDBModel.Especie" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="VetSoftDBModel.Raza" Width="1.5" PointX="5.125" PointY="0.75" />
         <AssociationConnector Association="VetSoftDBModel.FK_Raza_Especie1" />
+        <EntityTypeShape EntityType="VetSoftDBModel.Paciente" Width="1.5" PointX="7.375" PointY="3.625" />
+        <EntityTypeShape EntityType="VetSoftDBModel.Propietario" Width="1.5" PointX="0.5" PointY="2.875" />
+        <EntityTypeShape EntityType="VetSoftDBModel.PropietarioPaciente" Width="1.5" PointX="2.75" PointY="5.5" />
+        <AssociationConnector Association="VetSoftDBModel.FK_Paciente_Raza" />
+        <AssociationConnector Association="VetSoftDBModel.FK_PropietarioPaciente_Paciente" />
+        <AssociationConnector Association="VetSoftDBModel.FK_PropietarioPaciente_Propietario" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

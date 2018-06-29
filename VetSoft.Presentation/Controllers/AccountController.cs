@@ -68,11 +68,12 @@ namespace VetSoft.Presentation.Controllers
         {
             try
             {
+                var encodedPass = VetSoft.Data.Encriptador.Encriptar(model.Password);
                 // Verification.    
                 if (ModelState.IsValid)
                 {
                     // Initialization.    
-                    var loginInfo = this.databaseManager.LoginByUsernamePassword(model.Username, model.Password).ToList();
+                    var loginInfo = this.databaseManager.LoginByUsernamePassword(model.Username, encodedPass).ToList();
                     // Verification.    
                     if (loginInfo != null && loginInfo.Count() > 0)
                     {

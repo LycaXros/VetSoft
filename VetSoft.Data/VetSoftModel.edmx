@@ -19,7 +19,41 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Microchip_Licencia" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Genero" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="RazaID" Type="int" Nullable="false" />
+          <Property Name="FechaNac" Type="datetime" Nullable="false" />
+          <Property Name="FechaIngreso" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Propietario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="PropietarioPaciente">
+          <Key>
+            <PropertyRef Name="ClienteID" />
+            <PropertyRef Name="PacienteID" />
+            <PropertyRef Name="Tipo" />
+          </Key>
+          <Property Name="ClienteID" Type="int" Nullable="false" />
+          <Property Name="PacienteID" Type="int" Nullable="false" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Raza">
           <Key>
@@ -29,6 +63,42 @@
           <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="EspecieID" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Paciente_Raza">
+          <End Role="Raza" Type="Self.Raza" Multiplicity="1" />
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raza">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paciente">
+              <PropertyRef Name="RazaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropietarioPaciente_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="PropietarioPaciente" Type="Self.PropietarioPaciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropietarioPaciente">
+              <PropertyRef Name="PacienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropietarioPaciente_Propietario">
+          <End Role="Propietario" Type="Self.Propietario" Multiplicity="1" />
+          <End Role="PropietarioPaciente" Type="Self.PropietarioPaciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Propietario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropietarioPaciente">
+              <PropertyRef Name="ClienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Raza_Especie">
           <End Role="Especie" Type="Self.Especie" Multiplicity="1" />
           <End Role="Raza" Type="Self.Raza" Multiplicity="*" />
@@ -43,12 +113,27 @@
         </Association>
         <Function Name="LoginByUsernamePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="username" Type="varchar" Mode="In" />
-          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="VetSoftDBModelStoreContainer">
           <EntitySet Name="Especie" EntityType="Self.Especie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Propietario" EntityType="Self.Propietario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PropietarioPaciente" EntityType="Self.PropietarioPaciente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Raza" EntityType="Self.Raza" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Paciente_Raza" Association="Self.FK_Paciente_Raza">
+            <End Role="Raza" EntitySet="Raza" />
+            <End Role="Paciente" EntitySet="Paciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropietarioPaciente_Paciente" Association="Self.FK_PropietarioPaciente_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="PropietarioPaciente" EntitySet="PropietarioPaciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropietarioPaciente_Propietario" Association="Self.FK_PropietarioPaciente_Propietario">
+            <End Role="Propietario" EntitySet="Propietario" />
+            <End Role="PropietarioPaciente" EntitySet="PropietarioPaciente" />
+          </AssociationSet>
           <AssociationSet Name="FK_Raza_Especie" Association="Self.FK_Raza_Especie">
             <End Role="Especie" EntitySet="Especie" />
             <End Role="Raza" EntitySet="Raza" />
@@ -64,7 +149,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityContainer Name="VetSoftDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Login" EntityType="Self.Login" />
@@ -77,6 +162,21 @@
           <AssociationSet Name="FK_Raza_Especie1" Association="VetSoftDBModel.FK_Raza_Especie1">
             <End Role="Especie" EntitySet="Especie" />
             <End Role="Raza" EntitySet="Raza" />
+          </AssociationSet>
+          <EntitySet Name="Paciente" EntityType="VetSoftDBModel.Paciente" />
+          <EntitySet Name="Propietario" EntityType="VetSoftDBModel.Propietario" />
+          <EntitySet Name="PropietarioPaciente" EntityType="VetSoftDBModel.PropietarioPaciente" />
+          <AssociationSet Name="FK_Paciente_Raza" Association="VetSoftDBModel.FK_Paciente_Raza">
+            <End Role="Raza" EntitySet="Raza" />
+            <End Role="Paciente" EntitySet="Paciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropietarioPaciente_Paciente" Association="VetSoftDBModel.FK_PropietarioPaciente_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="PropietarioPaciente" EntitySet="PropietarioPaciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropietarioPaciente_Propietario" Association="VetSoftDBModel.FK_PropietarioPaciente_Propietario">
+            <End Role="Propietario" EntitySet="Propietario" />
+            <End Role="PropietarioPaciente" EntitySet="PropietarioPaciente" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="LoginByUsernamePassword_Result">
@@ -101,6 +201,7 @@
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="EspecieID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Especie" Relationship="VetSoftDBModel.FK_Raza_Especie1" FromRole="Raza" ToRole="Especie" />
+          <NavigationProperty Name="Animales" Relationship="VetSoftDBModel.FK_Paciente_Raza" FromRole="Raza" ToRole="Paciente" />
         </EntityType>
         <Association Name="FK_Raza_Especie1">
           <End Type="VetSoftDBModel.Especie" Role="Especie" Multiplicity="1" />
@@ -111,6 +212,81 @@
             </Principal>
             <Dependent Role="Raza">
               <PropertyRef Name="EspecieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Microchip_Licencia" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Genero" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="RazaID" Type="Int32" Nullable="false" />
+          <Property Name="FechaNac" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaIngreso" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Raza" Relationship="VetSoftDBModel.FK_Paciente_Raza" FromRole="Paciente" ToRole="Raza" />
+          <NavigationProperty Name="Propietarios" Relationship="VetSoftDBModel.FK_PropietarioPaciente_Paciente" FromRole="Paciente" ToRole="PropietarioPaciente" />
+        </EntityType>
+        <EntityType Name="Propietario">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mascotas" Relationship="VetSoftDBModel.FK_PropietarioPaciente_Propietario" FromRole="Propietario" ToRole="PropietarioPaciente" />
+        </EntityType>
+        <EntityType Name="PropietarioPaciente">
+          <Key>
+            <PropertyRef Name="ClienteID" />
+            <PropertyRef Name="PacienteID" />
+            <PropertyRef Name="Tipo" />
+          </Key>
+          <Property Name="ClienteID" Type="Int32" Nullable="false" />
+          <Property Name="PacienteID" Type="Int32" Nullable="false" />
+          <Property Name="Tipo" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Paciente" Relationship="VetSoftDBModel.FK_PropietarioPaciente_Paciente" FromRole="PropietarioPaciente" ToRole="Paciente" />
+          <NavigationProperty Name="Propietario" Relationship="VetSoftDBModel.FK_PropietarioPaciente_Propietario" FromRole="PropietarioPaciente" ToRole="Propietario" />
+        </EntityType>
+        <Association Name="FK_Paciente_Raza">
+          <End Type="VetSoftDBModel.Raza" Role="Raza" Multiplicity="1" />
+          <End Type="VetSoftDBModel.Paciente" Role="Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raza">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paciente">
+              <PropertyRef Name="RazaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropietarioPaciente_Paciente">
+          <End Type="VetSoftDBModel.Paciente" Role="Paciente" Multiplicity="1" />
+          <End Type="VetSoftDBModel.PropietarioPaciente" Role="PropietarioPaciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropietarioPaciente">
+              <PropertyRef Name="PacienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropietarioPaciente_Propietario">
+          <End Type="VetSoftDBModel.Propietario" Role="Propietario" Multiplicity="1" />
+          <End Type="VetSoftDBModel.PropietarioPaciente" Role="PropietarioPaciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Propietario">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropietarioPaciente">
+              <PropertyRef Name="ClienteID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -153,6 +329,41 @@
                 <ScalarProperty Name="EspecieID" ColumnName="EspecieID" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paciente">
+            <EntityTypeMapping TypeName="VetSoftDBModel.Paciente">
+              <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="FechaNac" ColumnName="FechaNac" />
+                <ScalarProperty Name="RazaID" ColumnName="RazaID" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Microchip_Licencia" ColumnName="Microchip_Licencia" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Propietario">
+            <EntityTypeMapping TypeName="VetSoftDBModel.Propietario">
+              <MappingFragment StoreEntitySet="Propietario">
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropietarioPaciente">
+            <EntityTypeMapping TypeName="VetSoftDBModel.PropietarioPaciente">
+              <MappingFragment StoreEntitySet="PropietarioPaciente">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+                <ScalarProperty Name="ClienteID" ColumnName="ClienteID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
