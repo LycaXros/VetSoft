@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VetSoft.Data;
+using VetSoft.Presentation.Models;
 
 namespace VetSoft.Presentation.Controllers
 {
@@ -35,7 +36,14 @@ namespace VetSoft.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            return View(especie);
+            var esp = new EspecieViewModel(especie);
+            //{
+            //    ID = especie.ID,
+            //    Nombre = especie.Nombre,
+            //    Nombre_Esp = especie.Nombre_Esp,
+            //    Razas = especie.Razas
+            //};
+            return View(esp);
         }
 
         // GET: Especies/Create
@@ -70,12 +78,20 @@ namespace VetSoft.Presentation.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Especie especie = await db.Especie.FindAsync(id);
+            var especie = await db.Especie.FindAsync(id);
+
             if (especie == null)
             {
                 return HttpNotFound();
             }
-            return View(especie);
+            var esp = new EspecieViewModel()
+            {
+                ID = especie.ID,
+                Nombre = especie.Nombre,
+                Nombre_Esp = especie.Nombre_Esp,
+                Razas = especie.Razas
+            };
+            return View(esp);
         }
 
         // POST: Especies/Edit/5
@@ -83,11 +99,15 @@ namespace VetSoft.Presentation.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,Nombre_Esp")] Especie especie)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,Nombre_Esp")] EspecieViewModel especie)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(especie).State = EntityState.Modified;
+                var esp = db.Especie.First(x => x.ID == especie.ID);
+                esp.Nombre = especie.Nombre;
+                esp.Nombre_Esp = especie.Nombre_Esp;
+
+                db.Entry(esp).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
