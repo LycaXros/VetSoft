@@ -24,11 +24,10 @@
             @using (Html.BeginForm("Login", "Account",
                 new { ReturnUrl = ViewBag.ReturnUrl },
                 FormMethod.Post,
-                new { @class = "form-horizontal", role = "form", @id = "formLogin" }))
+                new { @class = "form-horizontal", role = "form"/*, @id = "formLogin" */}))
             {
                 @Html.AntiForgeryToken()
                 <h4>Use una cuenta de usuario para iniciar sesión.</h4>
-                <input type="hidden" id="hiddenReturnUrl" value="@ViewBag.ReturnUrl" />
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
@@ -47,7 +46,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        @*<span class="btn btn-success" onclick="Confirm()">Iniciar Secion</span>*@
+                        <span class="btn btn-success" onclick="Confirm()">Iniciar Secion</span>
                         <input type="submit" value="Iniciar sesión" class="btn btn-default" />
                     </div>
                 </div>
