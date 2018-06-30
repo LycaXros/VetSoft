@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Medicamento.cs">
+      <DependentUpon>VetSoftModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Otros.cs" />
     <Compile Include="Especie.cs">
       <DependentUpon>VetSoftModel.tt</DependentUpon>
@@ -71,6 +74,9 @@
       <DependentUpon>VetSoftModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Raza.cs">
+      <DependentUpon>VetSoftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tipo_Med.cs">
       <DependentUpon>VetSoftModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VetSoftModel.Context.cs">

@@ -33,6 +33,8 @@ namespace VetSoft.Data
         public virtual DbSet<Paciente> Paciente { get; set; }
         public virtual DbSet<Propietario> Propietario { get; set; }
         public virtual DbSet<PropietarioPaciente> PropietarioPaciente { get; set; }
+        public virtual DbSet<Medicamento> Medicamento { get; set; }
+        public virtual DbSet<Tipo_Med> Tipo_Med { get; set; }
     
         public virtual ObjectResult<LoginByUsernamePassword_Result> LoginByUsernamePassword(string username, string password)
         {
