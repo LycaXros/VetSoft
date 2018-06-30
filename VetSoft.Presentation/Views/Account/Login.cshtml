@@ -24,7 +24,7 @@
             @using (Html.BeginForm("Login", "Account",
                 new { ReturnUrl = ViewBag.ReturnUrl },
                 FormMethod.Post,
-                new { @class = "form-horizontal", role = "form"/*, @id = "formLogin" */}))
+                new { @class = "form-horizontal", role = "form", @id = "formLogin" }))
             {
                 @Html.AntiForgeryToken()
                 <h4>Use una cuenta de usuario para iniciar sesión.</h4>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <span class="btn btn-success" onclick="Confirm()">Iniciar Secion</span>
+                        @*<span class="btn btn-success" onclick="Confirm()">Iniciar Secion</span>*@
                         <input type="submit" value="Iniciar sesión" class="btn btn-default" />
                     </div>
                 </div>
@@ -63,29 +63,35 @@
             </section>
         </div>*@
 </div>
-<script>
-    function Confirm() {
-
-        document.querySelector('#formLogin').style.display = 'none';
-        document.querySelector('#formLogin').parentElement.classList.add('spinnerBase');
-        var returnVal = $("#hiddenReturnUrl").val();
-        var form = $("#formLogin").serialize();
-        $.ajax({
-            type: "POST",
-            url: "/Account/Login",
-            data: { model: form},
-            confirm: function () {
-
-                setTimeout(() => {
-                    document.querySelector('#formLogin').parentElement.classList.remove('spinnerBase');
-                    document.querySelector('#formLogin').style.display = 'block';
-
-                }, 5000);
-            }
-        });
-    };
-</script>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function Confirm() {
+
+            document.querySelector('#formLogin').style.display = 'none';
+            document.querySelector('#formLogin').parentElement.classList.add('spinnerBase');
+            var returnVal = $("#hiddenReturnUrl").val();
+
+            var form = $("#formLogin");
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
+            var fS = form.serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Account/Login",
+                data: {
+                    model: fS
+                },
+                success: function () {
+
+                    setTimeout(() => {
+                        document.querySelector('#formLogin').parentElement.classList.remove('spinnerBase');
+                        document.querySelector('#formLogin').style.display = 'block';
+
+                    }, 5000);
+                }
+            });
+        };
+    </script>
+
 }
