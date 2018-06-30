@@ -28,13 +28,13 @@ namespace VetSoft.Presentation.Tests.Controllers
         [TestMethod]
         public void About()
         {
-            // Arrange
-            HomeController controller = new HomeController();
+            //// Arrange
+            //HomeController controller = new HomeController();
 
-            // Act
+            //// Act
             //ViewResult result = controller.About() as ViewResult;
 
-            // Assert
+            //// Assert
             //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
         }
 
