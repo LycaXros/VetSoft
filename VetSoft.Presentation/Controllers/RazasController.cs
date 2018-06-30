@@ -17,7 +17,8 @@ namespace VetSoft.Presentation.Controllers
         private VetSoftDBEntities db = new VetSoftDBEntities();
 
         // GET: Razas
-        [Route("Raza")]
+        [Route("Razas", Order = 1)]
+        [Route("Razas/Index", Order = 2)]
         public async Task<ActionResult> Index()
         {
             var raza = db.Raza.Include(r => r.Especie);
@@ -27,16 +28,21 @@ namespace VetSoft.Presentation.Controllers
         // GET: Razas/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
+            if (Request.IsAjaxRequest())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Raza raza = await db.Raza.FindAsync(id);
+                if (raza == null)
+                {
+                    return HttpNotFound();
+                }
+                return PartialView(raza);
             }
-            Raza raza = await db.Raza.FindAsync(id);
-            if (raza == null)
-            {
-                return HttpNotFound();
-            }
-            return View(raza);
+            Response.StatusCode = 500;
+            return PartialView("Error");
         }
 
         // GET: Razas/Create

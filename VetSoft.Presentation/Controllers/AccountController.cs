@@ -40,6 +40,7 @@ namespace VetSoft.Presentation.Controllers
         {
             try
             {
+                ViewBag.ReturnUrl = returnUrl;
                 // Verification.    
                 if (this.Request.IsAuthenticated)
                 {
