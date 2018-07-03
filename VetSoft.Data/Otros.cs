@@ -12,6 +12,11 @@ namespace VetSoft.Data
         public const string Masculino = "M";
         public const string Femenino = "F";
     }
+    public enum Sexo
+    {
+        Masculino,
+        Femenino 
+    }
     public enum TipoPropietario
     {
         [Display(Name ="Propietario Actual")]
