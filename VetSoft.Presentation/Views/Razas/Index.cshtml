@@ -9,6 +9,10 @@
 
 <h2>Index</h2>
 
+@if (!string.IsNullOrEmpty(TempData["msgError"] as string))
+{
+    @Html.Raw(TempData["msgError"]);
+}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -33,10 +37,15 @@
                 @Html.DisplayFor(modelItem => item.Especie.Nombre)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a>
-                @*@Html.ActionLink("Details", "Details", new { id = item.ID }) |*@
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                <a class="btn btn-primary" onclick="EditarR(@item.ID)">Editar</a> |
+                <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
+                <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
+
+                @*
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                *@
             </td>
         </tr>
     }
@@ -45,14 +54,14 @@
 
 
 <!-- The Modal -->
-<div class="modal fade in" id="modalDetalles" tabindex="-1" role="dialog">
+<div class="modal" id="modalData" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
             <br />
             <!-- Modal Header -->
             <div class="modal-header">
-                <button type="button" class="close" onclick="ModalDetalleClose()">
+                <button type="button" class="close" onclick="ModalClose()">
                     <span aria-hidden="true"> &times;</span>
                 </button>
             </div>
@@ -64,7 +73,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onclick="ModalDetalleClose()">Close</button>
+                <button type="button" class="btn btn-danger" onclick="ModalClose()">Close</button>
             </div>
 
         </div>
@@ -76,12 +85,22 @@
     <script>
         function VerDetalle(id) {
         $.get("@Url.Action("Details")/" + id,
-            function (data) { $('#modalDetalles .modal-body').html(data); });
-        $('#modalDetalles').show();
+            function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
         }
-        function ModalDetalleClose() {
-            $('#modalDetalles').hide();
-            $('#modalDetalles .modal-body').html(" ");
+        function ModalClose() {
+            $('#modalData').hide();
+            $('#modalData .modal-body').html(" ");
+        }
+        var EditarR = function (id) {
+            $.get("@Url.Action("Editar")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
+        var DeleteThis = function (id) {
+            $.get("@Url.Action("Eliminar")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
         }
 
 

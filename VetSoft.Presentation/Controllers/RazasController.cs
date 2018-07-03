@@ -71,6 +71,7 @@ namespace VetSoft.Presentation.Controllers
         }
 
         // GET: Razas/Edit/5
+        [Route("Razas/Editar/{id?}")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,13 +84,14 @@ namespace VetSoft.Presentation.Controllers
                 return HttpNotFound();
             }
             ViewBag.EspecieID = new SelectList(db.Especie, "ID", "Nombre", raza.EspecieID);
-            return View(raza);
+            return PartialView(raza);
         }
 
         // POST: Razas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Route("Razas/Editar/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,EspecieID")] Raza raza)
         {
@@ -100,10 +102,11 @@ namespace VetSoft.Presentation.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.EspecieID = new SelectList(db.Especie, "ID", "Nombre", raza.EspecieID);
-            return View(raza);
+            return PartialView(raza);
         }
 
         // GET: Razas/Delete/5
+        [Route("Razas/Eliminar/{id?}")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -115,15 +118,23 @@ namespace VetSoft.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            return View(raza);
+            return PartialView(raza);
         }
 
         // POST: Razas/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [Route("Razas/Eliminar/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Raza raza = await db.Raza.FindAsync(id);
+            if(raza.Animales.Count > 0)
+            {
+                TempData["msgError"] = "<script>" +
+                    "(function(){" +
+                    "alert('No se pudo Eliminar Registro" +
+                    " debido a que exiten pacientes de la raza');})();</script>";
+            }
             //db.Raza.Remove(raza);
             //await db.SaveChangesAsync();
             return RedirectToAction("Index");
