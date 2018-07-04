@@ -4,7 +4,7 @@
     ViewBag.Title = "Pacientes";
 }
 
-<h2>Index</h2>
+<h2>Pacientes</h2>
 
 <p>
     @Html.ActionLink("Nuevo Paciente", "Create")
@@ -37,15 +37,14 @@ else
 
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        Edad:
                         @{
-                            var now = DateTime.Now;
-                            var nac = item.FechaNac;
-                            var diff = now - nac;
-                            var years = (diff.Days / 365);
-                            var message = $"{years} años y {diff.Days - (years * 365)} dias.";
-                            @message
+        var now = DateTime.Now;
+        var nac = item.FechaNac;
+        var diff = now - nac;
+        var years = (diff.Days / 365);
+        var message = $"{years} años y {diff.Days - (years * 365)} dias.";
                         }
+                        Edad: @message
                     </li>
                     <li class="list-group-item">
                         @Html.DisplayNameFor(model => model.Color) :
@@ -61,71 +60,21 @@ else
                 </ul>
                 <div class="card-footer">
                     @*@Html.ActionLink("Edit", "Edit", new { id = 0 }, htmlAttributes: new { @class = "card-link" }) |*@
-                    <a href="@Url.Action("Edit")/0" title="Editar" class="card-link btn"> <i class="fas fa-edit"></i></a>|
-                    @Html.ActionLink("Details", "Details", new { id = 0 }, htmlAttributes: new { @class = "card-link" }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = 0 }, htmlAttributes: new { @class = "card-link" })
+                    <a href="@Url.Action("Editar")/@item.ID" title="Editar" class="card-link btn"> <i class="fas fa-edit"></i></a>|
+                    @Html.ActionLink("Ver Lista de Chequeos", "Listar","Vet", new { id = 0 }, htmlAttributes: new { @class = "card-link" }) |
+                    <span class="card-link btn" onclick="DeleteThis(@item.ID)">Eliminar</span> |
                 </div>
             </div>
 
         }
     </div>
 }
-@*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Microchip_Licencia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genero)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaNac)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaIngreso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Raza.Nombre)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Color)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Microchip_Licencia)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Genero)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaNac)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaIngreso)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Raza.Nombre)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                </td>
-            </tr>
+@section scripts{
+    <script type="text/javascript">
+        var DeleteThis = function (id) {
+            $.get("@Url.Action("Eliminar")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
         }
-
-    </table>*@
+    </script>
+}

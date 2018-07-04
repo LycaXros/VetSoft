@@ -1,0 +1,43 @@
+﻿@model VetSoft.Presentation.Models.PacienteViewModel
+
+<h3>Esta Por Eliminar el Siguiente Paciente</h3>
+<div>
+    @*<h4>PacienteViewModel</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            Nombre Raza
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Raza.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Microchip_Licencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Microchip_Licencia)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm("DeleteConfirmed", "Paciente")) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

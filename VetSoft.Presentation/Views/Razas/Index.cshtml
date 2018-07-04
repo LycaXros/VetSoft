@@ -9,10 +9,6 @@
 
 <h2>Index</h2>
 
-@if (!string.IsNullOrEmpty(TempData["msgError"] as string))
-{
-    @Html.Raw(TempData["msgError"]);
-}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -53,33 +49,6 @@
 </table>
 
 
-<!-- The Modal -->
-<div class="modal" id="modalData" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-            <br />
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" onclick="ModalClose()">
-                    <span aria-hidden="true"> &times;</span>
-                </button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onclick="ModalClose()">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 @section scripts {
 
     <script>
@@ -87,10 +56,6 @@
         $.get("@Url.Action("Details")/" + id,
             function (data) { $('#modalData .modal-body').html(data); });
             $('#modalData').show();
-        }
-        function ModalClose() {
-            $('#modalData').hide();
-            $('#modalData .modal-body').html(" ");
         }
         var EditarR = function (id) {
             $.get("@Url.Action("Editar")/" + id,

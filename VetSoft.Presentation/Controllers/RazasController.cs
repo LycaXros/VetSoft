@@ -130,10 +130,9 @@ namespace VetSoft.Presentation.Controllers
             Raza raza = await db.Raza.FindAsync(id);
             if(raza.Animales.Count > 0)
             {
-                TempData["msgError"] = "<script>" +
-                    "(function(){" +
-                    "alert('No se pudo Eliminar Registro" +
-                    " debido a que exiten pacientes de la raza');})();</script>";
+                TempData["msgError"] = 
+                    "No se pudo Eliminar Registro" +
+                    " debido a que exiten pacientes de la raza";
             }
             //db.Raza.Remove(raza);
             //await db.SaveChangesAsync();
