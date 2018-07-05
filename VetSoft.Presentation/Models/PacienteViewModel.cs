@@ -58,4 +58,14 @@ namespace VetSoft.Presentation.Models
         public virtual Raza Raza { get; set; }
         public virtual ICollection<PropietarioPaciente> Propietarios { get; set; }
     }
+
+    public class PropietarioPacienteViewModel
+    {
+        [Required(ErrorMessage = "HACE Falta ID del Cliente")]
+        public int ClienteID { get; set; }
+
+        [Required(ErrorMessage = "HACE Falta ID del Paciente")]
+        public int PacienteID { get; set; }
+        public int Tipo { get; set; }
+    }
 }

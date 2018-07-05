@@ -1,0 +1,29 @@
+﻿@model VetSoft.Presentation.Models.PropietarioPacienteViewModel
+
+
+@if ((ViewBag.PropietariosList as IEnumerable<SelectListItem>).Count() > 0)
+{
+
+    using (Html.BeginForm("SelectPropietario", "Paciente", FormMethod.Post,
+        new { onsubmit = "return SubmitForm(this)"}) )
+    {
+        @*@Html.AntiForgeryToken();*@
+        @Html.HiddenFor(model => model.PacienteID)
+        <div class="form-group">
+            <label class="control-label">Propietario</label>
+            @Html.DropDownListFor(model => model.ClienteID, (IEnumerable<SelectListItem>)ViewBag.PropietariosList, "---Seleccione---", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ClienteID, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Aceptar" class="btn btn-success" />
+            <input type="reset" value="Limpiar" class="btn btn-info" />
+        </div>
+    }
+
+}
+else
+{
+    <h4>No Existen Propietarios</h4>
+    @Html.ActionLink("Crear Nuevo Propietario","Nuevo","Propietarios")
+}

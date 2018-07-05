@@ -1,9 +1,65 @@
-﻿@model VetSoft.Presentation.Models.PacienteViewModel
+﻿@using VetSoft.Data
+@model VetSoft.Presentation.Models.PacienteViewModel
 
 @{
     ViewBag.Title = "VerPropietarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>VerPropietarios</h2>
+<h2>Propietario(s) de @Model.Nombre</h2>
 
+@if (Model.Propietarios.Count > 0)
+{
+    foreach (var item in Model.Propietarios.ToList())
+    {
+        <span>Nombre :@item.Propietario.Nombre</span>
+        <br />
+    }
+}
+else if ((bool)ViewBag.TienePropietario)
+{
+    <h3>No Tiene Propietario </h3>
+    <a class="btn" onclick="PopupForm('@Url.Action("SelectPropietario", new { id = Model.ID})')">Seleccionar Propietario</a>
+}
+@section scripts{
+    <script type="text/javascript">
+        var Popup;
+        var PopupForm = function (url) {
+            var formDiv = $('<div />');
+            $.get(url)
+                .fail(function (message) {
+                    alert(message.statusText);
+                })
+                .done(function (response) {
+                    formDiv.html(response);
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        modal: this,
+                        title: "Seleccione Propietario Actual",
+                        height: 500, width: 700,
+                        draggable: true,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+                    });
+                });
+        };
+        var SubmitForm = function (form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            Popup.dialog('close');
+                        }
+                    }
+                });
+            }
+            return false;
+        };
+    </script>
+}

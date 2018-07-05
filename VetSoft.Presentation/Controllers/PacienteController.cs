@@ -150,19 +150,55 @@ namespace VetSoft.Presentation.Controllers
             {
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
-            var pac = await db.Paciente.Include(x=>x.Propietarios).FirstAsync(x=>x.ID == id.Value);
-            if(pac == null)
+            db.Configuration.UseDatabaseNullSemantics = false;
+            var pac = await db.Paciente.AsNoTracking().Include(x => x.Propietarios).FirstAsync(x => x.ID == id.Value);
+            if (pac == null)
             {
-                    return HttpNotFound();
-                
+                return HttpNotFound();
             }
             var paciente = new PacienteViewModel(pac);
-            var propa = pac.Propietarios.ToList();
+            var propas = pac.Propietarios.ToList();
             var q = (from pro in db.Propietario
-                     where !propa.Exists(x => x.Propietario == pro)
+                     where !propas.Any(x => x.Propietario == pro)
                      select pro)
                     .ToList();
+
+            ViewBag.TienePropietario = !propas.ToList().Any(x => x.Tipo == (int)TipoPropietario.Propietario_Actual);
+
             return View(paciente);
+        }
+
+        [HttpGet]
+        [Route("Paciente/{id}/Propietarios_Select")]
+        public async Task<ActionResult> SelectPropietario(int? id)
+        {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            if(!db.Paciente.Any(x=>x.ID==id))
+            {
+                return HttpNotFound();
+            }
+            var pp = new PropietarioPacienteViewModel()
+            {
+                PacienteID = id.Value
+            };
+            ViewBag.PropietariosList = await db.Propietario
+                .Select(x => new SelectListItem()
+                {
+                    Text = x.Nombre,
+                    Value = x.ID.ToString()
+                })
+                .ToListAsync();
+            return PartialView(pp);
+        }
+
+        [HttpPost]
+        public ActionResult SelectPropietario(PropietarioPacienteViewModel model)
+        {
+
+            return Json(new { success = true, message = "Se ha Guardado de forma Exitosa" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

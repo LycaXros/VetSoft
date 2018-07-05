@@ -38,11 +38,11 @@ else
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         @{
-        var now = DateTime.Now;
-        var nac = item.FechaNac;
-        var diff = now - nac;
-        var years = (diff.Days / 365);
-        var message = $"{years} años y {diff.Days - (years * 365)} dias.";
+                            var now = DateTime.Now;
+                            var nac = item.FechaNac;
+                            var diff = now - nac;
+                            var years = (diff.Days / 365);
+                            var message = $"{years} años y {diff.Days - (years * 365)} dias.";
                         }
                         Edad: @message
                     </li>
@@ -61,8 +61,9 @@ else
                 <div class="card-footer">
                     @*@Html.ActionLink("Edit", "Edit", new { id = 0 }, htmlAttributes: new { @class = "card-link" }) |*@
                     <a href="@Url.Action("Editar")/@item.ID" title="Editar" class="card-link btn"> <i class="fas fa-edit"></i></a>|
-                    @Html.ActionLink("Ver Lista de Chequeos", "Listar","Vet", new { id = 0 }, htmlAttributes: new { @class = "card-link" }) |
+                    @Html.ActionLink("Ver Lista de Chequeos", "Listar", "Vet", new { id = 0 }, htmlAttributes: new { @class = "card-link" }) |
                     <span class="card-link btn" onclick="DeleteThis(@item.ID)">Eliminar</span> |
+                    @Html.ActionLink("Ver Propietario(s)", "VerPropietarios", new { id = item.ID}, htmlAttributes: new { @class = "card-link" })
                 </div>
             </div>
 
