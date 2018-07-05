@@ -6,27 +6,29 @@ using VetSoft.Data;
 namespace VetSoft.Presentation.Models
 {
 
-    public class EspecieViewModel
+    public class MedicamentosViewModel
     {
-        public EspecieViewModel()
+        public MedicamentosViewModel()
         {
-            this.Razas = new List<Raza>();
+            this.Medicinas = new List<Medicamento>();
         }
-        public EspecieViewModel(Especie especie)
+        public MedicamentosViewModel(Medicamento medicamento)
         {
-            ID = especie.ID;
-            Nombre = especie.Nombre;
-            Nombre_Esp = especie.Nombre_Esp;
-            Razas = especie.Razas;
+            ID = medicamento.ID;
+            Nombre = medicamento.Nombre;
+            Descripcion = medicamento.Descripcion;
+            TipoID = medicamento.TipoID;
         }
 
         [Display(Name ="Identificador")]
         public int ID { get; set; }
-        [Display(Name = "Nombre Especie")]
+        [Display(Name = "Nombre Medicina")]
         public string Nombre { get; set; }
-        [Display(Name = "Especificacion Especies")]
-        public string Nombre_Esp { get; set; }
+        [Display(Name = "Descripcion medicina")]
+        public string Descripcion { get; set; }
+        [Display(Name = "Tipo de medicina")]
+        public int TipoID { get; set; }
 
-        public virtual ICollection<Raza> Razas { get; set; }
+        public virtual ICollection<Medicamento> Medicinas { get; set; }
     }
 }

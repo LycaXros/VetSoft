@@ -13,129 +13,130 @@ using VetSoft.Presentation.Models;
 namespace VetSoft.Presentation.Controllers
 {
     [Authorize]
-    public class EspeciesController : Controller
+    public class MedicamentosController : Controller
     {
         private VetSoftDBEntities db = new VetSoftDBEntities();
 
-        // GET: Especies
-        [Route("Especies")]
+        // GET: Medicamentos
+        [Route("Medicamentos")]
         public async Task<ActionResult> Index()
         {
-            return View(await db.Especie.ToListAsync());
+            return View(await db.Medicamento.ToListAsync());
         }
 
-        // GET: Especies/Details/5
+        // GET: Medicamentos/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Especie especie = await db.Especie.FindAsync(id);
-            if (especie == null)
+            Medicamento medicamento = await db.Medicamento.FindAsync(id);
+            if (medicamento == null)
             {
                 return HttpNotFound();
             }
-            var esp = new EspecieViewModel(especie);
+            var med = new MedicamentosViewModel(medicamento);
             //{
-            //    ID = especie.ID,
-            //    Nombre = especie.Nombre,
-            //    Nombre_Esp = especie.Nombre_Esp,
-            //    Razas = especie.Razas
+            //    ID = medicameto.ID,
+            //    Nombre = medicamento.Nombre,
+            //    Descripcion = medicamento.Descripcion,
+            //    TipoID = medicamento.TipoID
             //};
-            return View(esp);
+            return View(med);
         }
 
-        // GET: Especies/Create
+        // GET: Medicamentos/Create
         [Route("Nueva")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Especies/Create
+        // POST: Medicamentos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Nueva")]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Nombre,Nombre_Esp")] Especie especie)
+        public async Task<ActionResult> Create([Bind(Include = "ID,Nombre,Descripcion,TipoID")] Medicamento medicamento)
         {
             if (ModelState.IsValid)
             {
-                db.Especie.Add(especie);
+                db.Medicamento.Add(medicamento);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(especie);
+            return View(medicamento);
         }
 
-        // GET: Especies/Edit/5
+        // GET: Medicamentos/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var especie = await db.Especie.FindAsync(id);
+            var medicamento = await db.Medicamento.FindAsync(id);
 
-            if (especie == null)
+            if (medicamento == null)
             {
                 return HttpNotFound();
             }
-            var esp = new EspecieViewModel()
+            var med = new MedicamentosViewModel()
             {
-                ID = especie.ID,
-                Nombre = especie.Nombre,
-                Nombre_Esp = especie.Nombre_Esp,
-                Razas = especie.Razas
+                ID = medicamento.ID,
+                Nombre = medicamento.Nombre,
+                Descripcion = medicamento.Descripcion,
+                TipoID = medicamento.TipoID
             };
-            return View(esp);
+            return View(med);
         }
 
-        // POST: Especies/Edit/5
+        // POST: Medicamentos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,Nombre_Esp")] EspecieViewModel especie)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,Descripcion,TipoID")] Medicamento medicamento)
         {
             if (ModelState.IsValid)
             {
-                var esp = db.Especie.First(x => x.ID == especie.ID);
-                esp.Nombre = especie.Nombre;
-                esp.Nombre_Esp = especie.Nombre_Esp;
+                var med = db.Medicamento.First(x => x.ID == medicamento.ID);
+                med.Nombre = medicamento.Nombre;
+                med.Descripcion = medicamento.Descripcion;
+                med.TipoID = medicamento.TipoID;
 
-                db.Entry(esp).State = EntityState.Modified;
+                db.Entry(med).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(especie);
+            return View(medicamento);
         }
 
-        // GET: Especies/Delete/5
+        // GET: Medicamentos/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Especie especie = await db.Especie.FindAsync(id);
-            if (especie == null)
+            Medicamento medicamento = await db.Medicamento.FindAsync(id);
+            if (medicamento == null)
             {
                 return HttpNotFound();
             }
-            return View(especie);
+            return View(medicamento);
         }
 
-        // POST: Especies/Delete/5
+        // POST: Medicamentos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Especie especie = await db.Especie.FindAsync(id);
-            //db.Especie.Remove(especie);
+            Medicamento medicamento = await db.Medicamento.FindAsync(id);
+            //db.Medicamento.Remove(medicamento);
             //await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
