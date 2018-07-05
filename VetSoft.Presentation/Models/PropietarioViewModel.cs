@@ -29,7 +29,7 @@ namespace VetSoft.Presentation.Models
 
         [Required]
         [Display(Name = "Nombre")]
-        [StringLength(maximumLength:100, MinimumLength = 4, ErrorMessage = "Nombre Entre 4 y 100 Caracteres")]
+        [StringLength(maximumLength: 100, MinimumLength = 4, ErrorMessage = "Nombre Entre 4 y 100 Caracteres")]
         public string Nombre { get; set; }
 
         [Required]
@@ -37,12 +37,13 @@ namespace VetSoft.Presentation.Models
         [StringLength(maximumLength: 100, MinimumLength = 4, ErrorMessage = "Apellido Entre 4 y 100 Caracteres")]
         public string Apellido { get; set; }
 
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Ingrese un Correo Valido")]
         [Display(Name = "Direccion de Correo Electronico")]
         public string Email { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Numero Telefonico")]
+        [RegularExpression("[\\(]\\d{3}[\\)]\\d{3}[\\-]\\d{4}", ErrorMessage = "Formato invalido Usar '(000)000-0000'")]
         public string Telefono { get; set; }
 
         public virtual ICollection<PropietarioPaciente> Mascotas { get; set; }
