@@ -195,10 +195,11 @@ namespace VetSoft.Presentation.Controllers
         }
 
         [HttpPost]
+        [Route("Paciente/{id}/Propietarios_Select")]
         public ActionResult SelectPropietario(PropietarioPacienteViewModel model)
         {
 
-            return Json(new { success = true, message = "Se ha Guardado de forma Exitosa" }, JsonRequestBehavior.AllowGet);
+            return Json(new { model, success = true, message = "Se ha Guardado de forma Exitosa" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

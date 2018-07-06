@@ -2,7 +2,7 @@
 @model VetSoft.Presentation.Models.PacienteViewModel
 
 @{
-    ViewBag.Title = "VerPropietarios";
+    ViewBag.Title = "Lista de Propietarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -23,6 +23,7 @@ else if ((bool)ViewBag.TienePropietario)
 }
 @section scripts{
     <script type="text/javascript">
+
         var Popup;
         var PopupForm = function (url) {
             var formDiv = $('<div />');
@@ -37,7 +38,7 @@ else if ((bool)ViewBag.TienePropietario)
                         resizable: false,
                         modal: this,
                         title: "Seleccione Propietario Actual",
-                        height: 500, width: 700,
+                        height: 500, width: 500,
                         draggable: true,
                         close: function () {
                             Popup.dialog('destroy').remove();
@@ -55,6 +56,10 @@ else if ((bool)ViewBag.TienePropietario)
                     success: function (data) {
                         if (data.success) {
                             Popup.dialog('close');
+                            $.notify(data.message, "info");
+                        }
+                        else {
+                            $.notify("Error: " + data.message, "alert");
                         }
                     }
                 });
