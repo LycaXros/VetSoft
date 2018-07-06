@@ -15,6 +15,7 @@ namespace VetSoft.Presentation.Controllers
 
         // GET: Propietarios
         [Route("Propietarios")]
+        [Route("Propietarios/Index")]
         public ActionResult Index()
         {
             //List<PropietarioViewModel> lista = await ListarPropietarios();
@@ -27,8 +28,7 @@ namespace VetSoft.Presentation.Controllers
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
         }
 
-        [Route("Propietario/Nuevo")]
-        [Route("Propietario/Editar/{id?}")]
+        [Route("Propietario/NuevoEditar/{id?}")]
         public async Task<ActionResult> AddOrUpdate(int id = 0)
         {
             if (id == 0)
@@ -40,7 +40,7 @@ namespace VetSoft.Presentation.Controllers
                 using (var db = new VetSoftDBEntities())
                 {
 
-                    var p = await db.Propietario.FindAsync(new { ID = id });
+                    var p = await db.Propietario.FirstAsync(x=>x.ID == id );
                     if (p == null)
                     {
                         return HttpNotFound();
@@ -52,15 +52,55 @@ namespace VetSoft.Presentation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Propietario/Nuevo")]
-        [Route("Propietario/Editar/{id}")]
+        [Route("Propietario/NuevoEditar/{id?}")]
         public JsonResult AddOrUpdate(PropietarioViewModel model)
         {
-            return Json(new { success = true, message = "Listo, y Guardado" }, JsonRequestBehavior.AllowGet);
+            if (ModelState.IsValid)
+            {
+                using (var db = new VetSoftDBEntities())
+                {
+
+                    var p = new Propietario();
+                    if (model.ID == 0)
+                    {
+                        p = model.Transform(p);
+                        db.Propietario.Add(p);
+                        db.SaveChanges();
+                        return Json(new { success = true, message = "Nuevo Registro de Propietario Guardado" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        if (db.Propietario.Any(x => x.ID == model.ID))
+                        {
+
+                            p = db.Propietario.First(x => x.ID == model.ID);
+
+                            p = model.Transform(p);
+                            db.Entry(p).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return Json(new { success = true, message = "Registro de Propietario Editado y Guardado" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                            return Json(new { success = false, message = "Error" }, JsonRequestBehavior.AllowGet);
+
+                    }
+                }
+            }
+            return Json(new { success = false, message = "Error" }, JsonRequestBehavior.AllowGet);
+
         }
 
+        [HttpPost]
+        [Route("Propietario/Eliminar/{id?}")]
+        public async Task<ActionResult> Eliminar(int? id)
+        {
+            await Task.Run(()=> { System.Threading.Thread.Sleep(1000); });
 
+            if (id == null) return HttpNotFound();
 
+            return Json(new { success = true, message = "Eliminando Registro" }, JsonRequestBehavior.AllowGet);
+
+        }
         private async Task<List<PropietarioViewModel>> ListarPropietarios()
         {
             var res = new List<PropietarioViewModel>();

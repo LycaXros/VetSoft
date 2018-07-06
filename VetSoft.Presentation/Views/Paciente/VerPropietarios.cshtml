@@ -22,7 +22,6 @@ else if ((bool)ViewBag.TienePropietario)
     <a class="btn" onclick="PopupForm('@Url.Action("SelectPropietario", new { id = Model.ID})')">Seleccionar Propietario</a>
 }
 @section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         var Popup;
         var PopupForm = function (url) {

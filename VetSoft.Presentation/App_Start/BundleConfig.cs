@@ -8,6 +8,15 @@ namespace VetSoft.Presentation
         // Para obtener más información sobre las uniones, visite https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/allScripts").Include(
+                    "~/Scripts/jquery-{version}.js",
+                    "~/Scripts/bootstrap.min.js",
+                    "~/Scripts/jquery.validate*",
+                    "~/Scripts/jquery-ui.min.js",
+                    "~/Scripts/notify.min.js"
+
+                ));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 

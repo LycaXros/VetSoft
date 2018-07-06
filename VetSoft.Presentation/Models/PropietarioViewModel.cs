@@ -24,6 +24,17 @@ namespace VetSoft.Presentation.Models
             Mascotas = propietario.Mascotas;
         }
 
+        public Propietario Transform(Propietario p)
+        {
+
+            p.Nombre = this.Nombre;
+            p.Apellido = this.Apellido;
+            p.Email = this.Email;
+            p.Telefono = this.Telefono;
+
+            return p;
+        }
+
         [Required]
         public int ID { get; set; }
 
