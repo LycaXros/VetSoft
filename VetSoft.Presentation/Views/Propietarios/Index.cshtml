@@ -1,0 +1,164 @@
+﻿@model VetSoft.Presentation.Models.PropietarioViewModel
+@{
+    ViewBag.Title = "Propietarios";
+}
+
+
+<h2>Listado de Propietarios</h2>
+<a class="btn btn-secondary" style="margin-bottom:10px"
+   onclick="PopupForm('@Url.Action("AddOrUpdate")')"><i class="fas fa-plus"></i>Añadir Propietario</a>
+<div class="table-responsive-md">
+    <table class="table table-striped table-bordered" id="propietarioList" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<link href="~/Content/DataTable.css" rel="stylesheet" />
+@section scripts{
+    <script src="~/Scripts/datatables.js"></script>
+    <script type="text/javascript">
+
+
+        var Popup, dataTable;
+        var PopupForm = function (url) {
+            var formDiv = $('<div />');
+            $.get(url)
+                .fail(function (message) {
+                    alert(message.statusText);
+                })
+                .done(function (response) {
+                    formDiv.html(response);
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: false,
+                        modal: this,
+                        title: "Datos Propietario",
+                        height: 500, width: 700,
+                        draggable: true,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+                    });
+                });
+        };
+        var SubmitForm = function (form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        } else {
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "alert"
+                            })
+                        }
+                    }
+                });
+            }
+            return false;
+        };
+        var EliminarRegistro = function (id) {
+            var opt = {
+                type: "POST",
+                url: '@Url.Action("Eliminar","Propietarios")/' + id,
+                success: function (data) {
+                    if (data.success) {
+                        dataTable.ajax.reload();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"})
+                    } else {
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "alert"})
+                    }
+                }
+            };
+            if (confirm("¿Desea Eliminar este Registro?")) {
+                $.ajax(opt);
+            }
+        };
+        $(document).ready(function () {
+
+            var dateTableOptions = {
+                ajax: {
+                    url: "@Url.Action("GetList")",
+                    type: "GET",
+                    datatype: "json"
+                },
+                columns: [
+                    { data: "Nombre" },
+                    { data: "Apellido" },
+                    { data: "Email" },
+                    { data: "Telefono" },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<a class='btn btn-secondary btn-sm' onclick=PopupForm('@Url.Action("NuevoEditar","Propietario")/" + data + "') ><i class='fas fa-pencil-alt'></i> Editar </a> " +
+                                   "<a class='btn btn-danger btn-sm' onclick=EliminarRegistro("+data+")><i class='fas fa-trash'></i> Eliminar </a> "
+
+                        },
+                        searchable:false,
+                        orderable: false,
+                        width:"160px"
+                    }
+                ],
+                language: {
+                    url: "/fonts/espaniolTrans.json",
+                    emptyTable: "Ningún dato disponible en esta tabla. Favor Hacer clic <b>Añadir </b>"
+                }
+
+            };
+            dataTable = $("#propietarioList").DataTable(dateTableOptions);
+
+        });
+
+
+    </script>
+
+
+
+}

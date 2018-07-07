@@ -1,7 +1,4 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
+﻿
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -46,4 +43,14 @@ textarea {
     to {
         transform: rotate(360deg);
     }
+}
+
+/* Validacion de errores estilo*/
+
+.field-validation-error{
+    color: #e80c4d;
+    font-weight:bold;
+}
+input .input-validation-error {
+    border: 1px solid #e80c4d;
 }

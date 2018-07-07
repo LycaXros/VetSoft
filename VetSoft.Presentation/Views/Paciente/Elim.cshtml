@@ -1,15 +1,8 @@
-﻿@model VetSoft.Data.Raza
+﻿@model VetSoft.Presentation.Models.PacienteViewModel
 
-@{
-    ViewBag.Title = "Delete";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2>Eliminar</h2>
-
-<h3>Estas Seguro de querer Eliminar esto</h3>
+<h3>Esta Por Eliminar el Siguiente Paciente</h3>
 <div>
-    <h4>Raza</h4>
+    @*<h4>PacienteViewModel</h4>*@
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -21,18 +14,27 @@
         </dd>
 
         <dt>
-            Nombre Especie
+            Nombre Raza
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Especie.Nombre)
+            @Html.DisplayFor(model => model.Raza.Nombre)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Microchip_Licencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Microchip_Licencia)
+        </dd>
+
 
     </dl>
 
-    @using (Html.BeginForm())
-    {
+    @using (Html.BeginForm("DeleteConfirmed", "Paciente")) {
         @Html.AntiForgeryToken()
+
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
             @Html.ActionLink("Back to List", "Index")

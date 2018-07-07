@@ -47,7 +47,7 @@ namespace VetSoft.Presentation.Controllers
         }
 
         // GET: Especies/Create
-        [Route("Nueva")]
+        [Route("Especie/Nueva")]
         public ActionResult Create()
         {
             return View();
@@ -58,12 +58,17 @@ namespace VetSoft.Presentation.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Nueva")]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Nombre,Nombre_Esp")] Especie especie)
+        [Route("Especie/Nueva")]
+        public async Task<ActionResult> Create([Bind(Include = "ID,Nombre,Nombre_Esp")] EspecieViewModel especie)
         {
             if (ModelState.IsValid)
             {
-                db.Especie.Add(especie);
+                var esp = new Especie()
+                {
+                    Nombre = especie.Nombre,
+                    Nombre_Esp = especie.Nombre_Esp
+                };
+                db.Especie.Add(esp);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
