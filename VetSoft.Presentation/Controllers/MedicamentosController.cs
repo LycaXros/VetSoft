@@ -47,7 +47,7 @@ namespace VetSoft.Presentation.Controllers
         }
 
         // GET: Medicamentos/Create
-        [Route("Nueva")]
+        [Route("Medicamento/Nuevo")]
         public ActionResult Create()
         {
             return View();
@@ -58,7 +58,7 @@ namespace VetSoft.Presentation.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Nueva")]
+        [Route("Medicamento/Nuevo")]
         public async Task<ActionResult> Create([Bind(Include = "ID,Nombre,Descripcion,TipoID")] Medicamento medicamento)
         {
             if (ModelState.IsValid)
@@ -84,13 +84,7 @@ namespace VetSoft.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            var med = new MedicamentosViewModel()
-            {
-                ID = medicamento.ID,
-                Nombre = medicamento.Nombre,
-                Descripcion = medicamento.Descripcion,
-                TipoID = medicamento.TipoID
-            };
+            var med = new MedicamentosViewModel(medicamento);
             return View(med);
         }
 
@@ -99,7 +93,7 @@ namespace VetSoft.Presentation.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,Descripcion,TipoID")] Medicamento medicamento)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,Descripcion,TipoID")] MedicamentosViewModel medicamento)
         {
             if (ModelState.IsValid)
             {
