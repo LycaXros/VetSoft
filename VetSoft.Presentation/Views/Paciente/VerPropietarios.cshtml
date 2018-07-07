@@ -10,11 +10,47 @@
 
 @if (Model.Propietarios.Count > 0)
 {
-    foreach (var item in Model.Propietarios.ToList())
-    {
-        <span>Nombre :@item.Propietario.Nombre</span>
-        <br />
-    }
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre del Propietario</th>
+                <th>Tipo de Propietario</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Propietarios.ToList())
+            {
+                <tr>
+                    <td>@item.Propietario.Nombre</td>
+                    <td>
+                        @switch (item.Tipo)
+                        {
+                            case (int)TipoPropietario.Propietario_Actual:
+                                <label>Actual</label>
+                                break;
+                            case (int)TipoPropietario.Propietario_Anterior:
+                                <label>Anterior</label>
+                                break;
+                            case (int)TipoPropietario.Propietario_Compartido:
+                                <label>Compartido</label>
+                                break;
+                            default:
+                                <span class="alert alert-info">N/A</span>
+                                break;
+                        }
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("Detalle","Propietarios", new { id = item.ClienteID})" 
+                           class="btn btn-link btn-sm"> Ver Detalle </a>|
+                        <span class="btn btn-danger btn-sm"
+                              onclick="EliminarProp(@item.ClienteID, @item.PacienteID)">Eliminar</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else if ((bool)ViewBag.TienePropietario)
 {
@@ -25,25 +61,25 @@ else if ((bool)ViewBag.TienePropietario)
     <script type="text/javascript">
 
         var Popup;
-        var PopupForm = function (url) {
-            var formDiv = $('<div />');
+                            var PopupForm = function (url) {
+                                var formDiv = $('<div />');
             $.get(url)
                 .fail(function (message) {
-                    alert(message.statusText);
-                })
+                                    alert(message.statusText);
+                                })
                 .done(function (response) {
-                    formDiv.html(response);
-                    Popup = formDiv.dialog({
-                        autoOpen: true,
+                                    formDiv.html(response);
+                                    Popup = formDiv.dialog({
+                                        autoOpen: true,
                         resizable: false,
                         modal: this,
                         title: "Seleccione Propietario Actual",
                         height: 500, width: 500,
                         draggable: true,
                         close: function () {
-                            Popup.dialog('destroy').remove();
-                        }
-                    });
+                                            Popup.dialog('destroy').remove();
+                                        }
+                                    });
                 });
         };
         var SubmitForm = function (form) {
@@ -66,5 +102,32 @@ else if ((bool)ViewBag.TienePropietario)
             }
             return false;
         };
+
+        var EliminarProp = function (CliID, PacID) {
+            if (confirm("Seguro que Desea eliminar esta Relacion?")) {
+                $.ajax({
+                    url: "@Url.Action("EliminarRelacion", "Paciente")",
+                    type: "POST",
+                    dataType: "json",
+                    data: { cliID: CliID, pacID : PacID },
+                    success: function (data) {
+                        if (data.success) {
+                            $.notify(data.message, "info");
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2500);
+                        }
+                        else {
+                            $.notify("Error: " + data.message, "alert");
+                        }
+                    },
+                    error: function (data) {
+                        alert("Hubo un Error");
+                    }
+                });
+            }
+        }
+
+
     </script>
 }

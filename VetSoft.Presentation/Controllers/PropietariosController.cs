@@ -25,7 +25,11 @@ namespace VetSoft.Presentation.Controllers
         public async Task<JsonResult> GetList()
         {
             var lista = await ListarPropietarios();
-            return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+            var dataToShow = lista.Select(x => new
+            {
+                x.ID, x.Nombre, x.Telefono, x.Apellido, x.Email, NumeroMascotas=x.Mascotas.Count
+            }).ToList();
+            return Json(new { data = dataToShow }, JsonRequestBehavior.AllowGet);
         }
 
         [Route("Propietario/NuevoEditar/{id?}")]
@@ -106,7 +110,8 @@ namespace VetSoft.Presentation.Controllers
             var res = new List<PropietarioViewModel>();
             using (var db = new VetSoftDBEntities())
             {
-                var l = await db.Propietario.ToListAsync();
+                db.Configuration.UseDatabaseNullSemantics = false;
+                var l = await db.Propietario.Include(x=>x.Mascotas).AsNoTracking().ToListAsync();
                 l.ForEach(x =>
                 {
                     res.Add(new PropietarioViewModel(x));

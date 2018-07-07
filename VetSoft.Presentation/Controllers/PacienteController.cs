@@ -20,8 +20,8 @@ namespace VetSoft.Presentation.Controllers
         public async Task<ActionResult> Index()
         {
             List<PacienteViewModel> pacientes = new List<PacienteViewModel>();
-            var pa = db.Paciente.Include(x => x.Propietarios);
-            (await pa.ToListAsync()).ForEach(x =>
+            var pa =await db.Paciente.Include(x => x.Propietarios).ToListAsync();
+            pa.ForEach(x =>
             {
                 pacientes.Add(new PacienteViewModel(x));
             });
@@ -31,13 +31,13 @@ namespace VetSoft.Presentation.Controllers
         [Route("Paciente/Nuevo")]
         public ActionResult Create()
         {
-            ViewBag.Razas = db.Raza
-                .Select(x => new SelectListItem
-                {
-                    Text = x.Nombre,
-                    Value = x.ID.ToString()
-                })
-                .ToList();
+            ViewBag.Razas = new SelectList(db.Raza.ToList(), "ID", "Nombre");               
+                //.Select(x => new SelectListItem
+                //{
+                //    Text = x.Nombre,
+                //    Value = x.ID.ToString()
+                //})
+                //.ToList();
             return View();
         }
 
@@ -158,12 +158,13 @@ namespace VetSoft.Presentation.Controllers
             }
             var paciente = new PacienteViewModel(pac);
             var propas = pac.Propietarios.ToList();
-            var q = (from pro in db.Propietario
-                     where !propas.Any(x => x.Propietario == pro)
+            var propietarios = db.Propietario.ToList();
+            var q = (from pro in propietarios
+                     where !propas.Exists(x => x.ClienteID == pro.ID )
                      select pro)
                     .ToList();
 
-            ViewBag.TienePropietario = !propas.ToList().Any(x => x.Tipo == (int)TipoPropietario.Propietario_Actual);
+            ViewBag.TienePropietario = !propas.Exists(x => x.Tipo == (int)TipoPropietario.Propietario_Actual);
 
             return View(paciente);
         }
@@ -196,10 +197,52 @@ namespace VetSoft.Presentation.Controllers
 
         [HttpPost]
         [Route("Paciente/{id}/Propietarios_Select")]
-        public ActionResult SelectPropietario(PropietarioPacienteViewModel model)
+        public JsonResult SelectPropietario(PropietarioPacienteViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    using ( var db = new VetSoftDBEntities())
+                    {
 
-            return Json(new { model, success = true, message = "Se ha Guardado de forma Exitosa" }, JsonRequestBehavior.AllowGet);
+                        if (db.PropietarioPaciente
+                            .Any(x => x.ClienteID == model.ClienteID &&
+                                x.PacienteID == model.PacienteID))
+                        {
+                            return Json(new { model, success = false, message = "Ya Exite este registro, no es permitido" }, JsonRequestBehavior.AllowGet);
+                        }
+
+                        var pp = new PropietarioPaciente()
+                        {
+                            ClienteID = model.ClienteID,
+                            PacienteID = model.PacienteID,
+                            Tipo = (int)TipoPropietario.Propietario_Actual,
+                            FechaRegistro = DateTime.Today
+                        };
+
+                        db.PropietarioPaciente.Add(pp);
+                        db.SaveChanges();
+                        return Json(new { model, success = true, message = "Se ha Guardado de forma Exitosa" }, JsonRequestBehavior.AllowGet); 
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    return Json(new { success = false, message = "Error: "+ex.Message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(new { success = false, message = "Error" }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        [Route("Paciente/EliminarPropietario/")]
+        public ActionResult EliminarRelacion(int cliID, int pacID)
+        {
+            return Json(new {  success = true, message = "LLega al Metodo" }, JsonRequestBehavior.AllowGet);
+        }
+
     }
+
+
 }
