@@ -26,6 +26,7 @@
                     <li class="nav-item">@Html.ActionLink("Especies", "", "Especies", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Razas", "", "Razas", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Pacientes", "Index", "Paciente", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Propietarios", "", "Propietarios", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
                 <div>
                     @Html.Partial("_LoginPartial")
@@ -39,7 +40,7 @@
         @RenderBody()
         <hr />
         <footer class="align-bottom">
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year - Vetsoft </p>
         </footer>
     </div>
 
