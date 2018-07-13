@@ -21,6 +21,15 @@
           <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
+        <EntityType Name="Medicamento">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="ntext" />
+          <Property Name="TipoID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Paciente">
           <Key>
             <PropertyRef Name="ID" />
@@ -63,6 +72,25 @@
           <Property Name="Nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="EspecieID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Tipo_Med">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Medicamento_Tipo_Med">
+          <End Role="Tipo_Med" Type="Self.Tipo_Med" Multiplicity="1" />
+          <End Role="Medicamento" Type="Self.Medicamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tipo_Med">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Medicamento">
+              <PropertyRef Name="TipoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Paciente_Raza">
           <End Role="Raza" Type="Self.Raza" Multiplicity="1" />
           <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
@@ -118,10 +146,16 @@
         <EntityContainer Name="VetSoftDBModelStoreContainer">
           <EntitySet Name="Especie" EntityType="Self.Especie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medicamento" EntityType="Self.Medicamento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Propietario" EntityType="Self.Propietario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropietarioPaciente" EntityType="Self.PropietarioPaciente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Raza" EntityType="Self.Raza" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tipo_Med" EntityType="Self.Tipo_Med" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Medicamento_Tipo_Med" Association="Self.FK_Medicamento_Tipo_Med">
+            <End Role="Tipo_Med" EntitySet="Tipo_Med" />
+            <End Role="Medicamento" EntitySet="Medicamento" />
+          </AssociationSet>
           <AssociationSet Name="FK_Paciente_Raza" Association="Self.FK_Paciente_Raza">
             <End Role="Raza" EntitySet="Raza" />
             <End Role="Paciente" EntitySet="Paciente" />
@@ -177,6 +211,12 @@
           <AssociationSet Name="FK_PropietarioPaciente_Propietario" Association="VetSoftDBModel.FK_PropietarioPaciente_Propietario">
             <End Role="Propietario" EntitySet="Propietario" />
             <End Role="PropietarioPaciente" EntitySet="PropietarioPaciente" />
+          </AssociationSet>
+          <EntitySet Name="Medicamento" EntityType="VetSoftDBModel.Medicamento" />
+          <EntitySet Name="Tipo_Med" EntityType="VetSoftDBModel.Tipo_Med" />
+          <AssociationSet Name="FK_Medicamento_Tipo_Med" Association="VetSoftDBModel.FK_Medicamento_Tipo_Med">
+            <End Role="Tipo_Med" EntitySet="Tipo_Med" />
+            <End Role="Medicamento" EntitySet="Medicamento" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="LoginByUsernamePassword_Result">
@@ -290,6 +330,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Medicamento">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TipoID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tipo" Relationship="VetSoftDBModel.FK_Medicamento_Tipo_Med" FromRole="Medicamento" ToRole="Tipo_Med" />
+        </EntityType>
+        <EntityType Name="Tipo_Med">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Medicamentos" Relationship="VetSoftDBModel.FK_Medicamento_Tipo_Med" FromRole="Tipo_Med" ToRole="Medicamento" />
+        </EntityType>
+        <Association Name="FK_Medicamento_Tipo_Med">
+          <End Type="VetSoftDBModel.Tipo_Med" Role="Tipo_Med" Multiplicity="1" />
+          <End Type="VetSoftDBModel.Medicamento" Role="Medicamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tipo_Med">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Medicamento">
+              <PropertyRef Name="TipoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -364,6 +434,24 @@
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
                 <ScalarProperty Name="ClienteID" ColumnName="ClienteID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medicamento">
+            <EntityTypeMapping TypeName="VetSoftDBModel.Medicamento">
+              <MappingFragment StoreEntitySet="Medicamento">
+                <ScalarProperty Name="TipoID" ColumnName="TipoID" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tipo_Med">
+            <EntityTypeMapping TypeName="VetSoftDBModel.Tipo_Med">
+              <MappingFragment StoreEntitySet="Tipo_Med">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

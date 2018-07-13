@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - VetSof</title>
+    <title>@ViewBag.Title - VetSoft</title>
     @Styles.Render("~/Content/css")
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     @Scripts.Render("~/bundles/modernizr")
@@ -13,7 +13,6 @@
 <body>
     <div class="navbar navbar-expand-md bg-dark navbar-dark @*fixed-top*@">
         <div class="container">
-
             @Html.ActionLink(User.Identity.Name+": Nombre de aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#menuCollapsed">
@@ -27,6 +26,8 @@
                     <li class="nav-item">@Html.ActionLink("Razas", "", "Razas", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Pacientes", "Index", "Paciente", new { area = "" }, new { @class = "nav-link" })</li>
                     <li class="nav-item">@Html.ActionLink("Propietarios", "", "Propietarios", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Medicamentos", "", "Medicamentos", new { area = "" }, new { @class = "nav-link" })</li>
+
                 </ul>
                 <div>
                     @Html.Partial("_LoginPartial")
