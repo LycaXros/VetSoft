@@ -20,10 +20,13 @@ namespace VetSoft.Presentation.Models
             Razas = especie.Razas;
         }
 
-        [Display(Name ="Identificador")]
+        [Display(Name = "Identificador")]
         public int ID { get; set; }
+
+        [Required]
         [Display(Name = "Nombre Especie")]
         public string Nombre { get; set; }
+
         [Display(Name = "Especificacion Especies")]
         public string Nombre_Esp { get; set; }
 

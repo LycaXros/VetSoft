@@ -1,7 +1,7 @@
 ﻿@model VetSoft.Data.Raza
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles de la Raza";
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -26,10 +26,15 @@
         <dd>
             @Html.DisplayFor(model => model.Especie.Nombre)
         </dd>
-
+        <dt>
+            Cantidad de Pacientes
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Animales.Count)
+        </dd>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar Raza", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Ir a Listado de Razas", "Index")
 </p>

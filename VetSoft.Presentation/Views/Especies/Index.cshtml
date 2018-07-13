@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<VetSoft.Data.Especie>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lista de Especies";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Lista de Especies</h2>
 
 <p>
-    @Html.ActionLink("Crear Nueva Especie", "Create")
+    <a href="@Url.Action("Create")" class = "btn btn-info" ><i class="fas fa-plus-square"></i> Nuevo Registro de Especie</a>
 </p>
 <table class="table">
     <tr>

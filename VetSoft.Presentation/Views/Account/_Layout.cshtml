@@ -1,32 +1,30 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - VetSoft</title>
+    <title>@ViewBag.Title - VETSOFT</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-expand-md bg-dark navbar-dark">
         <div class="container">
-            <div class="navbar-header">
-                <label class = "navbar-brand">VETSOFT</label>
-            </div>
+            <label class="navbar-brand">VETSOFT</label>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - VetSoft</p>
+            <p>&copy; @DateTime.Now.Year - VETSOFT</p>
+
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/allScripts")
     @RenderSection("scripts", required: false)
 </body>
 </html>
