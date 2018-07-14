@@ -1,7 +1,7 @@
 ﻿
-meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-laSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
-diasSemana = ["DOM", "LUN", "MAR", "MIE", "JUE", "VIE", "SAB"];
+var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+var laSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+var diasSemana = ["DOM", "LUN", "MAR", "MIE", "JUE", "VIE", "SAB"];
 var hoy, diaSemHoy, diaHoy, mesHoy, añoHoy, acCal;
 var tituloDom, añoDom, ant, pos, f0, mesCal, añoCal;
 var mesAnt, mesPos, primeroMes;
@@ -97,7 +97,8 @@ var proximoMes = function () {
     tiempounix = tiempounix + (45 * 24 * 60 * 60 * 1000);
     nuevomes.setTime(tiempounix);
     mesCal = nuevomes.getMonth();
-    añoCal = nuevomes.getFullYear()
+    añoCal = nuevomes.getFullYear();
+    $.notify("Mes actual: " + meses[mesCal], "info");
     cabecera();
     escribirDias();
 };
@@ -108,6 +109,7 @@ var anteriorMes = function () {
     nuevomes.setTime(primeroMes);
     mesCal = nuevomes.getMonth();
     añoCal = nuevomes.getFullYear();
+    $.notify("Mes actual: " + meses[mesCal], "info");
     cabecera();
     escribirDias();
 

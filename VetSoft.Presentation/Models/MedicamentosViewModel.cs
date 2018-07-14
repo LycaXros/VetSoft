@@ -22,12 +22,19 @@ namespace VetSoft.Presentation.Models
             Tipo = medicamento.Tipo;
         }
 
+        [Required(ErrorMessage = "Se necesita este campo.")]
         [Display(Name ="Identificador")]
         public int ID { get; set; }
+
+        [Required(ErrorMessage = "Se necesita este campo.")]
         [Display(Name = "Nombre Medicina")]
         public string Nombre { get; set; }
+
+        [Required(ErrorMessage = "Se necesita este campo.")]
         [Display(Name = "Descripcion medicina")]
         public string Descripcion { get; set; }
+
+        [Required(ErrorMessage = "Se necesita este campo.")]
         [Display(Name = "Tipo de medicina")]
         public int TipoID { get; set; }
 

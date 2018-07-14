@@ -45,7 +45,12 @@ namespace VetSoft.Presentation.Controllers
                 if (this.Request.IsAuthenticated)
                 {
                     // Info.    
-                    return this.RedirectToLocal(returnUrl);
+                    if (returnUrl.ToLower().Contains("logoff"))
+                    {
+                        return this.RedirectToAction("Index", "Home");
+                    }
+                    else
+                        return this.RedirectToLocal(returnUrl);
                 }
             }
             catch (Exception ex)
@@ -83,7 +88,12 @@ namespace VetSoft.Presentation.Controllers
                         // Login In.    
                         this.SignInUser(logindetails.username, false);
                         // Info.    
-                        return this.RedirectToLocal(returnUrl);
+                        if (returnUrl.ToLower().Contains("logoff"))
+                        {
+                            return this.RedirectToAction("Index", "Home");
+                        }
+                        else
+                            return this.RedirectToLocal(returnUrl);
                     }
                     else
                     {
@@ -129,7 +139,7 @@ namespace VetSoft.Presentation.Controllers
         #endregion
 
         #region Helpers  
-        
+
         #region Sign In method.    
         /// <summary>  
         /// Sign In User method.    
@@ -186,5 +196,5 @@ namespace VetSoft.Presentation.Controllers
 
         #endregion
     }
-  
+
 }
