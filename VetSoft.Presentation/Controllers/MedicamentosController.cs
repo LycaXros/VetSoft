@@ -21,7 +21,13 @@ namespace VetSoft.Presentation.Controllers
         [Route("Medicamentos")]
         public async Task<ActionResult> Index()
         {
-            return View(await db.Medicamento.ToListAsync());
+            var l = await db.Medicamento.ToListAsync();
+            List<MedicamentosViewModel> lista = new List<MedicamentosViewModel>();
+            l.ForEach((x) =>
+            {
+                lista.Add(new MedicamentosViewModel(x));
+            });
+            return View(lista);
         }
 
         // GET: Medicamentos/Details/5
@@ -50,6 +56,7 @@ namespace VetSoft.Presentation.Controllers
         [Route("Medicamento/Nuevo")]
         public ActionResult Create()
         {
+            ViewBag.MedType = new SelectList(db.Tipo_Med.ToList(), "ID", "Nombre");
             return View();
         }
 
