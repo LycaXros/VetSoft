@@ -10,7 +10,8 @@ namespace VetSoft.Presentation.Models
     {
         public MedicamentosViewModel()
         {
-            this.Medicinas = new List<Medicamento>();
+            Tipo = null;
+           // this.Medicinas = new List<Medicamento>();
         }
         public MedicamentosViewModel(Medicamento medicamento)
         {
@@ -18,6 +19,7 @@ namespace VetSoft.Presentation.Models
             Nombre = medicamento.Nombre;
             Descripcion = medicamento.Descripcion;
             TipoID = medicamento.TipoID;
+            Tipo = medicamento.Tipo;
         }
 
         [Display(Name ="Identificador")]
@@ -29,6 +31,6 @@ namespace VetSoft.Presentation.Models
         [Display(Name = "Tipo de medicina")]
         public int TipoID { get; set; }
 
-        public virtual ICollection<Medicamento> Medicinas { get; set; }
+        public Tipo_Med Tipo { get; set; }
     }
 }
