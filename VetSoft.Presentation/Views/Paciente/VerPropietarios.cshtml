@@ -43,7 +43,7 @@
 
                     <td>
                         <a href="@Url.Action("Detalle","Propietarios", new { id = item.ClienteID})" 
-                           class="btn btn-link btn-sm"> Ver Detalle </a>|
+                           class="btn btn-link btn-sm disabled" > Ver Detalle </a>|
                         <span class="btn btn-danger btn-sm"
                               onclick="EliminarProp(@item.ClienteID, @item.PacienteID)">Eliminar</span>
                     </td>

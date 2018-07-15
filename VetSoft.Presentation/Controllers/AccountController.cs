@@ -88,7 +88,7 @@ namespace VetSoft.Presentation.Controllers
                         // Login In.    
                         this.SignInUser(logindetails.username, false);
                         // Info.    
-                        if (returnUrl.ToLower().Contains("logoff"))
+                        if ( !string.IsNullOrEmpty(returnUrl) && returnUrl.ToLower().Contains("logoff"))
                         {
                             return this.RedirectToAction("Index", "Home");
                         }
