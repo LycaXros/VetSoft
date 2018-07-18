@@ -18,7 +18,8 @@ namespace VetSoft.Presentation.Controllers
         private VetSoftDBEntities db = new VetSoftDBEntities();
 
         // GET: Especies
-        [Route("Especies")]
+        [Route("Especies", Order = 1)]
+        [Route("Especies/Index", Order = 2)]
         public async Task<ActionResult> Index()
         {
             return View(await db.Especie.ToListAsync());
@@ -27,23 +28,21 @@ namespace VetSoft.Presentation.Controllers
         // GET: Especies/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
+            if (Request.IsAjaxRequest())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Especie especie = await db.Especie.FindAsync(id);
+                if (especie == null)
+                {
+                    return HttpNotFound();
+                }
+                return PartialView(especie);
             }
-            Especie especie = await db.Especie.FindAsync(id);
-            if (especie == null)
-            {
-                return HttpNotFound();
-            }
-            var esp = new EspecieViewModel(especie);
-            //{
-            //    ID = especie.ID,
-            //    Nombre = especie.Nombre,
-            //    Nombre_Esp = especie.Nombre_Esp,
-            //    Razas = especie.Razas
-            //};
-            return View(esp);
+            Response.StatusCode = 500;
+            return PartialView("Error");
         }
 
         // GET: Especies/Create
@@ -77,13 +76,14 @@ namespace VetSoft.Presentation.Controllers
         }
 
         // GET: Especies/Edit/5
+        [Route("Especies/Editar/{id?}")]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var especie = await db.Especie.FindAsync(id);
+            Especie especie = await db.Especie.FindAsync(id);
 
             if (especie == null)
             {
@@ -96,13 +96,14 @@ namespace VetSoft.Presentation.Controllers
                 Nombre_Esp = especie.Nombre_Esp,
                 Razas = especie.Razas
             };
-            return View(esp);
+            return PartialView(esp);
         }
 
         // POST: Especies/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Route("Especies/Editar/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,Nombre_Esp")] EspecieViewModel especie)
         {
@@ -116,7 +117,7 @@ namespace VetSoft.Presentation.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(especie);
+            return PartialView(especie);
         }
 
         // GET: Especies/Delete/5

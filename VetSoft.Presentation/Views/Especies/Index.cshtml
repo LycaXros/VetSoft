@@ -8,7 +8,7 @@
 <h2>Lista de Especies</h2>
 
 <p>
-    <a href="@Url.Action("Create")" class = "btn btn-info" ><i class="fas fa-plus-square"></i> Registrar Nueva Especie</a>
+    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Registrar Nueva Especie</a>
 </p>
 <table class="table">
     <tr>
@@ -37,11 +37,39 @@
 
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })
+                <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
+                <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
+                <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
+
+                @*
+                    @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })*@
             </td>
         </tr>
     }
 
 </table>
+
+@section scripts {
+
+    <script>
+        function VerDetalle(id) {
+        $.get("@Url.Action("Details")/" + id,
+            function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
+        var EditarR = function (id) {
+            $.get("@Url.Action("Editar")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
+        var DeleteThis = function (id) {
+            $.get("@Url.Action("Eliminar")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
+
+
+    </script>
+}
