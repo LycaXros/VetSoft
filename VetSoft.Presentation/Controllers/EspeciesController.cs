@@ -27,23 +27,21 @@ namespace VetSoft.Presentation.Controllers
         // GET: Especies/Details/5
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
+            if (Request.IsAjaxRequest())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Especie especie = await db.Especie.FindAsync(id);
+                if (especie == null)
+                {
+                    return HttpNotFound();
+                }
+                return PartialView(especie);
             }
-            Especie especie = await db.Especie.FindAsync(id);
-            if (especie == null)
-            {
-                return HttpNotFound();
-            }
-            var esp = new EspecieViewModel(especie);
-            //{
-            //    ID = especie.ID,
-            //    Nombre = especie.Nombre,
-            //    Nombre_Esp = especie.Nombre_Esp,
-            //    Razas = especie.Razas
-            //};
-            return View(esp);
+            Response.StatusCode = 500;
+            return PartialView("Error");
         }
 
         // GET: Especies/Create
