@@ -31,7 +31,7 @@ namespace VetSoft.Presentation.Models
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "Se necesita este campo.")]
-        [Display(Name = "Descripcion medicina")]
+        [Display(Name = "Descripcion del medicamento")]
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "Se necesita este campo.")]

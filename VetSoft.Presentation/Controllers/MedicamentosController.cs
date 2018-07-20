@@ -19,6 +19,7 @@ namespace VetSoft.Presentation.Controllers
 
         // GET: Medicamentos
         [Route("Medicamentos")]
+        [Route("Medicamentos/Index")]
         public async Task<ActionResult> Index()
         {
             var l = await db.Medicamento.ToListAsync();
