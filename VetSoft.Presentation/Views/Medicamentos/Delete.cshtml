@@ -1,5 +1,4 @@
 ﻿@model VetSoft.Data.Medicamento
-
 @{
     ViewBag.Title = "Eliminar Medicamento";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,7 +8,6 @@
 
 <h3>Estas seguro de borrar esto?</h3>
 <div>
-    @*<h4>Medicamento</h4>*@
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -38,7 +36,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

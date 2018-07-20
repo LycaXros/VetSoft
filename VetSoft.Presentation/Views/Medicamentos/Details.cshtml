@@ -1,4 +1,4 @@
-﻿@model VetSoft.Presentation.Models.EspecieViewModel
+﻿@model VetSoft.Presentation.Models.MedicamentosViewModel
 
 @{
     ViewBag.Title = "Detalles Medicamento";
@@ -20,43 +20,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Nombre_Esp)
+            @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
 
         <dd>
-            @if (string.IsNullOrEmpty(Model.Nombre_Esp))
+            @if (string.IsNullOrEmpty(Model.Descripcion))
             {
-                <span class="alert-danger">Sin Nombre especifico</span>
+                <span class="alert-danger">Sin Descripcion</span>
             }else{ 
-                @Html.DisplayFor(model => model.Nombre_Esp);
+                @Html.DisplayFor(model => model.Descripcion);
             }
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tipo.Nombre)
+        </dd>
     </dl>
-    <hr />
-    @if (Model.Razas.Count > 0)
-    {
-        <h4>Razas (@Model.Razas.Count)</h4>
-        <div class="col-sm-6">
-            <table class="table table-striped">
-                <tr>
-                    <th>
-                        Nombre
-                    </th>
-                </tr>
-                @{ var x = 1; }
-                @foreach (var item in Model.Razas)
-                {
-                    <tr>
-                        <td>
-                            @x> @item.Nombre
-                        </td>
-                    </tr>
-                    x++;
-                }
-            </table>
-        </div>
-    }
+    
 </div>
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.ID }) |
