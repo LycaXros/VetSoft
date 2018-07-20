@@ -26,28 +26,56 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @if (string.IsNullOrEmpty(item.Descripcion))
-            {<span class="alert-danger">N/A</span>}
-            else
-            {
-                @Html.DisplayFor(modelItem => item.Descripcion);
-            }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @if (string.IsNullOrEmpty(item.Descripcion))
+                {<span class="alert-danger">N/A</span>}
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Descripcion);
+                }
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tipo.Nombre)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })
-        </td>
-    </tr>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo.Nombre)
+            </td>
+            <td>
+                <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
+                <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
+                <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
+
+                @*
+                            @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.ID }) *@
+            </td>
+        </tr>
     }
 
 </table>
+
+@section scripts {
+
+    <script>
+        function VerDetalle(id) {
+        $.get("@Url.Action("Details")/" + id,
+            function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
+        var EditarR = function (id) {
+            $.get("@Url.Action("Edit")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
+        var DeleteThis = function (id) {
+            $.get("@Url.Action("Delete")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
+
+
+    </script>
+}

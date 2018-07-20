@@ -50,7 +50,7 @@ namespace VetSoft.Presentation.Controllers
             //    Descripcion = medicamento.Descripcion,
             //    TipoID = medicamento.TipoID
             //};
-            return View(med);
+            return PartialView(med);
         }
 
         // GET: Medicamentos/Create
@@ -93,7 +93,7 @@ namespace VetSoft.Presentation.Controllers
                 return HttpNotFound();
             }
             var med = new MedicamentosViewModel(medicamento);
-            return View(med);
+            return PartialView(med);
         }
 
         // POST: Medicamentos/Edit/5
@@ -114,7 +114,7 @@ namespace VetSoft.Presentation.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(medicamento);
+            return PartialView(medicamento);
         }
 
         // GET: Medicamentos/Delete/5
@@ -129,7 +129,7 @@ namespace VetSoft.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            return View(medicamento);
+            return PartialView(medicamento);
         }
 
         // POST: Medicamentos/Delete/5
