@@ -93,6 +93,7 @@ namespace VetSoft.Presentation.Controllers
                 return HttpNotFound();
             }
             var med = new MedicamentosViewModel(medicamento);
+            ViewBag.MedType = new SelectList(db.Tipo_Med.ToList(), "ID", "Nombre");
             return PartialView(med);
         }
 

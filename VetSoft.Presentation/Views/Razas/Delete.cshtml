@@ -30,11 +30,11 @@
 
     </dl>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Delete", "Razas", FormMethod.Post, new { onsubmit = "return EliminarRegistro(this)" }))
     {
         @Html.AntiForgeryToken()
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            <input type="submit" value="Eliminar" class="btn btn-default" /> | 
             @Html.ActionLink("Ir a Lista ", "Index")
         </div>
     }

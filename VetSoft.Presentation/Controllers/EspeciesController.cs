@@ -121,6 +121,7 @@ namespace VetSoft.Presentation.Controllers
         }
 
         // GET: Especies/Delete/5
+        [Route("Especies/Eliminar/{id}")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -132,18 +133,28 @@ namespace VetSoft.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            return View(especie);
+            return PartialView(especie);
         }
 
         // POST: Especies/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Eliminar")]
+        [Route("Especies/Eliminar/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Especie especie = await db.Especie.FindAsync(id);
-            //db.Especie.Remove(especie);
-            //await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if(especie == null)
+            {
+                return Json(new { success = false, message = "No se encuentra" }, JsonRequestBehavior.AllowGet);
+            }
+            if(especie.Razas.Count > 0)
+            {
+                return Json(new { success = false, message = "Esta Especie contiene Razas hijos, no es posible Eliminar" }, JsonRequestBehavior.AllowGet);
+            }
+            db.Especie.Remove(especie);
+            await db.SaveChangesAsync();
+            //return RedirectToAction("Index");
+            return Json(new { success = true, message = "Especie Eliminada" }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

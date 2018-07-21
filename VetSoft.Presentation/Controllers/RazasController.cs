@@ -46,6 +46,7 @@ namespace VetSoft.Presentation.Controllers
         }
 
         // GET: Razas/Create
+        [Route("Razas/Nuevo")]
         public ActionResult Create()
         {
             ViewBag.EspecieID = new SelectList(db.Especie, "ID", "Nombre");
@@ -56,6 +57,7 @@ namespace VetSoft.Presentation.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Route("Razas/Nuevo")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "ID,Nombre,EspecieID")] Raza raza)
         {
@@ -130,13 +132,14 @@ namespace VetSoft.Presentation.Controllers
             Raza raza = await db.Raza.FindAsync(id);
             if(raza.Animales.Count > 0)
             {
-                TempData["msgError"] = 
+                var msgError = 
                     "No se pudo Eliminar Registro" +
                     " debido a que exiten pacientes de la raza";
+                return Json(new { success = false, message = msgError }, JsonRequestBehavior.AllowGet);
             }
-            //db.Raza.Remove(raza);
-            //await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            db.Raza.Remove(raza);
+            await db.SaveChangesAsync();
+            return Json(new { success = true, message = "Raza Eliminada" }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
