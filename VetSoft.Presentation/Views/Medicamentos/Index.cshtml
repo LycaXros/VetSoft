@@ -58,23 +58,46 @@
 </table>
 
 @section scripts {
+    <script type="text/javascript">
+    var EliminarRegistro = function (form) {
+    $.ajax({
+    type: "POST",
+    url: form.action,
+    data: $(form).serialize(),
+    success: function (data) {
+    if (data.success) {
+    $.notify(data.message, {
+    globalPosition: "top center",
+    className: "success"
+    })
+    } else {
+    $.notify(data.message, {
+    globalPosition: "top center",
+    className: "alert"
+    })
+    }
+    $.notify("redirecionando", "info");
+    setTimeout("location=('@Url.Action("Index")');", 1500);
+    }
+    });
+    return false;
+    };
 
-    <script>
-        function VerDetalle(id) {
-        $.get("@Url.Action("Details")/" + id,
-            function (data) { $('#modalData .modal-body').html(data); });
-            $('#modalData').show();
-        }
-        var EditarR = function (id) {
-            $.get("@Url.Action("Edit")/" + id,
-                function (data) { $('#modalData .modal-body').html(data); });
-            $('#modalData').show();
-        }
-        var DeleteThis = function (id) {
-            $.get("@Url.Action("Delete")/" + id,
-                function (data) { $('#modalData .modal-body').html(data); });
-            $('#modalData').show();
-        }
+    function VerDetalle(id) {
+    $.get("@Url.Action("Details")/" + id,
+    function (data) { $('#modalData .modal-body').html(data); });
+    $('#modalData').show();
+    }
+    var EditarR = function (id) {
+    $.get("@Url.Action("Edit")/" + id,
+    function (data) { $('#modalData .modal-body').html(data); });
+    $('#modalData').show();
+    }
+    var DeleteThis = function (id) {
+    $.get("@Url.Action("Delete")/" + id,
+    function (data) { $('#modalData .modal-body').html(data); });
+    $('#modalData').show();
+    }
 
 
     </script>

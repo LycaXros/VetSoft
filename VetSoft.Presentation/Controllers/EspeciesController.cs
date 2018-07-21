@@ -39,7 +39,8 @@ namespace VetSoft.Presentation.Controllers
                 {
                     return HttpNotFound();
                 }
-                return PartialView(especie);
+                var esp = new EspecieViewModel(especie);
+                return PartialView(esp);
             }
             Response.StatusCode = 500;
             return PartialView("Error");
@@ -133,7 +134,8 @@ namespace VetSoft.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView(especie);
+            var esp = new EspecieViewModel(especie);
+            return PartialView(esp);
         }
 
         // POST: Especies/Delete/5

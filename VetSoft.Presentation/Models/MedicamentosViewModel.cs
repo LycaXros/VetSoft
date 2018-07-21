@@ -32,6 +32,7 @@ namespace VetSoft.Presentation.Models
 
         [Required(ErrorMessage = "Se necesita este campo.")]
         [Display(Name = "Descripcion del medicamento")]
+        [DataType(DataType.MultilineText)]
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "Se necesita este campo.")]

@@ -1,5 +1,6 @@
 ﻿
 
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -53,4 +54,12 @@ textarea {
 }
 input .input-validation-error {
     border: 1px solid #e80c4d;
+}
+.modal-dialog {
+    overflow-y: initial !important
+}
+
+.modal-body {
+    height: 400px;
+    overflow-y: auto;
 }

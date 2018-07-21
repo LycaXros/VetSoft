@@ -1,10 +1,8 @@
-﻿@model VetSoft.Data.Especie
+﻿@model VetSoft.Presentation.Models.EspecieViewModel
 
 @{
     ViewBag.Title = "Eliminar Especie";
 }
-
-<h2>Eliminar Especie</h2>
 
 <h3>¿Esta seguro de Eliminar este registo?</h3>
 <div>
@@ -20,8 +18,7 @@
         </dd>
 
         <dt>
-            Nombre Especifico
-            @*@Html.DisplayNameFor(model => model.Nombre_Esp)*@
+            @Html.DisplayNameFor(model => model.Nombre_Esp)
         </dt>
 
         <dd>

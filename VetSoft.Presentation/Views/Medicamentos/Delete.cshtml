@@ -27,16 +27,16 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TipoID)
+            @Html.DisplayNameFor(model => model.Tipo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TipoID)
+            @Html.DisplayFor(model => model.Tipo.Nombre)
         </dd>
 
     </dl>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Delete","Medicamentos",FormMethod.Post, new { onsubmit = "return EliminarRegistro(this)" }))
     {
         @Html.AntiForgeryToken()
 
