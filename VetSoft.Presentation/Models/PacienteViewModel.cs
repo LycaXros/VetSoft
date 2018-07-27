@@ -18,8 +18,8 @@ namespace VetSoft.Presentation.Models
             ID = paciente.ID;
             Nombre = paciente.Nombre;
             Color = paciente.Color;
-            if (paciente.Genero == Constantes.Masculino) Genero = Sexo.Masculino;
-            else if (paciente.Genero == Constantes.Femenino) Genero = Sexo.Femenino;
+            if (paciente.Genero == Constantes.Macho) Genero = Sexo.Macho;
+            else if (paciente.Genero == Constantes.Hembra) Genero = Sexo.Hembra;
             else Genero = null;
             Microchip_Licencia = paciente.Microchip_Licencia;
             RazaID = paciente.RazaID;
@@ -67,5 +67,8 @@ namespace VetSoft.Presentation.Models
         [Required(ErrorMessage = "HACE Falta ID del Paciente")]
         public int PacienteID { get; set; }
         public int Tipo { get; set; }
+
+        public PacienteViewModel Paciente { get; set; }
+        public PropietarioViewModel Propietario { get; set; }
     }
 }
