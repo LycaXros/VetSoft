@@ -1,14 +1,14 @@
-﻿@model IEnumerable<VetSoft.Data.Medicamento>
+﻿@model IEnumerable<VetSoft.Presentation.Models.MedicamentosViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Medicamentos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Lista de Medicamentos</h2>
 
 <p>
-    @Html.ActionLink("Crear Nueva Medicina", "Create")
+    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Crear Nueva Medicina</a>
 </p>
 <table class="table">
     <tr>
@@ -26,28 +26,79 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @if (string.IsNullOrEmpty(item.Descripcion))
-            {<span class="alert-danger">N/A</span>}
-            else
-            {
-                @Html.DisplayFor(modelItem => item.Descripcion);
-            }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @if (string.IsNullOrEmpty(item.Descripcion))
+                {<span class="alert-danger">N/A</span>}
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Descripcion);
+                }
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoID)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })
-        </td>
-    </tr>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo.Nombre)
+            </td>
+            <td>
+                <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
+                <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
+                <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
+
+                @*
+                            @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.ID }) *@
+            </td>
+        </tr>
     }
 
 </table>
+
+@section scripts {
+    <script type="text/javascript">
+    var EliminarRegistro = function (form) {
+    $.ajax({
+    type: "POST",
+    url: form.action,
+    data: $(form).serialize(),
+    success: function (data) {
+    if (data.success) {
+    $.notify(data.message, {
+    globalPosition: "top center",
+    className: "success"
+    })
+    } else {
+    $.notify(data.message, {
+    globalPosition: "top center",
+    className: "alert"
+    })
+    }
+    $.notify("redirecionando", "info");
+    setTimeout("location=('@Url.Action("Index")');", 1500);
+    }
+    });
+    return false;
+    };
+
+    function VerDetalle(id) {
+    $.get("@Url.Action("Details")/" + id,
+    function (data) { $('#modalData .modal-body').html(data); });
+    $('#modalData').show();
+    }
+    var EditarR = function (id) {
+    $.get("@Url.Action("Edit")/" + id,
+    function (data) { $('#modalData .modal-body').html(data); });
+    $('#modalData').show();
+    }
+    var DeleteThis = function (id) {
+    $.get("@Url.Action("Delete")/" + id,
+    function (data) { $('#modalData .modal-body').html(data); });
+    $('#modalData').show();
+    }
+
+
+    </script>
+}

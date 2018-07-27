@@ -1,4 +1,4 @@
-﻿@model VetSoft.Presentation.Models.PacienteViewModel
+﻿@model VetSoft.Presentation.Models.PropietarioPacienteViewModel
 
 @{
     ViewBag.Title = "Nuevo Paciente";
@@ -7,80 +7,134 @@
 <h2>Nuevo</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Datos del Paciente</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active disabled" id="nav-paciente-tab" data-toggle="tab" href="#nav-paciente"
+               aria-controls="nav-paciente" aria-selected="true">Paciente</a>
+            <a class="nav-item nav-link  disabled " id="nav-propietario-tab" data-toggle="tab" href="#nav-propietario"
+               aria-controls="nav-propietario" aria-selected="false">Propietario</a>
+            <a class="nav-item nav-link  disabled " id="nav-completar-tab" data-toggle="tab" href="#nav-completar"
+               aria-controls="nav-completar" aria-selected="false">Enviar Datos</a>
+        </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+        <br />
+        <div class="tab-pane fade show active" id="nav-paciente" role="tabpanel" aria-labelledby="nav-paciente-tab">
+
+            <div class="form-horizontal">
+                <h4>Datos del Paciente</h4>
+                <br />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Paciente.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Paciente.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Paciente.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Paciente.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Paciente.Color, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Paciente.Color, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Paciente.Microchip_Licencia, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Paciente.Microchip_Licencia, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Paciente.Microchip_Licencia, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Paciente.Genero, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*@Html.EditorFor(model => model.Paciente.Genero, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.EnumDropDownListFor(model => model.Paciente.Genero, "----SELECCIONE----", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Paciente.Genero, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Paciente.RazaID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*@Html.EditorFor(model => model.Paciente.RazaID, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.DropDownListFor(model => model.Paciente.RazaID, (IEnumerable<SelectListItem>)ViewBag.Razas, "---Seleccione---", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Paciente.RazaID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Paciente.FechaNac, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Paciente.FechaNac, new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Paciente.FechaNac, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <span class="btn btn-info" onclick='CambiarTab("#nav-propietario-tab")'>Siguiente</span>
+            </div>
+
+        </div>
+        <!-- Propietario -->
+        <div class="tab-pane fade " id="nav-propietario" role="tabpanel" aria-labelledby="nav-propietario-tab">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="btn btn-danger" onclick='CambiarTab("#nav-paciente-tab")'>Anterior</span>
+                    </div>
+                    <div class="input-group-text form-control">&nbsp;</div>
+
+                    <div class="input-group-append">
+                        <span class="btn btn-info" onclick='CambiarTab("#nav-completar-tab")'>Siguiente</span>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+        <!-- Completar -->
+        <div class="tab-pane fade " id="nav-completar" role="tabpanel" aria-labelledby="nav-completar-tab">
+            <div class="form-text">
+                Desea Guardar los Datos?
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Microchip_Licencia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Microchip_Licencia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Microchip_Licencia, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar Datos" class="btn btn-default" />
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Genero, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.Genero, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.EnumDropDownListFor(model => model.Genero,"----SELECCIONE----", htmlAttributes : new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RazaID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.RazaID, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.DropDownListFor( model => model.RazaID, (IEnumerable<SelectListItem>)ViewBag.Razas,"---Seleccione---", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.RazaID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaNac, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" >
-                @Html.TextBoxFor(model => model.FechaNac, new {  @class = "form-control", type="date" } )
-                @Html.ValidationMessageFor(model => model.FechaNac, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+            <span class="btn btn-danger form-control" onclick='CambiarTab("#nav-propietario-tab")'>Anterior</span>
         </div>
     </div>
-}
 
+
+}
+<br />
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver a la Lista", "Index")
 </div>
 
 @section Scripts {
-<script type="text/javascript">
-    $(function () { // will trigger when the document is ready
-       $('.datepicker').datepicker(); //Initialise any date pickers
-    });
-</script>
+    <script type="text/javascript">
+        $(function () { // will trigger when the document is ready
+            $('.datepicker').datepicker(); //Initialise any date pickers
+        });
+
+        var CambiarTab = function (nameTab) {
+            $(".nav-tabs").find(".nav-item").removeClass('active');
+            $("#nav-tabContent").find(".tab-pane").removeClass('active');
+            $("#nav-tabContent").find(".tab-pane").removeClass('show');
+            $(nameTab).addClass("active");
+            $panel = $($(nameTab).attr("href"));
+            $panel.addClass("active"); $panel.addClass("show");
+            return false;
+        };
+
+    </script>
 }

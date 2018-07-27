@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VetSoft.Presentation.Models.PacienteViewModel>
+﻿@model IPagedList<VetSoft.Presentation.Models.PacienteViewModel>
 
 @{
     ViewBag.Title = "Pacientes";
@@ -10,66 +10,26 @@
     @Html.ActionLink("Nuevo Paciente", "Create")
 </p>
 
-@if (Model.Count() <= 0)
-{
-    <h3 class="text-center">No existe Contenido que Mostrar</h3>
-}
-else
-{
-    <div class="card-columns">
-        @foreach (var item in Model)
-        {
+<form method="get" action="@Url.Action("Index")"
+      data-otf-ajax="true" data-otf-target="#listaPacientes">
 
-            <div class="card border-info mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        @Html.DisplayFor(modelItem => item.Nombre)
-                    </h5>
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        Raza : @Html.DisplayFor(modelItem => item.Raza.Nombre)
-                    </h6>
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        @Html.DisplayNameFor(model => model.Microchip_Licencia) :
-                        @Html.DisplayFor(modelItem => item.Microchip_Licencia)
-                    </h6>
-                    <p class="card-text">Fecha Registro : @item.FechaIngreso.ToShortDateString()</p>
-                </div>
+    
+    <div class="input-group input-group-lg" style="width:auto">
+        @*@Html.TextBox("search", "", new { @class = "form-control", data-otf-autocomplete = Url.Action("AutoComplete")});*@
+        <div class="input-group-prepend">
+            <span class="input-group-text"> Busqueda por Nombre :</span>
+        </div>
+        <input name="search" class="form-control" placeholder="Nombre del Paciente" data-otf-autocomplete=@Url.Action("AutoComplete") />
+        <div class="input-group-append">
+            <input type="submit" value="Filtrar" class="btn btn-outline-info" />
+        </div>
 
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        @{
-                            var now = DateTime.Now;
-                            var nac = item.FechaNac;
-                            var diff = now - nac;
-                            var years = (diff.Days / 365);
-                            var message = $"{years} años y {diff.Days - (years * 365)} dias.";
-                        }
-                        Edad: @message
-                    </li>
-                    <li class="list-group-item">
-                        @Html.DisplayNameFor(model => model.Color) :
-                        @Html.DisplayFor(modelItem => item.Color)
-
-
-                    </li>
-                    <li class="list-group-item">
-                        @Html.DisplayNameFor(model => model.Genero) :
-                        @Html.DisplayFor(modelItem => item.Genero)
-
-                    </li>
-                </ul>
-                <div class="card-footer">
-                    @*@Html.ActionLink("Edit", "Edit", new { id = 0 }, htmlAttributes: new { @class = "card-link" }) |*@
-                    <a href="@Url.Action("Editar")/@item.ID" title="Editar" class="card-link btn"> <i class="fas fa-edit"></i></a>|
-                    @Html.ActionLink("Ver Lista de Chequeos", "Listar", "Vet", new { id = 0 }, htmlAttributes: new { @class = "card-link" }) |
-                    <span class="card-link btn" onclick="DeleteThis(@item.ID)">Eliminar</span> |
-                    @Html.ActionLink("Ver Propietario(s)", "VerPropietarios", new { id = item.ID}, htmlAttributes: new { @class = "card-link" })
-                </div>
-            </div>
-
-        }
     </div>
-}
+</form>
+<br />
+@Html.Partial("_PacienteList", Model)
+
+
 @section scripts{
     <script type="text/javascript">
         var DeleteThis = function (id) {

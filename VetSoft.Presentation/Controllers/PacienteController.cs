@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PagedList;
+using PagedList.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,18 +16,62 @@ namespace VetSoft.Presentation.Controllers
     {
         VetSoftDBEntities db = new VetSoftDBEntities();
 
+        [HttpGet]
+        public async Task<JsonResult> AutoComplete(string term)
+        {
+            var l = await db.Paciente
+                .Where(x => x.Nombre.StartsWith(term))
+                .Take(10)
+                .Select(r => new
+                {
+                    label = r.Nombre
+                }).ToListAsync();
+
+            return Json(l, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Paciente
         [Route("Pacientes", Order = 1)]
-        [Route("Paciente/Index", Order = 2)]
-        public async Task<ActionResult> Index()
+        [Route("Pacientes/Index", Order = 2)]
+        public async Task<ActionResult> Index(string search, int page = 1)
         {
+
             List<PacienteViewModel> pacientes = new List<PacienteViewModel>();
-            var pa =await db.Paciente.Include(x => x.Propietarios).ToListAsync();
+            var pa = await db.Paciente.Include(x => x.Propietarios).ToListAsync();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                pa = pa.Where(x => x.Nombre.StartsWith(search)).ToList();
+            }
+
             pa.ForEach(x =>
             {
                 pacientes.Add(new PacienteViewModel(x));
             });
-            return View(pacientes);
+            var list = pacientes.ToPagedList(page, 10);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_PacienteList", list);
+            }
+            return View(list);
+        }
+
+        public async Task<PartialViewResult> Filtro(string search,int? page)
+        {
+
+            List<PacienteViewModel> pacientes = new List<PacienteViewModel>();
+            var pa = await db.Paciente.Include(x => x.Propietarios).ToListAsync();
+            if (!string.IsNullOrEmpty(search))
+            {
+                pa = pa.Where(x => x.Nombre.StartsWith(search)).ToList();
+            }
+
+            pa.ForEach(x =>
+            {
+                pacientes.Add(new PacienteViewModel(x));
+            });
+            var list = pacientes.ToPagedList(page ?? 1, 10);
+            return PartialView("_PacienteList", list);
         }
 
         [Route("Paciente/Nuevo")]
@@ -44,12 +90,12 @@ namespace VetSoft.Presentation.Controllers
         [Route("Paciente/Nuevo")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(PacienteViewModel paciente)
+        public async Task<ActionResult> Create(PropietarioPacienteViewModel paciente)
         {
             if (ModelState.IsValid)
             {
                 Paciente p = new Paciente();
-                p.PacienteDeViewModel(paciente);
+                p.PacienteDeViewModel(paciente.Paciente);
 
                 db.Paciente.Add(p);
                 await db.SaveChangesAsync();

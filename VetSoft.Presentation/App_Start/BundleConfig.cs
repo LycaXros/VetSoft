@@ -13,7 +13,8 @@ namespace VetSoft.Presentation
                     "~/Scripts/bootstrap.min.js",
                     "~/Scripts/jquery.validate*",
                     "~/Scripts/jquery-ui.min.js",
-                    "~/Scripts/notify.min.js"
+                    "~/Scripts/notify.min.js",
+                    "~/Scripts/otf.js"
 
                 ));
 
@@ -34,6 +35,7 @@ namespace VetSoft.Presentation
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/jquery-ui.min.css",
+                      "~/Content/PagedList.css",
                       "~/Content/site.css"));
         }
     }

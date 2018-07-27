@@ -1,11 +1,8 @@
-﻿@model VetSoft.Data.Especie
+﻿@model VetSoft.Presentation.Models.EspecieViewModel
 
 @{
     ViewBag.Title = "Eliminar Especie";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Eliminar Especie</h2>
 
 <h3>¿Esta seguro de Eliminar este registo?</h3>
 <div>
@@ -21,8 +18,7 @@
         </dd>
 
         <dt>
-            Nombre Especifico 
-            @*@Html.DisplayNameFor(model => model.Nombre_Esp)*@
+            @Html.DisplayNameFor(model => model.Nombre_Esp)
         </dt>
 
         <dd>
@@ -31,11 +27,12 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("Delete", "Especies",FormMethod.Post, new { onsubmit = "return EliminarRegistro(this)" }))
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar?" class="btn btn-default" /> |
+            <input type="submit" value="Eliminar?" class="btn btn-default" /> | 
             @Html.ActionLink("Volver a Lista", "Index")
         </div>
     }

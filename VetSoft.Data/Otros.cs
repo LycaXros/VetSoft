@@ -9,13 +9,13 @@ namespace VetSoft.Data
 {
     public static class Constantes
     {
-        public const string Masculino = "M";
-        public const string Femenino = "F";
+        public const string Macho = "M";
+        public const string Hembra = "H";
     }
     public enum Sexo
     {
-        Masculino,
-        Femenino 
+        Macho,
+        Hembra 
     }
     public enum TipoPropietario
     {

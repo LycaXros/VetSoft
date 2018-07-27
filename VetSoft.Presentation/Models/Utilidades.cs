@@ -21,10 +21,10 @@ namespace VetSoft.Presentation.Models
             
             switch (paciente.Genero.Value)
             {
-                case Sexo.Masculino:
-                    p.Genero = Constantes.Masculino; break;
-                case Sexo.Femenino:
-                    p.Genero = Constantes.Femenino; break;
+                case Sexo.Macho:
+                    p.Genero = Constantes.Macho; break;
+                case Sexo.Hembra:
+                    p.Genero = Constantes.Hembra; break;
             }
 
         }

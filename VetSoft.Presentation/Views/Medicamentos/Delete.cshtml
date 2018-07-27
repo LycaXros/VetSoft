@@ -1,15 +1,13 @@
 ﻿@model VetSoft.Data.Medicamento
-
 @{
-    ViewBag.Title = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Eliminar Medicamento";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Eliminar Medicamento</h2>
 
 <h3>Estas seguro de borrar esto?</h3>
 <div>
-    @*<h4>Medicamento</h4>*@
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -29,16 +27,17 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TipoID)
+            @Html.DisplayNameFor(model => model.Tipo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TipoID)
+            @Html.DisplayFor(model => model.Tipo.Nombre)
         </dd>
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("Delete","Medicamentos",FormMethod.Post, new { onsubmit = "return EliminarRegistro(this)" }))
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<VetSoft.Data.Raza>
 
 @{
-    /**/
-
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Razas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Listado de Razas</h2>
 
 <p>
-    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Nuevo Registro de Raza</a>
+    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Registrar Nueva Raza</a>
 </p>
 <table class="table">
     <tr>
@@ -33,7 +31,7 @@
                 @Html.DisplayFor(modelItem => item.Especie.Nombre)
             </td>
             <td>
-                <a class="btn btn-primary" onclick="EditarR(@item.ID)">Editar</a> |
+                <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
                 <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
                 <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
 
@@ -50,8 +48,32 @@
 
 
 @section scripts {
+    <script type="text/javascript">
 
-    <script>
+        var EliminarRegistro = function (form) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    if (data.success) {
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+                    } else {
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "alert"
+                        })
+                    }
+                    $.notify("redirecionando", "info");
+                    setTimeout("location=('@Url.Action("Index")');", 1500);
+                }
+            });
+            return false;
+        };
+
         function VerDetalle(id) {
         $.get("@Url.Action("Details")/" + id,
             function (data) { $('#modalData .modal-body').html(data); });

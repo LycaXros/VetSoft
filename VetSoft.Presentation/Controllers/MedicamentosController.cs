@@ -19,9 +19,16 @@ namespace VetSoft.Presentation.Controllers
 
         // GET: Medicamentos
         [Route("Medicamentos")]
+        [Route("Medicamentos/Index")]
         public async Task<ActionResult> Index()
         {
-            return View(await db.Medicamento.ToListAsync());
+            var l = await db.Medicamento.ToListAsync();
+            List<MedicamentosViewModel> lista = new List<MedicamentosViewModel>();
+            l.ForEach((x) =>
+            {
+                lista.Add(new MedicamentosViewModel(x));
+            });
+            return View(lista);
         }
 
         // GET: Medicamentos/Details/5
@@ -43,13 +50,14 @@ namespace VetSoft.Presentation.Controllers
             //    Descripcion = medicamento.Descripcion,
             //    TipoID = medicamento.TipoID
             //};
-            return View(med);
+            return PartialView(med);
         }
 
         // GET: Medicamentos/Create
         [Route("Medicamento/Nuevo")]
         public ActionResult Create()
         {
+            ViewBag.MedType = new SelectList(db.Tipo_Med.ToList(), "ID", "Nombre");
             return View();
         }
 
@@ -85,7 +93,8 @@ namespace VetSoft.Presentation.Controllers
                 return HttpNotFound();
             }
             var med = new MedicamentosViewModel(medicamento);
-            return View(med);
+            ViewBag.MedType = new SelectList(db.Tipo_Med.ToList(), "ID", "Nombre");
+            return PartialView(med);
         }
 
         // POST: Medicamentos/Edit/5
@@ -106,10 +115,11 @@ namespace VetSoft.Presentation.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(medicamento);
+            return PartialView(medicamento);
         }
 
         // GET: Medicamentos/Delete/5
+        [Route("Medicamentos/Eliminar/{id?}")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -121,18 +131,29 @@ namespace VetSoft.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            return View(medicamento);
+            return PartialView(medicamento);
         }
 
         // POST: Medicamentos/Delete/5
+        [Route("Medicamentos/Eliminar/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Medicamento medicamento = await db.Medicamento.FindAsync(id);
-            //db.Medicamento.Remove(medicamento);
-            //await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+
+            if (medicamento == null)
+            {
+                return Json(new { success = false, message = "No se encuentra" }, JsonRequestBehavior.AllowGet);
+            }
+            //if (medicamento.Count > 0)
+            //{
+            //    return Json(new { success = false, message = "Esta Especie contiene Razas hijos, no es posible Eliminar" }, JsonRequestBehavior.AllowGet);
+            //}
+            db.Medicamento.Remove(medicamento);
+            await db.SaveChangesAsync();
+            return Json(new { success = true, message = "Registro de Medicamento Eliminado" }, JsonRequestBehavior.AllowGet);
+            
         }
 
         protected override void Dispose(bool disposing)
