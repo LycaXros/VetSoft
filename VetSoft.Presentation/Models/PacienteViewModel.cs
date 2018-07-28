@@ -27,6 +27,7 @@ namespace VetSoft.Presentation.Models
             FechaNac = paciente.FechaNac;
             FechaIngreso = paciente.FechaIngreso;
             Propietarios = paciente.Propietarios;
+//            Apellido = Propietarios.FirstOrDefault().Propietario.Apellido;
         }
         [Required]
         public int ID { get; set; }
@@ -57,16 +58,28 @@ namespace VetSoft.Presentation.Models
 
         public virtual Raza Raza { get; set; }
         public virtual ICollection<PropietarioPaciente> Propietarios { get; set; }
+        public string Apellido { get; private set; }
     }
 
     public class PropietarioPacienteViewModel
     {
+        public PropietarioPacienteViewModel()
+        {
+            Paciente = new PacienteViewModel();
+            Propietario = new PropietarioViewModel();
+        }
         [Required(ErrorMessage = "HACE Falta ID del Cliente")]
         public int ClienteID { get; set; }
 
         [Required(ErrorMessage = "HACE Falta ID del Paciente")]
         public int PacienteID { get; set; }
         public int Tipo { get; set; }
+
+        public PacienteViewModel Paciente { get; set; }
+        public PropietarioViewModel Propietario { get; set; }
+    }
+    public class PropPacViewModel
+    {
 
         public PacienteViewModel Paciente { get; set; }
         public PropietarioViewModel Propietario { get; set; }
