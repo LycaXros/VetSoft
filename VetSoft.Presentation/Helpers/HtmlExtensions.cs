@@ -34,7 +34,8 @@ namespace VetSoft.Presentation.Helpers
                 //--Card Body
                 var nombreH = new TagBuilder("h5");
                 nombreH.AddCssClass("card-title");
-                nombreH.InnerHtml = DisplayExtensions.DisplayFor(htmlHelper, m => item.Nombre).ToHtmlString();
+                nombreH.InnerHtml = DisplayExtensions.DisplayFor(htmlHelper, m => item.Nombre).ToHtmlString()+ 
+                    (string.IsNullOrEmpty(item.Apellido)? " " : " "+ item.Apellido);
                 var subRaza = new TagBuilder("h6");
                 subRaza.AddCssClass("card-subtitle mb-2 text-muted");
                 subRaza.InnerHtml = $"Raza : {DisplayExtensions.DisplayFor(htmlHelper, m => item.Raza.Nombre).ToHtmlString()}";

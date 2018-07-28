@@ -48,7 +48,9 @@ namespace VetSoft.Presentation.Controllers
             {
                 pacientes.Add(new PacienteViewModel(x));
             });
-            var list = pacientes.ToPagedList(page, 10);
+            var list = pacientes
+                .OrderBy(x => x.FechaIngreso)
+                .ToList().ToPagedList(page, 10);
             if (Request.IsAjaxRequest())
             {
                 return PartialView("_PacienteList", list);
@@ -90,12 +92,12 @@ namespace VetSoft.Presentation.Controllers
         [Route("Paciente/Nuevo")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(PropietarioPacienteViewModel paciente)
+        public async Task<ActionResult> Create( PropPacViewModel model)
         {
             if (ModelState.IsValid)
             {
                 Paciente p = new Paciente();
-                p.PacienteDeViewModel(paciente.Paciente);
+                p.PacienteDeViewModel(model.Paciente);
 
                 db.Paciente.Add(p);
                 await db.SaveChangesAsync();

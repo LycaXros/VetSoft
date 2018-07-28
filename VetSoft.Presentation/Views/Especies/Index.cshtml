@@ -5,80 +5,78 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Lista de Especies</h2>
+<h2 class="text-white">Lista de Especies</h2>
 
-<p>
-    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Registrar Nueva Especie</a>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            Nombre Especifico
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <p>
+        <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Registrar Nueva Especie</a>
+    </p>
+    <table class="table text-white">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @if (string.IsNullOrEmpty(item.Nombre_Esp))
-                {<span class="alert-danger">N/A</span>}
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Nombre_Esp);
-                }
-
-            </td>
-            <td>
-                <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
-                <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
-                <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
-
-                @*
-                    @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })*@
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                Nombre Especifico
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @if (string.IsNullOrEmpty(item.Nombre_Esp))
+                    {<span class="alert-danger">N/A</span>}
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Nombre_Esp);
+                    }
+
+                </td>
+                <td>
+                    <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
+                    <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
+                    <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
+
+                    @*
+                        @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.ID })*@
+                </td>
+            </tr>
+        }
+
+    </table>
 
 @section scripts {
     <script type="text/javascript">
 
-        var EliminarRegistro = function (form) {
-            $.ajax({
-                type: "POST",
-                url: form.action,
-                data: $(form).serialize(),
-                success: function (data) {
-                    if (data.success) {
-                        $.notify(data.message, {
-                            globalPosition: "top center",
-                            className: "success"
-                        })
-                    } else {
-                        $.notify(data.message, {
-                            globalPosition: "top center",
-                            className: "alert"
-                        })
-                    }
-                    $.notify("redirecionando", "info");
-                    setTimeout("location=('@Url.Action("Index")');", 1500);
+    var EliminarRegistro = function (form) {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: $(form).serialize(),
+            success: function (data) {
+                if (data.success) {
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                } else {
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "alert"
+                    })
                 }
-            });
-            return false;
-        };
-
-
+                $.notify("redirecionando", "info");
+                setTimeout("location=('@Url.Action("Index")');", 1500);
+            }
+        });
+        return false;
+    };
 
     function VerDetalle(id) {
     $.get("@Url.Action("Details")/" + id,
@@ -98,4 +96,4 @@
 
 
     </script>
-}
+    }
