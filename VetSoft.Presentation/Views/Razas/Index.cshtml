@@ -5,47 +5,46 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Listado de Razas</h2>
+<h2 class="text-white">Listado de Razas</h2>
 
-<p>
-    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Registrar Nueva Raza</a>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Especie.Nombre) Especie
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <p>
+        <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Registrar Nueva Raza</a>
+    </p>
+    <table class="table text-md-center text-white">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Especie.Nombre)
-            </td>
-            <td>
-                <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
-                <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
-                <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
-
-                @*
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                    @Html.ActionLink("Details", "Details", new { id = item.ID })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                *@
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Especie.Nombre) Especie
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especie.Nombre)
+                </td>
+                <td>
+                    <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
+                    <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
+                    <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
 
+                    @*
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                        @Html.ActionLink("Details", "Details", new { id = item.ID })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    *@
+                </td>
+            </tr>
+        }
+
+    </table>
 
 @section scripts {
     <script type="text/javascript">
