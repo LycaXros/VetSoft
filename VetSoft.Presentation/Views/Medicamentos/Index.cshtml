@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VetSoft.Presentation.Models.MedicamentosViewModel>
+﻿@model IEnumerable<MedicamentosViewModel>
 
 @{
     ViewBag.Title = "Medicamentos";
@@ -10,95 +10,118 @@
 <p>
     <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Crear Nueva Medicina</a>
 </p>
-<table class="table text-white">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoID)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @if (string.IsNullOrEmpty(item.Descripcion))
-                {<span class="alert-danger">N/A</span>}
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Descripcion);
-                }
 
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo.Nombre)
-            </td>
-            <td>
-                <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
-                <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
-                <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
-
-                @*
-                            @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Detalles", "Details", new { id = item.ID }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.ID }) *@
-            </td>
-        </tr>
-    }
-
-</table>
-
+<div class="table-responsive" style="width:auto">
+    <table class="table table-borderless table-striped text-md-center text-white" id="MedList"
+           style="width:100%">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TipoID)
+                </th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TipoID)
+                </th>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 @section scripts {
     <script type="text/javascript">
+        $(document).ready(function () {
+
+            var dateTableOptions = {
+                ajax: {
+                    url: "@Url.Action("GetList")",
+                    type: "GET",
+                    datatype: "json"
+                },
+                columns: [
+                    { data: "Nombre" },
+                    {
+                        data: "Descripcion",
+                        defaultContent: "<span class='alert alert-danger'> N/A </span>"
+                    },
+                    { data : "Tipo"},
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<a class='btn btn-info' onclick='EditarR(" + data + ")'>Editar</a> |" +
+                                "<a class='btn btn-info' onclick='VerDetalle(" + data + ")'>Detalles</a> | " +
+                                "<a class='btn btn-danger' onclick='DeleteThis(" + data + ")'>Eliminar</a> "
+                        },
+                        searchable:false,
+                        orderable: false,
+                        width:"auto"
+                    }
+                ],
+                language: {
+                    url: "/fonts/espaniolTrans.json",
+                    emptyTable: "Ningún dato disponible en esta tabla. Favor Hacer clic <b>Añadir </b>"
+                }
+
+            };
+            dataTable = $("#MedList").DataTable(dateTableOptions);
+
+        });
+
     var EliminarRegistro = function (form) {
-    $.ajax({
-    type: "POST",
-    url: form.action,
-    data: $(form).serialize(),
-    success: function (data) {
-    if (data.success) {
-    $.notify(data.message, {
-    globalPosition: "top center",
-    className: "success"
-    })
-    } else {
-    $.notify(data.message, {
-    globalPosition: "top center",
-    className: "alert"
-    })
-    }
-    $.notify("redirecionando", "info");
-    setTimeout("location=('@Url.Action("Index")');", 1500);
-    }
-    });
-    return false;
-    };
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: $(form).serialize(),
+            success: function (data) {
+                if (data.success) {
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "success"
+                    })
+                } else {
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "alert"
+                    })
+                }
+                $.notify("redirecionando", "info");
+                setTimeout("location=('@Url.Action("Index")');", 1500);
+            }
+        });
+        return false;
+        };
 
-    function VerDetalle(id) {
-    $.get("@Url.Action("Details")/" + id,
-    function (data) { $('#modalData .modal-body').html(data); });
-    $('#modalData').show();
-    }
-    var EditarR = function (id) {
-    $.get("@Url.Action("Edit")/" + id,
-    function (data) { $('#modalData .modal-body').html(data); });
-    $('#modalData').show();
-    }
-    var DeleteThis = function (id) {
-    $.get("@Url.Action("Delete")/" + id,
-    function (data) { $('#modalData .modal-body').html(data); });
-    $('#modalData').show();
-    }
-
-
+        function VerDetalle(id) {
+            $.get("@Url.Action("Details")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
+        var EditarR = function (id) {
+            $.get("@Url.Action("Edit")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
+        var DeleteThis = function (id) {
+            $.get("@Url.Action("Delete")/" + id,
+                function (data) { $('#modalData .modal-body').html(data); });
+            $('#modalData').show();
+        }
     </script>
 }

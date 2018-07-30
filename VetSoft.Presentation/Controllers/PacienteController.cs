@@ -16,6 +16,48 @@ namespace VetSoft.Presentation.Controllers
     {
         VetSoftDBEntities db = new VetSoftDBEntities();
 
+        public async Task<JsonResult> GetList()
+        {
+            var l = (await db.Paciente.ToListAsync())
+                .Select(x =>
+                {
+                    var fechaIng = x.FechaIngreso.ToShortDateString();
+
+                    var now = DateTime.Now;
+                    var nac = x.FechaNac;
+                    var diff = now - nac;
+                    var years = (diff.Days / 365);
+                    var edad = $" {years} años y {diff.Days - (years * 365)} dias.";
+                    return new
+                    {
+                        x.ID,
+                        x.Nombre,
+                        Raza = x.Raza.Nombre,
+                        Ingreso = fechaIng,
+                        Nacimiento = edad
+                    };
+                })
+                .OrderBy(x => x.Ingreso)
+                .ToList();
+
+            return Json(new { data = l }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> DetalleView(int id)
+        {
+            var pac = await db.Paciente.FirstOrDefaultAsync(x => x.ID == id);
+
+            if(pac == null)
+            {
+                return View("Error");
+            }
+
+            var model = new PacienteViewModel(pac);
+            return PartialView(model);
+
+        }
+
         [HttpGet]
         public async Task<JsonResult> AutoComplete(string term)
         {
@@ -33,8 +75,12 @@ namespace VetSoft.Presentation.Controllers
         // GET: Paciente
         [Route("Pacientes", Order = 1)]
         [Route("Pacientes/Index", Order = 2)]
-        public async Task<ActionResult> Index(string search, int page = 1)
+        public async Task<ActionResult> Index(string search, int page = 1, bool isDetail = true)
         {
+            if (isDetail)
+            {
+                return View("TableView");
+            }
 
             List<PacienteViewModel> pacientes = new List<PacienteViewModel>();
             var pa = await db.Paciente.Include(x => x.Propietarios).ToListAsync();
@@ -58,7 +104,7 @@ namespace VetSoft.Presentation.Controllers
             return View(list);
         }
 
-        public async Task<PartialViewResult> Filtro(string search,int? page)
+        public async Task<PartialViewResult> Filtro(string search, int? page)
         {
 
             List<PacienteViewModel> pacientes = new List<PacienteViewModel>();
@@ -79,20 +125,20 @@ namespace VetSoft.Presentation.Controllers
         [Route("Paciente/Nuevo")]
         public ActionResult Create()
         {
-            ViewBag.Razas = new SelectList(db.Raza.ToList(), "ID", "Nombre");               
-                //.Select(x => new SelectListItem
-                //{
-                //    Text = x.Nombre,
-                //    Value = x.ID.ToString()
-                //})
-                //.ToList();
+            ViewBag.Razas = new SelectList(db.Raza.ToList(), "ID", "Nombre");
+            //.Select(x => new SelectListItem
+            //{
+            //    Text = x.Nombre,
+            //    Value = x.ID.ToString()
+            //})
+            //.ToList();
             return View();
         }
 
         [Route("Paciente/Nuevo")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create( PropPacViewModel model)
+        public async Task<ActionResult> Create(PropPacViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -208,7 +254,7 @@ namespace VetSoft.Presentation.Controllers
             var propas = pac.Propietarios.ToList();
             var propietarios = db.Propietario.ToList();
             var q = (from pro in propietarios
-                     where !propas.Exists(x => x.ClienteID == pro.ID )
+                     where !propas.Exists(x => x.ClienteID == pro.ID)
                      select pro)
                     .ToList();
 
@@ -221,11 +267,11 @@ namespace VetSoft.Presentation.Controllers
         [Route("Paciente/{id}/Propietarios_Select")]
         public async Task<ActionResult> SelectPropietario(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
-            if(!db.Paciente.Any(x=>x.ID==id))
+            if (!db.Paciente.Any(x => x.ID == id))
             {
                 return HttpNotFound();
             }
@@ -251,7 +297,7 @@ namespace VetSoft.Presentation.Controllers
             {
                 try
                 {
-                    using ( var db = new VetSoftDBEntities())
+                    using (var db = new VetSoftDBEntities())
                     {
 
                         if (db.PropietarioPaciente
@@ -271,13 +317,13 @@ namespace VetSoft.Presentation.Controllers
 
                         db.PropietarioPaciente.Add(pp);
                         db.SaveChanges();
-                        return Json(new { model, success = true, message = "Se ha Guardado de forma Exitosa" }, JsonRequestBehavior.AllowGet); 
+                        return Json(new { model, success = true, message = "Se ha Guardado de forma Exitosa" }, JsonRequestBehavior.AllowGet);
                     }
                 }
                 catch (Exception ex)
                 {
 
-                    return Json(new { success = false, message = "Error: "+ex.Message }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, message = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
                 }
             }
             return Json(new { success = false, message = "Error" }, JsonRequestBehavior.AllowGet);
@@ -287,7 +333,7 @@ namespace VetSoft.Presentation.Controllers
         [Route("Paciente/EliminarPropietario/")]
         public ActionResult EliminarRelacion(int cliID, int pacID)
         {
-            return Json(new {  success = true, message = "LLega al Metodo" }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, message = "LLega al Metodo" }, JsonRequestBehavior.AllowGet);
         }
 
     }

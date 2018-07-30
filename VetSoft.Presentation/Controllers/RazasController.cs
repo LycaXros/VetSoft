@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VetSoft.Data;
+using VetSoft.Presentation.Models;
 
 namespace VetSoft.Presentation.Controllers
 {
@@ -16,13 +17,30 @@ namespace VetSoft.Presentation.Controllers
     {
         private VetSoftDBEntities db = new VetSoftDBEntities();
 
+        public async Task<JsonResult> GetList()
+        {
+            var r = (await db.Raza.ToListAsync())
+                .Select(x => new
+                {
+                    x.ID, x.Nombre, EspecieName = x.Especie.Nombre
+                }).OrderBy(x => x.ID).ToList();
+
+            return Json(new {data = r }, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Razas
         [Route("Razas", Order = 1)]
         [Route("Razas/Index", Order = 2)]
         public async Task<ActionResult> Index()
         {
             var raza = db.Raza.Include(r => r.Especie);
-            return View(await raza.ToListAsync());
+            var lr = new List<RazaViewModel>();
+            var list = await raza.ToListAsync();
+            list.ForEach(x =>
+            {
+                lr.Add(new RazaViewModel(x));
+            });
+            return View(lr);
         }
 
         // GET: Razas/Details/5
@@ -59,11 +77,15 @@ namespace VetSoft.Presentation.Controllers
         [HttpPost]
         [Route("Razas/Nuevo")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Nombre,EspecieID")] Raza raza)
+        public async Task<ActionResult> Create([Bind(Include = "ID,Nombre,EspecieID")] RazaViewModel raza)
         {
             if (ModelState.IsValid)
             {
-                db.Raza.Add(raza);
+                db.Raza.Add(
+                    new Raza() {
+                        Nombre = raza.Nombre,
+                        EspecieID = raza.EspecieID
+                    });
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -86,7 +108,8 @@ namespace VetSoft.Presentation.Controllers
                 return HttpNotFound();
             }
             ViewBag.EspecieID = new SelectList(db.Especie, "ID", "Nombre", raza.EspecieID);
-            return PartialView(raza);
+            var r = new RazaViewModel(raza);
+            return PartialView(r);
         }
 
         // POST: Razas/Edit/5
@@ -95,11 +118,12 @@ namespace VetSoft.Presentation.Controllers
         [HttpPost]
         [Route("Razas/Editar/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,EspecieID")] Raza raza)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Nombre,EspecieID")] RazaViewModel raza)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(raza).State = EntityState.Modified;
+                var r = raza.GetModel(db.Raza.Find(raza.ID));
+                db.Entry(r).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -120,7 +144,7 @@ namespace VetSoft.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView(raza);
+            return PartialView(new RazaViewModel(raza));
         }
 
         // POST: Razas/Delete/5

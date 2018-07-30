@@ -17,6 +17,17 @@ namespace VetSoft.Presentation.Controllers
     {
         private VetSoftDBEntities db = new VetSoftDBEntities();
 
+        public async Task<JsonResult> GetList()
+        {
+            var list = (await db.Medicamento.ToListAsync())
+                .Select(x => new {
+                    x.ID, x.Nombre, x.Descripcion, Tipo = x.Tipo.Nombre
+                })
+                .OrderBy(x => x.ID)
+                .ToList();
+
+            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        }
         // GET: Medicamentos
         [Route("Medicamentos")]
         [Route("Medicamentos/Index")]

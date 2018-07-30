@@ -1,4 +1,4 @@
-﻿@model VetSoft.Data.Raza
+﻿@model RazaViewModel
 
 @{
     ViewBag.Title = "Detalles de la Raza";
@@ -20,7 +20,7 @@
         </dd>
 
         <dt>
-            Nombre Especie@*@Html.DisplayNameFor(model => model.Especie.Nombre)*@
+            @Html.DisplayNameFor(model => model.Especie.Nombre)
         </dt>
 
         <dd>

@@ -17,12 +17,28 @@ namespace VetSoft.Presentation.Controllers
     {
         private VetSoftDBEntities db = new VetSoftDBEntities();
 
+        [HttpGet]
+        public async Task<JsonResult> GetList()
+        {
+            var especies = await db.Especie.ToListAsync();
+            var model = especies.Select(x => new
+            {
+                x.ID, x.Nombre, x.Nombre_Esp, TotalRazas=x.Razas.Count
+
+            }).OrderBy(x=>x.ID).ToList();
+
+            return Json(new { data=model }, JsonRequestBehavior.AllowGet);
+
+        }
         // GET: Especies
         [Route("Especies", Order = 1)]
         [Route("Especies/Index", Order = 2)]
         public async Task<ActionResult> Index()
         {
-            return View(await db.Especie.ToListAsync());
+            var l = await db.Especie.ToListAsync();
+            var r = new List<EspecieViewModel>();
+            l.ForEach(x => { r.Add(new EspecieViewModel(x)); });
+            return View(r);
         }
 
         // GET: Especies/Details/5
