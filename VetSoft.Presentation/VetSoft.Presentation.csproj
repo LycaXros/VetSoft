@@ -213,6 +213,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PacienteViewModel.cs" />
     <Compile Include="Models\PropietarioViewModel.cs" />
+    <Compile Include="Models\RazaViewModel.cs" />
     <Compile Include="Models\Utilidades.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -351,6 +352,8 @@
     <Content Include="Views\Propietarios\Index.cshtml" />
     <Content Include="Views\Propietarios\AddOrUpdate.cshtml" />
     <Content Include="Views\Paciente\_PacienteList.cshtml" />
+    <Content Include="Views\Paciente\TableView.cshtml" />
+    <Content Include="Views\Paciente\DetalleView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

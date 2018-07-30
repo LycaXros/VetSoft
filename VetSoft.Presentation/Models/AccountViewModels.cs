@@ -49,12 +49,12 @@ namespace VetSoft.Presentation.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="No debe faltar este campo")]
         [Display(Name = "Nombre de Usuario")]
         public string Username { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage ="No debe faltar el campo Contraseña")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }

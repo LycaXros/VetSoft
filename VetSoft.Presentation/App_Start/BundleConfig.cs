@@ -14,6 +14,7 @@ namespace VetSoft.Presentation
                     "~/Scripts/jquery.validate*",
                     "~/Scripts/jquery-ui.min.js",
                     "~/Scripts/notify.min.js",
+                    "~/Scripts/datatables.js",
                     "~/Scripts/otf.js"
 
                 ));
@@ -36,6 +37,7 @@ namespace VetSoft.Presentation
                       "~/Content/bootstrap.css",
                       "~/Content/jquery-ui.min.css",
                       "~/Content/PagedList.css",
+                      "~/Content/DataTable.css",
                       "~/Content/site.css"));
         }
     }

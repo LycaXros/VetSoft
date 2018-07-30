@@ -29,6 +29,17 @@ namespace VetSoft.Presentation.Models
             Propietarios = paciente.Propietarios;
 //            Apellido = Propietarios.FirstOrDefault().Propietario.Apellido;
         }
+
+        public static ICollection<PacienteViewModel> GetFromModel(ICollection<Paciente> animales)
+        {
+            var r = new List<PacienteViewModel>();
+            foreach(var i in animales)
+            {
+                r.Add(new PacienteViewModel(i));
+            }
+            return r;
+        }
+
         [Required]
         public int ID { get; set; }
 
@@ -54,6 +65,7 @@ namespace VetSoft.Presentation.Models
         [Display(Name = "Fecha Nacimiento")]
         public DateTime FechaNac { get; set; }
 
+        [Display(Name = "Fecha de Ingreso")]
         public DateTime FechaIngreso { get; set; }
 
         public virtual Raza Raza { get; set; }

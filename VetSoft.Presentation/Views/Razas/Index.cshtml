@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VetSoft.Data.Raza>
+﻿@model IEnumerable<RazaViewModel>
 
 @{
     ViewBag.Title = "Razas";
@@ -7,47 +7,72 @@
 
 <h2 class="text-white">Listado de Razas</h2>
 
-    <p>
-        <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Registrar Nueva Raza</a>
-    </p>
-    <table class="table text-md-center text-white">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Especie.Nombre) Especie
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Registrar Nueva Raza</a>
+</p>
+<div class="table-responsive"  style="width:auto">
+    <table class="table table-borderless table-striped text-md-center text-white" id="RazaList"
+           style="width:100%">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Especie)
+                </th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tfoot >
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
+                    @Html.DisplayNameFor(model => model.Nombre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Especie.Nombre)
+                    @Html.DisplayNameFor(model => model.Especie)
                 </td>
-                <td>
-                    <a class="btn btn-info" onclick="EditarR(@item.ID)">Editar</a> |
-                    <a class="btn btn-info" onclick="VerDetalle(@item.ID)">Detalles</a> |
-                    <a class="btn btn-danger" onclick="DeleteThis(@item.ID)">Eliminar</a>
-
-                    @*
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                        @Html.ActionLink("Details", "Details", new { id = item.ID })
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                    *@
-                </td>
+                <td></td>
             </tr>
-        }
-
+        </tfoot>
     </table>
-
+</div>
 @section scripts {
     <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var dateTableOptions = {
+                ajax: {
+                    url: "@Url.Action("GetList")",
+                    type: "GET",
+                    datatype: "json"
+                },
+                columns: [
+                    { data: "Nombre" },
+                    { data: "EspecieName" },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<a class='btn btn-info' onclick='EditarR(" + data + ")'>Editar</a> |" +
+                                "<a class='btn btn-info' onclick='VerDetalle(" + data + ")'>Detalles</a> | " +
+                                "<a class='btn btn-danger' onclick='DeleteThis(" + data + ")'>Eliminar</a> "
+                        },
+                        searchable:false,
+                        orderable: false,
+                        width:"auto"
+                    }
+                ],
+                language: {
+                    url: "/fonts/espaniolTrans.json",
+                    emptyTable: "Ningún dato disponible en esta tabla. Favor Hacer clic <b>Añadir </b>"
+                }
+
+            };
+            dataTable = $("#RazaList").DataTable(dateTableOptions);
+
+        });
+
 
         var EliminarRegistro = function (form) {
             $.ajax({

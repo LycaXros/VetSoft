@@ -1,4 +1,4 @@
-﻿@model IPagedList<VetSoft.Presentation.Models.PacienteViewModel>
+﻿@model IPagedList<PacienteViewModel>
 
 @{
     ViewBag.Title = "Pacientes";
@@ -7,13 +7,13 @@
 <h2>Pacientes</h2>
 
 <p>
-    @Html.ActionLink("Nuevo Paciente", "Create")
+    @Html.ActionLink("Nuevo Paciente", "Create", new { }, new { @class = "btn btn-info" })
 </p>
 
-<form method="get" action="@Url.Action("Index")"
+<form method="get" action="@Url.Action("Index", new { isDetail=false})"
       data-otf-ajax="true" data-otf-target="#listaPacientes">
 
-    
+
     <div class="input-group input-group-lg" style="width:auto">
         @*@Html.TextBox("search", "", new { @class = "form-control", data-otf-autocomplete = Url.Action("AutoComplete")});*@
         <div class="input-group-prepend">
@@ -30,6 +30,11 @@
 @Html.Partial("_PacienteList", Model)
 
 
+<div class="row ">
+    <div class=" col">
+        @Html.ActionLink("Cambiar de Vista", "Index", new { }, new { @class = "btn btn-info float-right" })
+    </div>
+</div>
 @section scripts{
     <script type="text/javascript">
         var DeleteThis = function (id) {

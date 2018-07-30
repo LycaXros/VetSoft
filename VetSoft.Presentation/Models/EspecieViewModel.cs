@@ -27,7 +27,7 @@ namespace VetSoft.Presentation.Models
         [Display(Name = "Nombre Especie")]
         public string Nombre { get; set; }
 
-        [Display(Name = "Especificacion Especies")]
+        [Display(Name = "Especificacion Especie")]
         public string Nombre_Esp { get; set; }
 
         public virtual ICollection<Raza> Razas { get; set; }
