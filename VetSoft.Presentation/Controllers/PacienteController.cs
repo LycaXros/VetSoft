@@ -125,7 +125,17 @@ namespace VetSoft.Presentation.Controllers
         [Route("Paciente/Nuevo")]
         public ActionResult Create()
         {
+            var listaP = db.Propietario.AsEnumerable()
+                .Select(x => {
+                    var name = $" {x.Nombre} {x.Apellido}"; 
+                    return new SelectListItem
+                    {
+                        Value = x.ID.ToString(),
+                        Text = name
+                    };
+                }).ToList();
             ViewBag.Razas = new SelectList(db.Raza.ToList(), "ID", "Nombre");
+            ViewBag.PropietariosList = listaP;
             //.Select(x => new SelectListItem
             //{
             //    Text = x.Nombre,
@@ -140,22 +150,59 @@ namespace VetSoft.Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(PropPacViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Paciente p = new Paciente();
-                p.PacienteDeViewModel(model.Paciente);
 
-                db.Paciente.Add(p);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewBag.Razas = db.Raza
-                .Select(x => new SelectListItem
+                if (ModelState.IsValid)
                 {
-                    Text = x.Nombre,
-                    Value = x.ID.ToString()
-                })
-                .ToList();
+                    var proppac = new PropietarioPaciente()
+                    {
+                        Tipo = (int)TipoPropietario.Propietario_Actual,
+                        FechaRegistro = DateTime.Now
+                    };
+                    Paciente p = new Paciente();
+                    p.PacienteDeViewModel(model.Paciente);
+
+                    db.Paciente.Add(p);
+                    await db.SaveChangesAsync();
+                    proppac.PacienteID = p.ID;
+
+                    if (model.Propietario.ID != 0)
+                    {
+                        proppac.ClienteID = model.Propietario.ID;
+                    }
+                    else
+                    {
+                        Propietario pro = new Propietario();
+                        pro.PropietarioDeViewModel(model.Propietario);
+                        db.Propietario.Add(pro);
+                        await db.SaveChangesAsync();
+                        proppac.ClienteID = pro.ID;
+                    }
+                    db.PropietarioPaciente.Add(proppac);
+                    await db.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View("Error");
+            }
+            var listaP = db.Propietario.AsEnumerable()
+                .Select(x => {
+                    var name = $" {x.Nombre} {x.Apellido}";
+                    return new SelectListItem
+                    {
+                        Value = x.ID.ToString(),
+                        Text = name,
+                        Selected = x.ID == model.Propietario.ID
+                    };
+                }).ToList();
+            ViewBag.Razas = new SelectList(db.Raza.ToList(), "ID", "Nombre",model.Paciente.RazaID);
+            ViewBag.PropietariosList = listaP;
             return View();
         }
 
