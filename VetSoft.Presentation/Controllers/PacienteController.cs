@@ -25,7 +25,7 @@ namespace VetSoft.Presentation.Controllers
                 lista.Add(new PacienteViewModel(x));
             });
 
-            lista
+            var lr = lista
                 .Select(x =>
                 {
                     var fechaIng = x.FechaIngreso.ToShortDateString();
@@ -47,7 +47,7 @@ namespace VetSoft.Presentation.Controllers
                 .OrderBy(x => x.Ingreso)
                 .ToList();
 
-            return Json(new { data = l }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = lr }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

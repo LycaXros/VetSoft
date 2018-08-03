@@ -59,7 +59,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.FechaNac, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBoxFor(model => model.FechaNac, Model.FechaNac.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control", type = "date", text = Model.FechaNac.ToString("yyyy-MM-dd") })
+            @Html.TextBoxFor(model => model.FechaNac, Model.FechaNac.ToString("yyyy-MM-dd"), htmlAttributes: new { @class = "form-control", type = "date", text = Model.FechaNac.ToString("yyyy-MM-dd"), max= DateTime.Now.ToString("yyyy-MM-dd") })
 
             @Html.ValidationMessageFor(model => model.FechaNac, "", new { @class = "text-danger" })
         </div>

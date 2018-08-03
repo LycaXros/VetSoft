@@ -22,6 +22,8 @@ namespace VetSoft.Presentation.Models
             Email = propietario.Email;
             Telefono = propietario.Telefono;
             Mascotas = propietario.Mascotas;
+            Telefono_2 = propietario.Telefono_2;
+            Direccion = propietario.Direccion;
         }
 
         public Propietario Transform(Propietario p)
@@ -31,7 +33,8 @@ namespace VetSoft.Presentation.Models
             p.Apellido = this.Apellido;
             p.Email = this.Email;
             p.Telefono = this.Telefono;
-
+            p.Telefono_2 = this.Telefono_2;
+            p.Direccion = this.Direccion;
             return p;
         }
 
@@ -54,8 +57,15 @@ namespace VetSoft.Presentation.Models
 
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Numero Telefonico")]
-        [RegularExpression("[\\(]\\d{3}[\\)]\\d{3}[\\-]\\d{4}", ErrorMessage = "Formato invalido Usar '(000)000-0000'")]
+        [RegularExpression("[\\d{3} \\d{3} \\d{4}", ErrorMessage = "Formato invalido Usar '000 000 0000'")]
         public string Telefono { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Numero Telefonico de Respaldo")]
+        [RegularExpression("[\\d{3} \\d{3} \\d{4}", ErrorMessage = "Formato invalido Usar '000 000 0000'")]
+        public string Telefono_2 { get; set; }
+        public string Direccion { get; set; }
+
 
         public virtual ICollection<PropietarioPaciente> Mascotas { get; set; }
     }

@@ -5,12 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Nuevo</h2>
+<h2>Nuevo chequeo</h2>
 
 <div id="detallePaciente">
     <h3>Detalle del Paciente</h3>
     <div>
-        @{Html.RenderAction("DetalleView", "Paciente", new { id = Model.ID });}
-        
+        @Html.Action("DetalleView", "Paciente", new { id = Model.ID });       
+
     </div>
 </div>
