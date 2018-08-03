@@ -18,7 +18,14 @@ namespace VetSoft.Presentation.Controllers
 
         public async Task<JsonResult> GetList()
         {
-            var l = (await db.Paciente.ToListAsync())
+            var l = (await db.Paciente.ToListAsync());
+            var lista = new List<PacienteViewModel>();
+            l.ForEach(x =>
+            {
+                lista.Add(new PacienteViewModel(x));
+            });
+
+            lista
                 .Select(x =>
                 {
                     var fechaIng = x.FechaIngreso.ToShortDateString();
@@ -31,7 +38,7 @@ namespace VetSoft.Presentation.Controllers
                     return new
                     {
                         x.ID,
-                        x.Nombre,
+                        Nombre = x.FullName,
                         Raza = x.Raza.Nombre,
                         Ingreso = fechaIng,
                         Nacimiento = edad

@@ -27,13 +27,12 @@ namespace VetSoft.Presentation.Models
             FechaNac = paciente.FechaNac;
             FechaIngreso = paciente.FechaIngreso;
             Propietarios = paciente.Propietarios;
-//            Apellido = Propietarios.FirstOrDefault().Propietario.Apellido;
         }
 
         public static ICollection<PacienteViewModel> GetFromModel(ICollection<Paciente> animales)
         {
             var r = new List<PacienteViewModel>();
-            foreach(var i in animales)
+            foreach (var i in animales)
             {
                 r.Add(new PacienteViewModel(i));
             }
@@ -46,6 +45,26 @@ namespace VetSoft.Presentation.Models
         [Required]
         [Display(Name = "Nombre del Animal")]
         public string Nombre { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                System.Text.StringBuilder fullName = new System.Text.StringBuilder();
+
+                fullName.Append(" ");
+                fullName.Append(Nombre);
+                fullName.Append(" ");
+                if (Propietarios.Count > 0)
+                    fullName.Append(Propietarios
+                        .First(x => x.Tipo.Equals((int)TipoPropietario.Propietario_Actual))
+                        .Propietario
+                        .Apellido);
+                fullName.Append(" ");
+                return fullName.ToString();
+            }
+        }
+
         [Required]
         [Display(Name = "Color de pelo o de Piel")]
         public string Color { get; set; }

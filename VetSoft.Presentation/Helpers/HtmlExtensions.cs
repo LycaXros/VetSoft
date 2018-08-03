@@ -34,8 +34,7 @@ namespace VetSoft.Presentation.Helpers
                 //--Card Body
                 var nombreH = new TagBuilder("h5");
                 nombreH.AddCssClass("card-title");
-                nombreH.InnerHtml = DisplayExtensions.DisplayFor(htmlHelper, m => item.Nombre).ToHtmlString() +
-                    (string.IsNullOrEmpty(item.Apellido) ? " " : " " + item.Apellido);
+                nombreH.InnerHtml = DisplayExtensions.DisplayFor(htmlHelper, m => item.FullName).ToHtmlString();
                 var subRaza = new TagBuilder("h6");
                 subRaza.AddCssClass("card-subtitle mb-2 text-muted");
                 subRaza.InnerHtml = $"Raza : {DisplayExtensions.DisplayFor(htmlHelper, m => item.Raza.Nombre).ToHtmlString()}";
@@ -102,6 +101,7 @@ namespace VetSoft.Presentation.Helpers
                 deleteBtn.InnerHtml = "Eliminar";
                 var linkVer = LinkExtensions.ActionLink(htmlHelper, "Ver Lista de Chequeos", "Listar", "Vet", new { id = 0 }, htmlAttributes: new { @class = "card-link" });
                 var linkPro = LinkExtensions.ActionLink(htmlHelper, "Ver Propietario(s)", "VerPropietarios", new { id = item.ID }, htmlAttributes: new { @class = "card-link" });
+                var nuevoCheck = LinkExtensions.ActionLink(htmlHelper, "Nuevo Chequeo", "Nuevo", "Chequeo", new { id = item.ID }, htmlAttributes: new { @class = "card-link" });
                 var footerText = new StringBuilder();
 
                 footerText.Append(editarBtn.ToString(TagRenderMode.Normal));
@@ -111,6 +111,8 @@ namespace VetSoft.Presentation.Helpers
                 footerText.Append(deleteBtn.ToString(TagRenderMode.Normal));
                 footerText.Append(" | ");
                 footerText.Append(linkPro.ToHtmlString());
+                footerText.Append(" | ");
+                footerText.Append(nuevoCheck.ToHtmlString());
 
                 cardFooter.InnerHtml = footerText.ToString();
                 //------
@@ -146,8 +148,7 @@ namespace VetSoft.Presentation.Helpers
             //--Card Body
             var nombreH = new TagBuilder("h5");
             nombreH.AddCssClass("card-title");
-            nombreH.InnerHtml = DisplayExtensions.DisplayFor(htmlHelper, m => model.Nombre).ToHtmlString() +
-                (string.IsNullOrEmpty(model.Apellido) ? " " : " " + model.Apellido);
+            nombreH.InnerHtml = DisplayExtensions.DisplayFor(htmlHelper, m => model.FullName).ToHtmlString();
             var subRaza = new TagBuilder("h6");
             subRaza.AddCssClass("card-subtitle mb-2 text-muted");
             subRaza.InnerHtml = $"Raza : {DisplayExtensions.DisplayFor(htmlHelper, m => model.Raza.Nombre).ToHtmlString()}";
@@ -214,6 +215,7 @@ namespace VetSoft.Presentation.Helpers
             deleteBtn.InnerHtml = "Eliminar";
             var linkVer = LinkExtensions.ActionLink(htmlHelper, "Ver Lista de Chequeos", "Listar", "Vet", new { id = 0 }, htmlAttributes: new { @class = "card-link" });
             var linkPro = LinkExtensions.ActionLink(htmlHelper, "Ver Propietario(s)", "VerPropietarios", new { id = model.ID }, htmlAttributes: new { @class = "card-link" });
+            var nuevoCheck = LinkExtensions.ActionLink(htmlHelper, "Nuevo Chequeo", "Nuevo", "Chequeo", new { id = model.ID }, htmlAttributes: new { @class = "card-link" });
             var footerText = new StringBuilder();
 
             footerText.Append(editarBtn.ToString(TagRenderMode.Normal));
@@ -223,6 +225,8 @@ namespace VetSoft.Presentation.Helpers
             footerText.Append(deleteBtn.ToString(TagRenderMode.Normal));
             footerText.Append(" | ");
             footerText.Append(linkPro.ToHtmlString());
+            footerText.Append(" | ");
+            footerText.Append(nuevoCheck.ToHtmlString());
 
             cardFooter.InnerHtml = footerText.ToString();
             //------

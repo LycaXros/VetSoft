@@ -197,6 +197,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChequeosController.cs" />
     <Compile Include="Controllers\MedicamentosController.cs" />
     <Compile Include="Controllers\EspeciesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -208,6 +209,7 @@
     </Compile>
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ChequeoViewModel.cs" />
     <Compile Include="Models\MedicamentosViewModel.cs" />
     <Compile Include="Models\EspecieViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -354,6 +356,7 @@
     <Content Include="Views\Paciente\_PacienteList.cshtml" />
     <Content Include="Views\Paciente\TableView.cshtml" />
     <Content Include="Views\Paciente\DetalleView.cshtml" />
+    <Content Include="Views\Chequeos\Nuevo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
