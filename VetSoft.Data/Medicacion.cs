@@ -12,10 +12,14 @@ namespace VetSoft.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Login
+    public partial class Medicacion
     {
-        public int id { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
+        public int ID { get; set; }
+        public int Tipo { get; set; }
+        public string Indicacion { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public int ChequeoID { get; set; }
+    
+        public virtual Chequeo Chequeo { get; set; }
     }
 }

@@ -5,6 +5,29 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="VetSoftDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Chequeo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PacienteID" Type="int" Nullable="false" />
+          <Property Name="VetID" Type="int" Nullable="false" />
+          <Property Name="Prediagnostico" Type="ntext" Nullable="false" />
+          <Property Name="Costo" Type="float" Nullable="false" />
+          <Property Name="Peso" Type="float" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Observaciones" Type="ntext" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cita">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PacienteID" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Motivo" Type="ntext" Nullable="false" />
+          <Property Name="VetID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Especie">
           <Key>
             <PropertyRef Name="ID" />
@@ -20,6 +43,16 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Medicacion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="Indicacion" Type="ntext" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="ChequeoID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Medicamento">
           <Key>
@@ -42,6 +75,7 @@
           <Property Name="RazaID" Type="int" Nullable="false" />
           <Property Name="FechaNac" Type="datetime" Nullable="false" />
           <Property Name="FechaIngreso" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="25" />
         </EntityType>
         <EntityType Name="Propietario">
           <Key>
@@ -52,6 +86,8 @@
           <Property Name="Apellido" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" />
           <Property Name="Telefono" Type="nvarchar" MaxLength="30" />
+          <Property Name="Telefono_2" Type="nvarchar" MaxLength="30" />
+          <Property Name="Direccion" Type="ntext" />
         </EntityType>
         <EntityType Name="PropietarioPaciente">
           <Key>
@@ -79,6 +115,42 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Chequeo_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="Chequeo" Type="Self.Chequeo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Chequeo">
+              <PropertyRef Name="PacienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="PacienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Medicacion_Chequeo">
+          <End Role="Chequeo" Type="Self.Chequeo" Multiplicity="1" />
+          <End Role="Medicacion" Type="Self.Medicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chequeo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Medicacion">
+              <PropertyRef Name="ChequeoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Medicamento_Tipo_Med">
           <End Role="Tipo_Med" Type="Self.Tipo_Med" Multiplicity="1" />
           <End Role="Medicamento" Type="Self.Medicamento" Multiplicity="*" />
@@ -144,14 +216,29 @@
           <Parameter Name="password" Type="nvarchar" Mode="In" />
         </Function>
         <EntityContainer Name="VetSoftDBModelStoreContainer">
+          <EntitySet Name="Chequeo" EntityType="Self.Chequeo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cita" EntityType="Self.Cita" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Especie" EntityType="Self.Especie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medicacion" EntityType="Self.Medicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medicamento" EntityType="Self.Medicamento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Propietario" EntityType="Self.Propietario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropietarioPaciente" EntityType="Self.PropietarioPaciente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Raza" EntityType="Self.Raza" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tipo_Med" EntityType="Self.Tipo_Med" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Chequeo_Paciente" Association="Self.FK_Chequeo_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Chequeo" EntitySet="Chequeo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_Paciente" Association="Self.FK_Cita_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Medicacion_Chequeo" Association="Self.FK_Medicacion_Chequeo">
+            <End Role="Chequeo" EntitySet="Chequeo" />
+            <End Role="Medicacion" EntitySet="Medicacion" />
+          </AssociationSet>
           <AssociationSet Name="FK_Medicamento_Tipo_Med" Association="Self.FK_Medicamento_Tipo_Med">
             <End Role="Tipo_Med" EntitySet="Tipo_Med" />
             <End Role="Medicamento" EntitySet="Medicamento" />
@@ -218,6 +305,21 @@
             <End Role="Tipo_Med" EntitySet="Tipo_Med" />
             <End Role="Medicamento" EntitySet="Medicamento" />
           </AssociationSet>
+          <EntitySet Name="Chequeo" EntityType="VetSoftDBModel.Chequeo" />
+          <EntitySet Name="Cita" EntityType="VetSoftDBModel.Cita" />
+          <EntitySet Name="Medicacion" EntityType="VetSoftDBModel.Medicacion" />
+          <AssociationSet Name="FK_Chequeo_Paciente" Association="VetSoftDBModel.FK_Chequeo_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Chequeo" EntitySet="Chequeo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Medicacion_Chequeo" Association="VetSoftDBModel.FK_Medicacion_Chequeo">
+            <End Role="Chequeo" EntitySet="Chequeo" />
+            <End Role="Medicacion" EntitySet="Medicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_Paciente" Association="VetSoftDBModel.FK_Cita_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="LoginByUsernamePassword_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -269,6 +371,9 @@
           <Property Name="FechaIngreso" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Raza" Relationship="VetSoftDBModel.FK_Paciente_Raza" FromRole="Paciente" ToRole="Raza" />
           <NavigationProperty Name="Propietarios" Relationship="VetSoftDBModel.FK_PropietarioPaciente_Paciente" FromRole="Paciente" ToRole="PropietarioPaciente" />
+          <Property Name="Estado" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Chequeo" Relationship="VetSoftDBModel.FK_Chequeo_Paciente" FromRole="Paciente" ToRole="Chequeo" />
+          <NavigationProperty Name="Cita" Relationship="VetSoftDBModel.FK_Cita_Paciente" FromRole="Paciente" ToRole="Cita" />
         </EntityType>
         <EntityType Name="Propietario">
           <Key>
@@ -280,6 +385,8 @@
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Telefono" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Mascotas" Relationship="VetSoftDBModel.FK_PropietarioPaciente_Propietario" FromRole="Propietario" ToRole="PropietarioPaciente" />
+          <Property Name="Telefono_2" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PropietarioPaciente">
           <Key>
@@ -360,6 +467,79 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Chequeo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PacienteID" Type="Int32" Nullable="false" />
+          <Property Name="VetID" Type="Int32" Nullable="false" />
+          <Property Name="Prediagnostico" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Costo" Type="Double" Nullable="false" />
+          <Property Name="Peso" Type="Double" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Observaciones" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Paciente" Relationship="VetSoftDBModel.FK_Chequeo_Paciente" FromRole="Chequeo" ToRole="Paciente" />
+          <NavigationProperty Name="Medicacion" Relationship="VetSoftDBModel.FK_Medicacion_Chequeo" FromRole="Chequeo" ToRole="Medicacion" />
+        </EntityType>
+        <EntityType Name="Cita">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PacienteID" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Motivo" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VetID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Paciente" Relationship="VetSoftDBModel.FK_Cita_Paciente" FromRole="Cita" ToRole="Paciente" />
+        </EntityType>
+        <EntityType Name="Medicacion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tipo" Type="Int32" Nullable="false" />
+          <Property Name="Indicacion" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ChequeoID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Chequeo" Relationship="VetSoftDBModel.FK_Medicacion_Chequeo" FromRole="Medicacion" ToRole="Chequeo" />
+        </EntityType>
+        <Association Name="FK_Chequeo_Paciente">
+          <End Type="VetSoftDBModel.Paciente" Role="Paciente" Multiplicity="1" />
+          <End Type="VetSoftDBModel.Chequeo" Role="Chequeo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Chequeo">
+              <PropertyRef Name="PacienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Medicacion_Chequeo">
+          <End Type="VetSoftDBModel.Chequeo" Role="Chequeo" Multiplicity="1" />
+          <End Type="VetSoftDBModel.Medicacion" Role="Medicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chequeo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Medicacion">
+              <PropertyRef Name="ChequeoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_Paciente">
+          <End Type="VetSoftDBModel.Paciente" Role="Paciente" Multiplicity="1" />
+          <End Type="VetSoftDBModel.Cita" Role="Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="PacienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -405,6 +585,7 @@
           <EntitySetMapping Name="Paciente">
             <EntityTypeMapping TypeName="VetSoftDBModel.Paciente">
               <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
                 <ScalarProperty Name="FechaNac" ColumnName="FechaNac" />
                 <ScalarProperty Name="RazaID" ColumnName="RazaID" />
@@ -419,6 +600,8 @@
           <EntitySetMapping Name="Propietario">
             <EntityTypeMapping TypeName="VetSoftDBModel.Propietario">
               <MappingFragment StoreEntitySet="Propietario">
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono_2" ColumnName="Telefono_2" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />
@@ -451,6 +634,42 @@
             <EntityTypeMapping TypeName="VetSoftDBModel.Tipo_Med">
               <MappingFragment StoreEntitySet="Tipo_Med">
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chequeo">
+            <EntityTypeMapping TypeName="VetSoftDBModel.Chequeo">
+              <MappingFragment StoreEntitySet="Chequeo">
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="Prediagnostico" ColumnName="Prediagnostico" />
+                <ScalarProperty Name="VetID" ColumnName="VetID" />
+                <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cita">
+            <EntityTypeMapping TypeName="VetSoftDBModel.Cita">
+              <MappingFragment StoreEntitySet="Cita">
+                <ScalarProperty Name="VetID" ColumnName="VetID" />
+                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medicacion">
+            <EntityTypeMapping TypeName="VetSoftDBModel.Medicacion">
+              <MappingFragment StoreEntitySet="Medicacion">
+                <ScalarProperty Name="ChequeoID" ColumnName="ChequeoID" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Indicacion" ColumnName="Indicacion" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

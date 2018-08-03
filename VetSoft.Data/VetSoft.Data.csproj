@@ -49,6 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chequeo.cs">
+      <DependentUpon>VetSoftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cita.cs">
+      <DependentUpon>VetSoftModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Medicacion.cs">
+      <DependentUpon>VetSoftModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Medicamento.cs">
       <DependentUpon>VetSoftModel.tt</DependentUpon>
     </Compile>

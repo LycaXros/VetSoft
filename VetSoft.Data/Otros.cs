@@ -26,4 +26,10 @@ namespace VetSoft.Data
         [Display(Name = "Propietario Compartido")]
         Propietario_Compartido = 3
     }
+    public enum TipoMedicacion
+    {
+        Vacuna = 1,
+        Desparacitante
+    }
+    
 }

@@ -1,4 +1,4 @@
-﻿@model PropPacViewModel 
+﻿@model PropPacViewModel
 
 @{
     ViewBag.Title = "Nuevo Paciente";
@@ -24,12 +24,12 @@
 
     <div class="tab-content" id="nav-tabContent">
         <br />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="tab-pane fade show active" id="nav-paciente" role="tabpanel" aria-labelledby="nav-paciente-tab">
 
             <div class="form-horizontal">
                 <h4>Datos del Paciente</h4>
                 <br />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     @Html.LabelFor(model => model.Paciente.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -75,7 +75,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Paciente.FechaNac, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.Paciente.FechaNac, new { @class = "form-control", type = "date" })
+                        @Html.TextBoxFor(model => model.Paciente.FechaNac, new { @class = "form-control", type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") })
                         @Html.ValidationMessageFor(model => model.Paciente.FechaNac, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -86,6 +86,79 @@
         </div>
         <!-- Propietario -->
         <div class="tab-pane fade " id="nav-propietario" role="tabpanel" aria-labelledby="nav-propietario-tab">
+            <div class="form-row">
+                <label class="control-label col-md-4"> Elija la forma para el propietario</label>
+                <div class="col-md-8">
+                    <select id="propietarioStyle" class="form-control">
+                        <option value="0" selected="selected"> Ya creado </option>
+                        <option value="1"> Nuevo Propietario [+] </option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div id="NuevoPropietarioDiv">
+
+                <div class="form-group form-row">
+                    @Html.LabelFor(model => model.Propietario.Nombre, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Propietario.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Propietario.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-row">
+                    @Html.LabelFor(model => model.Propietario.Apellido, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Propietario.Apellido, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Propietario.Apellido, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-row">
+                    @Html.LabelFor(model => model.Propietario.Email, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Propietario.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Propietario.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-row">
+                    @Html.LabelFor(model => model.Propietario.Telefono, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Propietario.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Propietario.Telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group form-row">
+                    @Html.LabelFor(model => model.Propietario.Telefono_2, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Propietario.Telefono_2, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Propietario.Telefono_2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-row">
+                    @Html.LabelFor(model => model.Propietario.Direccion, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Propietario.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Propietario.Direccion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+            </div>
+            <div id="SelectPropietarioDiv" >
+
+                <div class="form-group form-row">
+                    @Html.LabelFor(model => model.Propietario.ID, new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.Propietario.ID, (IEnumerable<SelectListItem>)ViewBag.PropietariosList, "---Seleccione---",new { @class = "form-control" } )
+                        @Html.ValidationMessageFor(model => model.Propietario.ID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <br />
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -122,9 +195,26 @@
 
 @section Scripts {
     <script type="text/javascript">
+        var nombreRequiredVal = " ";
+        var apellidoRequiredVal = " ";
+        var idRequiredVal = " ";
         $(function () { // will trigger when the document is ready
+
+            nombreRequiredVal = $("#Propietario_Nombre").attr("data-val-required");
+            apellidoRequiredVal = $("#Propietario_Apellido").attr("data-val-required");
+            idRequiredVal = $("#Propietario_ID").attr("data-val-required");
+
             $('.datepicker').datepicker(); //Initialise any date pickers
+            
+            var v = $("#propietarioStyle").val();
+            MostrarFormPropietario(v);
+
+            $("#propietarioStyle").change(function (e) {
+                var v = $("#propietarioStyle").val();
+                MostrarFormPropietario(v);
+            });
         });
+
 
         var CambiarTab = function (nameTab) {
             $(".nav-tabs").find(".nav-item").removeClass('active');
@@ -135,6 +225,32 @@
             $panel.addClass("active"); $panel.addClass("show");
             return false;
         };
+        var MostrarFormPropietario = function (t) {
 
+            if (t == "1") {
+                $("#NuevoPropietarioDiv").show();
+                $("#SelectPropietarioDiv").hide();
+                $("#Propietario_Nombre").attr("data-val-required", nombreRequiredVal);
+                $("#Propietario_Apellido").attr("data-val-required", apellidoRequiredVal);
+                $("#Propietario_ID").removeAttr("data-val-required");
+                $("#Propietario_ID").val("0");
+
+            } else if (t == "0") {
+                $("#SelectPropietarioDiv").show();
+                $("#NuevoPropietarioDiv").hide();
+                $("#Propietario_Nombre").removeAttr("data-val-required");
+                $("#Propietario_Apellido").removeAttr("data-val-required");
+                $("#Propietario_ID").attr("data-val-required", idRequiredVal);
+                $("#Propietario_ID").val("");
+            }
+            else {
+                $("#NuevoPropietarioDiv").hide();
+                $("#SelectPropietarioDiv").hide();
+                $("#Propietario_ID").val("0");
+                $("#Propietario_ID").removeAttr("data-val-required");
+                $("#Propietario_Nombre").removeAttr("data-val-required");
+                $("#Propietario_Apellido").removeAttr("data-val-required");
+            }
+        };
     </script>
 }

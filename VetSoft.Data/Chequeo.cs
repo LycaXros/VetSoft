@@ -12,20 +12,25 @@ namespace VetSoft.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Raza
+    public partial class Chequeo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Raza()
+        public Chequeo()
         {
-            this.Animales = new HashSet<Paciente>();
+            this.Medicacion = new HashSet<Medicacion>();
         }
     
         public int ID { get; set; }
-        public string Nombre { get; set; }
-        public int EspecieID { get; set; }
+        public int PacienteID { get; set; }
+        public int VetID { get; set; }
+        public string Prediagnostico { get; set; }
+        public double Costo { get; set; }
+        public double Peso { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string Observaciones { get; set; }
     
-        public virtual Especie Especie { get; set; }
+        public virtual Paciente Paciente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Paciente> Animales { get; set; }
+        public virtual ICollection<Medicacion> Medicacion { get; set; }
     }
 }
