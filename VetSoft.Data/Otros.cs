@@ -29,7 +29,7 @@ namespace VetSoft.Data
     public enum TipoMedicacion
     {
         Vacuna = 1,
-        Desparacitante
+        Desparasitante
     }
     
 }

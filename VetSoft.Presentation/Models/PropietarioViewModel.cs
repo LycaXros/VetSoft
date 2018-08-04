@@ -12,7 +12,7 @@ namespace VetSoft.Presentation.Models
     {
         public PropietarioViewModel()
         {
-            this.Mascotas = new List<PropietarioPaciente>();
+            this.Mascotas = new List<PropietarioPacienteSingleModel>();
         }
         public PropietarioViewModel(Propietario propietario)
         {
@@ -21,7 +21,7 @@ namespace VetSoft.Presentation.Models
             Apellido = propietario.Apellido;
             Email = propietario.Email;
             Telefono = propietario.Telefono;
-            Mascotas = propietario.Mascotas;
+            Mascotas = PropietarioPacienteSingleModel.TraerCarga(propietario.Mascotas);
             Telefono_2 = propietario.Telefono_2;
             Direccion = propietario.Direccion;
         }
@@ -67,6 +67,7 @@ namespace VetSoft.Presentation.Models
         public string Direccion { get; set; }
 
 
-        public virtual ICollection<PropietarioPaciente> Mascotas { get; set; }
+        public List<PropietarioPacienteSingleModel> Mascotas { get; set; }
     }
+
 }

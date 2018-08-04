@@ -106,13 +106,7 @@ namespace VetSoft.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            var esp = new EspecieViewModel()
-            {
-                ID = especie.ID,
-                Nombre = especie.Nombre,
-                Nombre_Esp = especie.Nombre_Esp,
-                Razas = especie.Razas
-            };
+            var esp = new EspecieViewModel(especie);
             return PartialView(esp);
         }
 

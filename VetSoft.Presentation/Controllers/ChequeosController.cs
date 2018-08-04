@@ -28,8 +28,13 @@ namespace VetSoft.Presentation.Controllers
             if (id != 0)
             {
                 var p = db.Paciente.First(x => x.ID == id);
+
+                if (p == null)
+                    return RedirectToAction("Index", "Paciente");
+
                 model.PacienteID = id;
-                model.Paciente = new PacienteViewModel(p);
+                model.Paciente = new PacienteSingleModel(p);
+                model.Fecha = DateTime.Now;
 
                 return View(model);
             }
@@ -38,14 +43,14 @@ namespace VetSoft.Presentation.Controllers
 
         [HttpPost]
         [Route("Chequeo/Nuevo/{id?}")]
-        public ActionResult Nuevo(ChequeoViewModel model)
+        public ActionResult Nuevo(ChequeoViewModel checkModel)
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Paciente");
+                return Json(new { success = true, redirectUrl = Url.Action("Index", "Paciente"), message = "Logrado" }, JsonRequestBehavior.AllowGet);
             }
 
-            return View(model);
+            return View(checkModel);
         }
 
     }

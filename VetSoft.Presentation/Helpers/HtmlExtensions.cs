@@ -64,11 +64,7 @@ namespace VetSoft.Presentation.Helpers
                 liColor.AddCssClass("list-group-item");
                 liGenero.AddCssClass("list-group-item");
 
-                var now = DateTime.Now;
-                var nac = item.FechaNac;
-                var diff = now - nac;
-                var years = (diff.Days / 365);
-                var message = $"Edad : {years} años y {diff.Days - (years * 365)} dias.";
+                var message = $"Edad : {item.Edad}";
                 liEdad.InnerHtml = message;
                 var colorText = new StringBuilder();
                 colorText.Append(DisplayNameExtensions.DisplayNameFor(htmlHelper, m => m.First().Color).ToHtmlString());
@@ -178,11 +174,7 @@ namespace VetSoft.Presentation.Helpers
             liColor.AddCssClass("list-group-item");
             liGenero.AddCssClass("list-group-item");
 
-            var now = DateTime.Now;
-            var nac = model.FechaNac;
-            var diff = now - nac;
-            var years = (diff.Days / 365);
-            var message = $"Edad : {years} años y {diff.Days - (years * 365)} dias.";
+            var message = $"Edad : {model.Edad}";
             liEdad.InnerHtml = message;
             var colorText = new StringBuilder();
             colorText.Append(DisplayNameExtensions.DisplayNameFor(htmlHelper, m => m.Color).ToHtmlString());

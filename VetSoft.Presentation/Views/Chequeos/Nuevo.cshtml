@@ -1,16 +1,345 @@
 ﻿@model VetSoft.Presentation.Models.ChequeoViewModel
 
 @{
-    ViewBag.Title = "Nuevo";
+    ViewBag.Title = "Nuevo Chequeo";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var MedModel = new MedicacionSingleModel();
 }
+<style>
+    .border-bottom-only {
+        border-left: 0 !important;
+        border-right: 0 !important;
+        border-top: 0 !important;
+    }
+
+    .labelBold {
+        font-weight: bold;
+    }
+
+    span.error {
+        display: block;
+        visibility: hidden;
+        color: red;
+        font-size: 90%;
+    }
+</style>
 
 <h2>Nuevo chequeo</h2>
 
 <div id="detallePaciente">
-    <h3>Detalle del Paciente</h3>
-    <div>
-        @Html.Action("DetalleView", "Paciente", new { id = Model.ID });       
+    <h3 class=" border border-bottom-only ">Detalle del Paciente</h3>
+    <div class="container">
+        <div class="row border border-bottom-only">
+            <div class="col-6">&nbsp;</div>
+            <div class="col-sm-6 col-md-6 row">
+                @Html.LabelFor(x => x.Paciente.ID, "Paciente ID", new { @class = "col-md-6 col-sm-12 labelBold" })
+                <div class="col-md-6 col-sm-6">
+                    @Html.DisplayFor(x => x.Paciente.ID)
+                </div>
+            </div>
+        </div>
+        <div class="row border border-bottom-only ">
+            @Html.LabelFor(x => x.Paciente.Raza.Especie, new { @class = "col-md-2 col-sm-6 labelBold" })
+            <div class="col-md-4 col-sm-6">
+                @Html.DisplayFor(x => x.Paciente.Raza.Especie.Nombre)
+            </div>
+            @Html.LabelFor(x => x.Paciente.FechaIngreso, "Fecha Ingreso", new { @class = "col-md-2 col-sm-6 labelBold" })
+            <div class="col-md-4 col-sm-6">
+                <span>@Model.Paciente.FechaIngreso.ToShortDateString()</span>
+            </div>
+        </div>
 
+        <div class="row border border-bottom-only ">
+            @Html.LabelFor(x => x.Paciente.Nombre, new { @class = "col-md-2 col-sm-6 labelBold" })
+            <div class="col-md-4 col-sm-6">
+                @Html.DisplayFor(x => x.Paciente.FullName)
+            </div>
+            @Html.LabelFor(x => x.Paciente.Color, "Color de Pelaje o Piel", new { @class = "col-md-2 col-sm-6 labelBold" })
+            <div class="col-md-4 col-sm-6">
+                @Html.DisplayFor(x => x.Paciente.Color)
+            </div>
+        </div>
+
+        <div class="row border border-bottom-only ">
+            @Html.LabelFor(x => x.Paciente.Raza, new { @class = "col-md-2 col-sm-6 labelBold" })
+            <div class="col-md-4 col-sm-6">
+                @Html.DisplayFor(x => x.Paciente.Raza.Nombre)
+            </div>
+            @Html.LabelFor(x => x.Paciente.FechaNac, "Fecha de Nacimiento", new { @class = "col-md-2 col-sm-6 labelBold" })
+            <div class="col-md-4 col-sm-6">
+                @Model.Paciente.FechaNac.ToShortDateString()
+            </div>
+        </div>
+
+        <div class="row border border-bottom-only ">
+            @Html.LabelFor(x => x.Paciente.Edad, "Edad", new { @class = "col-md-2 col-sm-6 labelBold" })
+            <div class="col-md-4 col-sm-6">
+                @Html.DisplayFor(x => x.Paciente.Edad)
+            </div>
+            @Html.LabelFor(x => x.Paciente.Genero, "Genero", new { @class = "col-md-2 col-sm-6 labelBold" })
+            <div class="col-md-4 col-sm-6">
+                @Html.DisplayFor(x => x.Paciente.Genero.Value)
+            </div>
+        </div>
+        <div class="row border border-bottom-only ">
+            @Html.LabelFor(x => x.Paciente.Microchip_Licencia, "MicroChip / Licencia", new { @class = "col-md-2 col-sm-6 labelBold" })
+            <div class="col-md-4 col-sm-6">
+                @Html.DisplayFor(x => x.Paciente.Microchip_Licencia)
+
+            </div>
+        </div>
     </div>
 </div>
+<hr />
+<div id="formularios">
+    <h3 class=" border border-bottom-only ">Datos del chequeo</h3>
+    <br />
+    @using (Html.BeginForm("Nuevo", "Chequeos", FormMethod.Post,
+        new { onsubmit = "return SubmitForm(this)", id = "DataForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ID)
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group form-row">
+            @Html.LabelFor(model => model.Peso, new { @class = "control-label col-md-4 labelBold" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Peso, new { htmlAttributes = new { @class = "form-control", type = "number", min = 0 } })
+                @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group form-row">
+            @Html.LabelFor(model => model.Prediagnostico, new { @class = "control-label col-md-4 labelBold" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Prediagnostico, new { htmlAttributes = new { @class = "form-control", rows = "7" } })
+                @Html.ValidationMessageFor(model => model.Prediagnostico, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group form-row">
+            @Html.LabelFor(model => model.Observaciones, new { @class = "control-label col-md-4 labelBold" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control", rows = "7" } })
+                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="form-group form-row">
+            @Html.LabelFor(model => model.Costo, new { @class = "control-label col-md-4 labelBold" })
+            <div class="col-md-8">
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                    </div>
+                    @Html.EditorFor(model => model.Costo, new { htmlAttributes = new { @class = "form-control", type = "number", min = 0 } })
+                </div>
+                @Html.ValidationMessageFor(model => model.Costo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <div class=" float-right">
+                <input type="submit" value="Aceptar" class="btn btn-success" />
+                <input type="reset" value="Limpiar" class="btn btn-info" />
+            </div>
+        </div>
+
+    }
+</div>
+
+<br />
+<div id="formTratamiento">
+    <h4 class=" border border-bottom-only">Tratamiento (Medicaciones)</h4>
+    <table style="width:100%" class="table">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Indicacion</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.EnumDropDownListFor(m => MedModel.Tipo, "Seleccione:", new { @class = "form-control", id = "DropTipoID" })
+                    <span class="error">Seleccione un tipo de Medicacion Valido</span>
+                </td>
+                <td>
+                    @*<textarea id="TbxIndicacion" rows="7" class="form-control"></textarea>*@
+                    @Html.EditorFor(model => MedModel.Indicacion, new { htmlAttributes = new { @class = "form-control", rows = "7", id = "TbxIndicacion" } })
+
+                    <span class="error">Ingrese Las indicaciones del medicamento</span>
+                </td>
+                <td><span class="btn btn-primary" id="GuardarDataList"> <i class="fas fa-plus"></i> Añadir </span> </td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <div class="tableContainer table-responsive" id="itemsIndicaciones"></div>
+</div>
+@section scripts{
+
+    <script type="text/javascript">
+        var checkModel = null;
+        var indicacionesItemArray = [];
+        $(document).ready(function () {
+            checkModel = @Html.Raw(Json.Encode(Model));
+            $("#GuardarDataList").click(function () {
+                var isValidItem = true;
+                if ($('#DropTipoID').val() == 0) {
+                    isValidItem = false;
+                    $('#DropTipoID').siblings('span.error').css('visibility', 'visible');
+                }
+                else {
+                    $('#DropTipoID').siblings('span.error').css('visibility', 'hidden');
+                }
+                if ($('#TbxIndicacion').val().trim() == '') {
+                    isValidItem = false;
+                    $('#TbxIndicacion').siblings('span.error').css('visibility', 'visible');
+                }
+                else {
+                    $('#TbxIndicacion').siblings('span.error').css('visibility', 'hidden');
+                }
+
+                if (isValidItem) {
+                    indicacionesItemArray.push({
+                        Tipo: parseInt($('#DropTipoID').val()),
+                        TipoName: $('#DropTipoID').find(":selected").text().trim(),
+                        Indicacion:$('#TbxIndicacion').val().trim()
+                    });
+                    $('#DropTipoID').val(0).focus();
+                    $('#TbxIndicacion').val('');
+                }
+                CrearTabla();
+
+            });
+
+
+            JumpAlert();
+        });
+        var CrearTabla = function () {
+            if (indicacionesItemArray.length > 0) {
+                var $table = $("<table class='table table-striped' />");
+
+                $table.append("<thead class='thead-black'><tr> <td>Tipo de Medicacion</td>  <td>Indicaciones</td> </tr></thead>");
+                var $tbody = $("<tbody />");
+
+                $.each(indicacionesItemArray, function (i, val) {
+                    var $row = $("<tr />");
+                    $row.append($("<td/>").html(val.TipoName));
+                    $row.append($("<td/>").html(val.Indicacion));
+                    $tbody.append($row);
+                });
+                console.log("Actual", indicacionesItemArray);
+                $table.append($tbody);
+                $("#itemsIndicaciones").html($table);
+            } else {
+                $("#itemsIndicaciones").html("NO existen datos");
+            }
+        };
+        var JumpAlert = function () {
+
+            alert("Hola Paciente :" + checkModel.Paciente.FullName);
+        };
+
+
+        var SubmitForm = function (form) {
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                var antiForgeryToken = $(form).find("input[name=__RequestVerificationToken]").val();
+                PrepareModel();
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: JSON.stringify(checkModel),
+                    headers: { "__RequestVerificationToken": antiForgeryToken },
+                    dataType: "JSON",
+                    contentType: "application/json",
+                    success: function (data) {
+                        if (data.success) {
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        } else {
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "alert"
+                            })
+                        }
+                        setTimeout("location=('" + data.redirectUrl+"');", 3500);
+                    }
+                });
+            }
+            return false;
+        };
+
+
+        function PrepareModel() {
+
+
+            checkModel.Medicacion = [];
+            checkModel.Observaciones = $("#Observaciones").val().trim();
+            checkModel.Peso = $("#Peso").val().trim();
+            checkModel.Prediagnostico = $("#Prediagnostico").val().trim();
+            checkModel.Costo = $("#Costo").val().trim();
+            //checkModel.Peso = $("#Peso").val().trim();
+            var dateIndicaciones = ChangeFecha(new Date());
+            $.each(indicacionesItemArray, function (i, val) {
+                checkModel.Medicacion.push({
+                    ID: 0,
+                    Tipo: val.Tipo,
+                    TipoName: val.TipoName,
+                    Indicacion: val.Indicacion,
+                    Fecha: dateIndicaciones,
+                    ChequeoID: 0
+                });
+
+            });
+
+            checkModel.Fecha = ChangeFecha(checkModel.Fecha);
+            checkModel.Paciente.FechaIngreso = ChangeFecha(checkModel.Paciente.FechaIngreso);
+            checkModel.Paciente.FechaNac = ChangeFecha(checkModel.Paciente.FechaNac);
+            $.each(checkModel.Paciente.Propietarios, function (i, val) {
+                val.FechaRegistro = ChangeFecha(val.FechaRegistro);
+            });
+
+        }
+
+        var ChangeFecha = function (val) {
+            var str, year, month, day, hour, minute, d, finalDate;
+
+            if (isDate(val)) {
+                d = new Date(val);
+            }
+            else {
+                str = val.replace("/Date(", "").replace(")/", "");
+                d = new Date(parseInt(str));
+            }
+            year = d.getFullYear();
+            if (year == 0)
+                year = 1900;
+            month = pad(d.getMonth() + 1);
+            day = pad(d.getDate());
+            hour = pad(d.getHours());
+            minutes = pad(d.getMinutes());
+
+            finalDate = year + "-" + month + "-" + day + " " + hour + ":" + minutes;
+
+            function pad(num) {
+                num = "0" + num;
+                return num.slice(-2);
+            }
+            return finalDate;
+        };
+
+        function isDate(x) {
+            return (null != x) && !isNaN(x) && ("undefined" !== typeof x.getDate);
+        }
+    </script>
+
+
+
+}

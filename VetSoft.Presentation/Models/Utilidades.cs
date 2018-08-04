@@ -35,7 +35,13 @@ namespace VetSoft.Presentation.Models
             p.Apellido = propietario.Apellido;
             p.Email = propietario.Email;
             p.Telefono = propietario.Telefono;
-            p.Mascotas = propietario.Mascotas;
+            p.Mascotas = propietario.Mascotas
+                .Select(x => new PropietarioPaciente {
+                    ClienteID = x.ClienteID,
+                    PacienteID = x.PacienteID,
+                    Tipo = x.Tipo,
+                    FechaRegistro = x.FechaRegistro
+                }).ToList();
         }
     }
 }
