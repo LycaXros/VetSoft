@@ -50,20 +50,24 @@ namespace VetSoft.Presentation.Models
         [Display(Name = "Apellido")]
         [StringLength(maximumLength: 100, MinimumLength = 4, ErrorMessage = "Apellido Entre 4 y 100 Caracteres")]
         public string Apellido { get; set; }
-
+        
+        [Required]
         [DataType(DataType.EmailAddress, ErrorMessage = "Ingrese un Correo Valido")]
         [Display(Name = "Direccion de Correo Electronico")]
         public string Email { get; set; }
 
-        [DataType(DataType.PhoneNumber)]
+        [Required]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Increse de esta forma '(000)000-0000'")]
         [Display(Name = "Numero Telefonico")]
-        [RegularExpression("[\\d{3} \\d{3} \\d{4}", ErrorMessage = "Formato invalido Usar '000 000 0000'")]
         public string Telefono { get; set; }
 
-        [DataType(DataType.PhoneNumber)]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Increse de esta forma '(000)000-0000'")]
         [Display(Name = "Numero Telefonico de Respaldo")]
-        [RegularExpression("[\\d{3} \\d{3} \\d{4}", ErrorMessage = "Formato invalido Usar '000 000 0000'")]
         public string Telefono_2 { get; set; }
+
+
+        [Required]
+        [StringLength(500,ErrorMessage ="La Direccion no puede ser tan pequeña",MinimumLength = 10)]
         public string Direccion { get; set; }
 
 
