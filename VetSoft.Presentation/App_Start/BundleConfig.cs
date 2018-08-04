@@ -15,6 +15,7 @@ namespace VetSoft.Presentation
                     "~/Scripts/jquery-ui.min.js",
                     "~/Scripts/notify.min.js",
                     "~/Scripts/datatables.js",
+                    "~/Scripts/jquery.mask.min.js",
                     "~/Scripts/otf.js"
 
                 ));
