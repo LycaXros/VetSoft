@@ -14,11 +14,19 @@ namespace VetSoft.Data
     
     public partial class Medicamento
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Medicamento()
+        {
+            this.Medicaciones = new HashSet<Medicacion>();
+        }
+    
         public int ID { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int TipoID { get; set; }
     
         public virtual Tipo_Med Tipo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Medicacion> Medicaciones { get; set; }
     }
 }

@@ -137,6 +137,19 @@
                 @Html.ValidationMessageFor(model => model.Costo, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group form-row">
+            <label class="form-check-label col-md-4 col-sm-12">
+                <input type="checkbox" class="form-check-input" name="AllowCite" value="" id="CheckCita"> Proxima Cita?
+            </label>
+            <div id="CalendarContainer" class=" col-sm-12 col-md-8 container ">
+                <div class=" row">
+                    @Html.Label("CitaDate", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBox("FechaCita", "", new { @class = "form-control", type = "date", min = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"), id = "fechaInput" })
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="form-group clearfix">
             <div class=" float-right">
                 <input type="submit" value="Aceptar" class="btn btn-success" />
@@ -154,6 +167,7 @@
         <thead>
             <tr>
                 <th>Tipo</th>
+                <td>Medicamento</td>
                 <th>Indicacion</th>
                 <th>&nbsp;</th>
             </tr>
@@ -161,8 +175,13 @@
         <tbody>
             <tr>
                 <td>
-                    @Html.EnumDropDownListFor(m => MedModel.Tipo, "Seleccione:", new { @class = "form-control", id = "DropTipoID" })
-                    <span class="error">Seleccione un tipo de Medicacion Valido</span>
+                    @Html.DropDownList("TipoMedID", (SelectList)ViewBag.TipoMed, "---Seleccione--",
+                            new { @class = "form-control", id = "TipoMed_ID" })
+                    <span class="error">Seleccione un tipo Valido</span>
+                </td>
+                <td>
+                    <select id="DropMed" class="form-control"></select>
+                    <span class="error">Seleccione una Medicacion Valido</span>
                 </td>
                 <td>
                     @*<textarea id="TbxIndicacion" rows="7" class="form-control"></textarea>*@
@@ -184,14 +203,54 @@
         var indicacionesItemArray = [];
         $(document).ready(function () {
             checkModel = @Html.Raw(Json.Encode(Model));
-            $("#GuardarDataList").click(function () {
-                var isValidItem = true;
-                if ($('#DropTipoID').val() == 0) {
-                    isValidItem = false;
-                    $('#DropTipoID').siblings('span.error').css('visibility', 'visible');
+            $("#DropMed").select2();
+            $("#TipoMed_ID").on('change', function () {
+                var selectVal = this.value;
+                if (selectVal == '') {
+                    $("#DropMed").empty();
+                } else {
+                    var opt = {
+                        type: "GET",
+                        url: "@Url.Action("TraerMedicinas")",
+                        data: { MedType: selectVal },
+                        success: function (data) {
+                            renderProduct($("#DropMed"), data);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    };
+
+                    $.ajax(opt);
+
+
+                }
+            });
+
+            $("#CalendarContainer").hide();
+            $("#CheckCita").on('change', function () {
+                if ($("#CheckCita").is(":checked")) {
+                    $("#CalendarContainer").show();
                 }
                 else {
-                    $('#DropTipoID').siblings('span.error').css('visibility', 'hidden');
+                    $("#CalendarContainer").hide();}
+            });
+
+            $("#GuardarDataList").click(function () {
+                var isValidItem = true;
+                if ($('#TipoMed_ID').val() == '') {
+                    isValidItem = false;
+                    $('#TipoMed_ID').siblings('span.error').css('visibility', 'visible');
+                }
+                else {
+                    $('#TipoMed_ID').siblings('span.error').css('visibility', 'hidden');
+                }
+                if ($('#DropMed').val() == '0' || jQuery.isEmptyObject($('#DropMed')) ) {
+                    isValidItem = false;
+                    $('#DropMed').siblings('span.error').css('visibility', 'visible');
+                }
+                else {
+                    $('#DropMed').siblings('span.error').css('visibility', 'hidden');
                 }
                 if ($('#TbxIndicacion').val().trim() == '') {
                     isValidItem = false;
@@ -203,11 +262,12 @@
 
                 if (isValidItem) {
                     indicacionesItemArray.push({
-                        Tipo: parseInt($('#DropTipoID').val()),
-                        TipoName: $('#DropTipoID').find(":selected").text().trim(),
+                        Tipo: parseInt($('#DropMed').val()),
+                        TipoName: $('#DropMed').find(":selected").text().trim(),
                         Indicacion:$('#TbxIndicacion').val().trim()
                     });
-                    $('#DropTipoID').val(0).focus();
+                    $('#TipoMed_ID').val('').focus();
+                    $("#DropMed").empty();
                     $('#TbxIndicacion').val('');
                 }
                 CrearTabla();
@@ -217,18 +277,22 @@
 
             JumpAlert();
         });
+
         var CrearTabla = function () {
             if (indicacionesItemArray.length > 0) {
                 var $table = $("<table class='table table-striped' />");
 
-                $table.append("<thead class='thead-black'><tr> <td>Tipo de Medicacion</td>  <td>Indicaciones</td> </tr></thead>");
+                $table.append("<thead class='thead-light'><tr> <td>Tipo de Medicacion</td>  <td>Indicaciones</td> <td> </td> </tr></thead>");
                 var $tbody = $("<tbody />");
 
+                var rowID = 0;
                 $.each(indicacionesItemArray, function (i, val) {
                     var $row = $("<tr />");
                     $row.append($("<td/>").html(val.TipoName));
                     $row.append($("<td/>").html(val.Indicacion));
+                    $row.append($("<td/>").html("<span class='btn btn-danger' onclick='DeleteRow(" + rowID + ")'> Eliminar </span>"));
                     $tbody.append($row);
+                    rowID = rowID + 1;
                 });
                 console.log("Actual", indicacionesItemArray);
                 $table.append($tbody);
@@ -236,6 +300,10 @@
             } else {
                 $("#itemsIndicaciones").html("NO existen datos");
             }
+        };
+        var DeleteRow = function (id) {
+            indicacionesItemArray.splice(id,1);
+            CrearTabla();
         };
         var JumpAlert = function () {
 
@@ -337,6 +405,15 @@
 
         function isDate(x) {
             return (null != x) && !isNaN(x) && ("undefined" !== typeof x.getDate);
+        }
+
+        function renderProduct(element, data) {
+            //render product
+            var $ele = $(element);
+            $ele.empty();
+            $.each(data, function (i, val) {
+                $ele.append($('<option/>').val(val.ID).text(val.NombreMed));
+            })
         }
     </script>
 

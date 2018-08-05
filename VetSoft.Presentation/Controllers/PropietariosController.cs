@@ -10,6 +10,7 @@ using VetSoft.Presentation.Models;
 
 namespace VetSoft.Presentation.Controllers
 {
+    [Authorize]
     public class PropietariosController : Controller
     {
 

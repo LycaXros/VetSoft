@@ -151,6 +151,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Medicacion_Medicamento">
+          <End Role="Medicamento" Type="Self.Medicamento" Multiplicity="1" />
+          <End Role="Medicacion" Type="Self.Medicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicamento">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Medicacion">
+              <PropertyRef Name="Tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Medicamento_Tipo_Med">
           <End Role="Tipo_Med" Type="Self.Tipo_Med" Multiplicity="1" />
           <End Role="Medicamento" Type="Self.Medicamento" Multiplicity="*" />
@@ -239,6 +251,10 @@
             <End Role="Chequeo" EntitySet="Chequeo" />
             <End Role="Medicacion" EntitySet="Medicacion" />
           </AssociationSet>
+          <AssociationSet Name="FK_Medicacion_Medicamento" Association="Self.FK_Medicacion_Medicamento">
+            <End Role="Medicamento" EntitySet="Medicamento" />
+            <End Role="Medicacion" EntitySet="Medicacion" />
+          </AssociationSet>
           <AssociationSet Name="FK_Medicamento_Tipo_Med" Association="Self.FK_Medicamento_Tipo_Med">
             <End Role="Tipo_Med" EntitySet="Tipo_Med" />
             <End Role="Medicamento" EntitySet="Medicamento" />
@@ -319,6 +335,10 @@
           <AssociationSet Name="FK_Cita_Paciente" Association="VetSoftDBModel.FK_Cita_Paciente">
             <End Role="Paciente" EntitySet="Paciente" />
             <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Medicacion_Medicamento" Association="VetSoftDBModel.FK_Medicacion_Medicamento">
+            <End Role="Medicamento" EntitySet="Medicamento" />
+            <End Role="Medicacion" EntitySet="Medicacion" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="LoginByUsernamePassword_Result">
@@ -446,6 +466,7 @@
           <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TipoID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Tipo" Relationship="VetSoftDBModel.FK_Medicamento_Tipo_Med" FromRole="Medicamento" ToRole="Tipo_Med" />
+          <NavigationProperty Name="Medicaciones" Relationship="VetSoftDBModel.FK_Medicacion_Medicamento" FromRole="Medicamento" ToRole="Medicacion" />
         </EntityType>
         <EntityType Name="Tipo_Med">
           <Key>
@@ -503,6 +524,7 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ChequeoID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Chequeo" Relationship="VetSoftDBModel.FK_Medicacion_Chequeo" FromRole="Medicacion" ToRole="Chequeo" />
+          <NavigationProperty Name="Medicamento" Relationship="VetSoftDBModel.FK_Medicacion_Medicamento" FromRole="Medicacion" ToRole="Medicamento" />
         </EntityType>
         <Association Name="FK_Chequeo_Paciente">
           <End Type="VetSoftDBModel.Paciente" Role="Paciente" Multiplicity="1" />
@@ -537,6 +559,18 @@
             </Principal>
             <Dependent Role="Cita">
               <PropertyRef Name="PacienteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Medicacion_Medicamento">
+          <End Type="VetSoftDBModel.Medicamento" Role="Medicamento" Multiplicity="1" />
+          <End Type="VetSoftDBModel.Medicacion" Role="Medicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medicamento">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Medicacion">
+              <PropertyRef Name="Tipo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -674,7 +708,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
