@@ -13,7 +13,6 @@
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>Especie</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
@@ -49,5 +48,5 @@
 }
 
 <div>
-    @Html.ActionLink("Volver al Listado", "Index")
+    <a href="@Url.Action("Index")" class="btn btn-danger">Volver a la lista</a>
 </div>
