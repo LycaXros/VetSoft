@@ -2,11 +2,21 @@
     ViewBag.Title = "Inicio";
 }
 
-<div class="card">
+<div class="card text-body">
     <div class="card-body">
-        <h1>Calendario</h1>
-        <p class="lead"> "@User.Identity.Name" Se ha logueado</p>
+        <table width="100%" height="100%">
+            <tr>
+                <td align="left">
+                    <h1>Calendario</h1>
+                    <p class="lead"> "@User.Identity.Name" Se ha logueado</p>
+                </td>
+                <td align="right">
+                    <img src="~/Content/images/sertevet1.jpg" width="180" height="100" alt="Placeholder" class="img-responsive" align="right" />
+                </td>
+            </tr>
+        </table>
     </div>
+    
 </div>
 
 
