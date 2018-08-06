@@ -16,6 +16,7 @@ namespace VetSoft.Presentation
                     "~/Scripts/notify.min.js",
                     "~/Scripts/datatables.js",
                     "~/Scripts/jquery.mask.min.js",
+                    "~/Scripts/select2.min.js",
                     "~/Scripts/otf.js"
 
                 ));
@@ -37,6 +38,7 @@ namespace VetSoft.Presentation
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/jquery-ui.min.css",
+                      "~/Content/select2.min.css",
                       "~/Content/PagedList.css",
                       "~/Content/DataTable.css",
                       "~/Content/site.css"));

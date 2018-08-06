@@ -12,6 +12,7 @@ using VetSoft.Presentation.Models;
 
 namespace VetSoft.Presentation.Controllers
 {
+    [Authorize]
     public class ChequeosController : Controller
     {
         VetSoftDBEntities db = new VetSoftDBEntities();
@@ -19,6 +20,16 @@ namespace VetSoft.Presentation.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+        public async Task<JsonResult> TraerMedicinas(int MedType)
+        {
+            var res =( await db.Medicamento.Where(x => x.TipoID == MedType).ToListAsync())
+                .Select(x => new {
+                    x.ID,
+                    NombreMed =x.Nombre
+                }).ToList();
+
+            return new JsonResult { Data = res, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [Route("Chequeo/Nuevo/{id?}")]
@@ -28,7 +39,7 @@ namespace VetSoft.Presentation.Controllers
             if (id != 0)
             {
                 var p = db.Paciente.First(x => x.ID == id);
-
+                ViewBag.TipoMed = new SelectList(db.Tipo_Med, "ID", "Nombre");
                 if (p == null)
                     return RedirectToAction("Index", "Paciente");
 
@@ -50,6 +61,7 @@ namespace VetSoft.Presentation.Controllers
                 return Json(new { success = true, redirectUrl = Url.Action("Index", "Paciente"), message = "Logrado" }, JsonRequestBehavior.AllowGet);
             }
 
+            ViewBag.TipoMed = new SelectList(db.Tipo_Med, "ID", "Nombre");
             return View(checkModel);
         }
 

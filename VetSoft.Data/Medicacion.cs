@@ -21,5 +21,6 @@ namespace VetSoft.Data
         public int ChequeoID { get; set; }
     
         public virtual Chequeo Chequeo { get; set; }
+        public virtual Medicamento Medicamento { get; set; }
     }
 }

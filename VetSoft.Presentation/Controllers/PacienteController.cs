@@ -12,6 +12,7 @@ using VetSoft.Presentation.Models;
 
 namespace VetSoft.Presentation.Controllers
 {
+    [Authorize]
     public class PacienteController : Controller
     {
         VetSoftDBEntities db = new VetSoftDBEntities();
