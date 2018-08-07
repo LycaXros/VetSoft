@@ -16,7 +16,7 @@ namespace VetSoft.Presentation.Models
         public MedicacionViewModel(Medicacion med)
         {
             ID = med.ID;
-            Tipo = (TipoMedicacion)med.Tipo;
+            Tipo = med.Tipo;
             Indicacion = med.Indicacion;
             Fecha = med.Fecha;
             ChequeoID = med.ChequeoID;
@@ -36,14 +36,14 @@ namespace VetSoft.Presentation.Models
         public int ID { get; set; }
         [Required(ErrorMessage = "Seleccione un Tipo valido")]
         [Display(Name = "Tipo de Medicacion")]
-        public TipoMedicacion Tipo { get; set; }
+        public int Tipo { get; set; }
 
         [Required(ErrorMessage = "Ingrese las indicaciones")]
         [DataType(DataType.MultilineText)]
         [StringLength(1000, MinimumLength = 4, ErrorMessage = "Muy pocas Palabras, escriba con más detalle")]
         public string Indicacion { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public DateTime? Fecha { get; set; }
         public int ChequeoID { get; set; }
 
         public  ChequeoViewModel Chequeo
@@ -51,6 +51,7 @@ namespace VetSoft.Presentation.Models
             get; set;
         }
     }
+
     public class MedicacionSingleModel
     {
         public MedicacionSingleModel()
@@ -60,7 +61,7 @@ namespace VetSoft.Presentation.Models
         public MedicacionSingleModel(Medicacion med)
         {
             ID = med.ID;
-            Tipo = (TipoMedicacion)med.Tipo;
+            Tipo = med.Tipo;
             Indicacion = med.Indicacion;
             Fecha = med.Fecha;
             ChequeoID = med.ChequeoID;
@@ -79,7 +80,23 @@ namespace VetSoft.Presentation.Models
         public int ID { get; set; }
         [Required(ErrorMessage = "Seleccione un Tipo valido")]
         [Display(Name = "Tipo de Medicacion")]
-        public TipoMedicacion Tipo { get; set; }
+        public int Tipo { get; set; }
+
+        public static List<Medicacion> ObtenerMedicaciones(List<MedicacionSingleModel> medicaciones, int checkID, DateTime? posibleNextDate)
+        {
+            List<Medicacion> res = new List<Medicacion>();
+            medicaciones.ForEach(x => {
+                res.Add(new Medicacion
+                {
+                    Tipo= x.Tipo,
+                    Indicacion = x.Indicacion,
+                    ChequeoID = checkID,
+                    Fecha = posibleNextDate
+                });
+            });
+            return res;
+        }
+
         public string TipoName { get; set; }
 
         [Required(ErrorMessage = "Ingrese las indicaciones")]
@@ -87,12 +104,24 @@ namespace VetSoft.Presentation.Models
         [StringLength(1000, MinimumLength = 4, ErrorMessage = "Muy pocas Palabras, escriba con más detalle")]
         public string Indicacion { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public DateTime? Fecha { get; set; }
         public int ChequeoID { get; set; }
 
         //public ChequeoSingleModel Chequeo
         //{
         //    get; set;
         //}
+    }
+
+    public class MedicacionDataModel
+    {
+        public MedicacionDataModel(Medicacion med)
+        {
+            MedName = med.Medicamento.Nombre;
+            MedIndicacion = med.Indicacion;
+        }
+
+        public string MedName { get; }
+        public string MedIndicacion { get; }
     }
 }

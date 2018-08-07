@@ -82,10 +82,13 @@ else if ((bool)ViewBag.TienePropietario)
                                     });
                 });
         };
+        var requestRunning = false
         var SubmitForm = function (form) {
+            if (requestRunning)
+                return;
             $.validator.unobtrusive.parse(form);
             if ($(form).valid()) {
-                $.ajax({
+                var opt = {
                     type: "POST",
                     url: form.action,
                     data: $(form).serialize(),
@@ -97,8 +100,13 @@ else if ((bool)ViewBag.TienePropietario)
                         else {
                             $.notify("Error: " + data.message, "alert");
                         }
+                    },
+                    complete: function () {
+                        requestRunning = false;
                     }
-                });
+                };
+                requestRunning = true;
+                $.ajax(opt);
             }
             return false;
         };

@@ -17,7 +17,7 @@ namespace VetSoft.Data
         public int ID { get; set; }
         public int Tipo { get; set; }
         public string Indicacion { get; set; }
-        public System.DateTime Fecha { get; set; }
+        public Nullable<System.DateTime> Fecha { get; set; }
         public int ChequeoID { get; set; }
     
         public virtual Chequeo Chequeo { get; set; }
