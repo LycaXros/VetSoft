@@ -3,12 +3,18 @@
 @{
     ViewBag.Title = "Paciente";
 }
-<h2>Pacientes</h2>
-
-<p>
-    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Nuevo Paciente</a>
-</p>
-
+<table width="100%" height="100%">
+    <tr>
+        <td align="left">
+            <h2>Pacientes</h2>
+            <p><a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Nuevo Paciente</a></p>
+        </td>
+        <td align="right">
+            <img src="~/Content/images/sertevet1.jpg" width="40%" height="100%" alt="Placeholder" class="img-responsive" align="right" />
+        </td>
+    </tr>
+</table>
+<br />
 <div class="table-responsive" style="width:100%">
     <table id="ListaPaciente"
            class="table table-striped table-borderless text-md-center text-white"
