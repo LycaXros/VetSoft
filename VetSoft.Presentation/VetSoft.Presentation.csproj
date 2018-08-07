@@ -365,6 +365,7 @@
     <Content Include="Views\Paciente\TableView.cshtml" />
     <Content Include="Views\Paciente\DetalleView.cshtml" />
     <Content Include="Views\Chequeos\Nuevo.cshtml" />
+    <Content Include="Views\Chequeos\HistoricoPaciente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

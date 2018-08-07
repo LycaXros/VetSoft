@@ -95,7 +95,7 @@ namespace VetSoft.Presentation.Helpers
                 deleteBtn.AddCssClass("card-link-btn");
                 deleteBtn.MergeAttribute("onclick", $"DeleteThis({item.ID})");
                 deleteBtn.InnerHtml = "Eliminar";
-                var linkVer = LinkExtensions.ActionLink(htmlHelper, "Ver Lista de Chequeos", "Listar", "Vet", new { id = 0 }, htmlAttributes: new { @class = "card-link" });
+                var linkVer = LinkExtensions.ActionLink(htmlHelper, "Ver Lista de Chequeos", "HistoricoPaciente", "Chequeos", new { id = item.ID }, htmlAttributes: new { @class = "card-link" });
                 var linkPro = LinkExtensions.ActionLink(htmlHelper, "Ver Propietario(s)", "VerPropietarios", new { id = item.ID }, htmlAttributes: new { @class = "card-link" });
                 var nuevoCheck = LinkExtensions.ActionLink(htmlHelper, "Nuevo Chequeo", "Nuevo", "Chequeo", new { id = item.ID }, htmlAttributes: new { @class = "card-link" });
                 var footerText = new StringBuilder();
@@ -205,7 +205,7 @@ namespace VetSoft.Presentation.Helpers
             deleteBtn.AddCssClass("card-link-btn");
             deleteBtn.MergeAttribute("onclick", $"DeleteThis({model.ID})");
             deleteBtn.InnerHtml = "Eliminar";
-            var linkVer = LinkExtensions.ActionLink(htmlHelper, "Ver Lista de Chequeos", "Listar", "Vet", new { id = 0 }, htmlAttributes: new { @class = "card-link" });
+            var linkVer = LinkExtensions.ActionLink(htmlHelper, "Ver Lista de Chequeos", "HistoricoPaciente", "Chequeos", new { id = model.ID }, htmlAttributes: new { @class = "card-link" });
             var linkPro = LinkExtensions.ActionLink(htmlHelper, "Ver Propietario(s)", "VerPropietarios", new { id = model.ID }, htmlAttributes: new { @class = "card-link" });
             var nuevoCheck = LinkExtensions.ActionLink(htmlHelper, "Nuevo Chequeo", "Nuevo", "Chequeo", new { id = model.ID }, htmlAttributes: new { @class = "card-link" });
             var footerText = new StringBuilder();

@@ -1,0 +1,148 @@
+﻿@model VetSoft.Presentation.Models.PacienteSingleModel
+
+@{
+    ViewBag.Title = "Chequeos de "+ Model.FullName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Historico de Chequeos Paciente</h2>
+
+<hr />
+<div class="table-responsive">
+    <table class="table table-borderless" id="ListaChequeos"
+           style="width:100%">
+        <thead class="thead-light">
+
+            <tr>
+                <th>&nbsp;</th>
+                <th> Pre Diagnostico</th>
+                <th> Peso</th>
+                <th> Costo</th>
+                <th> Fecha</th>
+                <th> Observaciones</th>
+
+                <th> Opciones </th>
+            </tr>
+        </thead>
+        <tfoot >
+
+            <tr>
+                <th>&nbsp;</th>
+                <td> Pre Diagnostico</td>
+                <td> Peso</td>
+                <td> Costo</td>
+                <td> Fecha</td>
+                <td> Observaciones</td>
+
+                <td> </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<style>
+    #ListaChequeos td.details-control {
+        text-align: center;
+        color: forestgreen;
+        cursor: pointer;
+    }
+
+    #ListaChequeos tr.shown td.details-control {
+        text-align: center;
+        color: red;
+    }
+</style>
+
+@section scripts{
+    <script type="text/javascript">
+        var dataTable;
+
+        $(document).ready(function () {
+
+            var dateTableOptions = {
+                ajax: {
+                    url: "@Url.Action("ListaHistoricoPaciente", new { id = Model.ID})",
+                    type: "GET",
+                    datatype: "json"
+                },
+                columns: [
+                    {
+                        "className": 'details-control',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": '',
+                        "render": function () {
+                            return '<i class="fas fa-plus-square" aria-hidden="true"></i>';
+                        },
+                        width: "15px"
+                    },
+                    { data: "PreD" },
+                    { data: "Peso" },
+                    { data: "Costo" },
+                    { data: "Fecha" },
+                    { data: "Obs" },
+                    {
+                        data: "ID",
+                        render: function (data) {
+                            return "<span> Hola </span>"
+                        },
+                        searchable:false,
+                        orderable: false,
+                        width:"160px"
+                    }
+                ],
+                language: {
+                    url: "/fonts/espaniolTrans.json",
+                    emptyTable: "Ningún dato disponible en esta tabla. Favor Hacer clic <b>Añadir </b>"
+                }
+
+            };
+            dataTable = $("#ListaChequeos").DataTable(dateTableOptions);
+            $('#ListaChequeos tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var tdi = tr.find("i.fa");
+                var row = dataTable.row(tr);
+                
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                    tdi.first().removeClass('fa-minus-square');
+                    tdi.first().addClass('fa-plus-square');
+                }
+                else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                    $(".detailTable").closest("td").attr("colspan", 6);
+                    tdi.first().removeClass('fa-plus-square');
+                    tdi.first().addClass('fa-minus-square');
+                }
+            });
+
+            dataTable.on("user-select", function (e, dt, type, cell, originalEvent) {
+                if ($(cell.node()).hasClass("details-control")) {
+                    e.preventDefault();
+                }
+            });
+
+            function format(d) {
+                
+                var $table = $("<table class='table table-bordered table-striped detailTable' style='margin-left: 50px;' />");
+                $table.append("<thead class='thead-dark'><tr> <th> Numero Medicacion </th>  <th>Nombre Medicacion</th>  <th>Indicaciones</th> </tr></thead>");
+
+                var $tbody = $("<tbody />");
+                $.each(d.Medicaciones, function (i, val) {
+                    var $row = $("<tr />");
+                    $row.append($("<td/>").html(i + 1));
+                    $row.append($("<td/>").html(val.MedName));
+                    $row.append($("<td/>").html(val.MedIndicacion));
+                    $tbody.append($row);
+                });
+                $table.append($tbody);
+                return $table;
+            }
+        });
+    </script>
+    
+    }
