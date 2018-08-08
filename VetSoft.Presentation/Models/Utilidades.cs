@@ -13,12 +13,32 @@ namespace VetSoft.Presentation.Models
         {
             p.Nombre = paciente.Nombre;
             p.Microchip_Licencia = paciente.Microchip_Licencia;
-            
+
             p.FechaIngreso = DateTime.Now;
             p.FechaNac = paciente.FechaNac;
             p.Color = paciente.Color;
             p.RazaID = paciente.RazaID;
-            
+
+            switch (paciente.Genero.Value)
+            {
+                case Sexo.Macho:
+                    p.Genero = Constantes.Macho; break;
+                case Sexo.Hembra:
+                    p.Genero = Constantes.Hembra; break;
+            }
+
+        }
+
+        public static void PacienteDeSingleModel(this Paciente p, PacienteSingleModel paciente)
+        {
+            p.Nombre = paciente.Nombre;
+            p.Microchip_Licencia = paciente.Microchip_Licencia;
+
+            p.FechaIngreso = DateTime.Now;
+            p.FechaNac = paciente.FechaNac;
+            p.Color = paciente.Color;
+            p.RazaID = paciente.RazaID;
+
             switch (paciente.Genero.Value)
             {
                 case Sexo.Macho:
