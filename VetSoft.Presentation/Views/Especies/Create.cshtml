@@ -11,7 +11,7 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
+    <div class="form-horizontal text-white">
         <h4>Nueva Especie</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -39,9 +39,9 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Volver a la lista", "Index")
-</div>
+    <div>
+        <a href="@Url.Action("Index")" class="btn btn-danger">Volver a la lista</a>
+    </div>
 
 @section Scripts {
 }

@@ -7,7 +7,8 @@
 <h2>Pacientes</h2>
 
 <p>
-    @Html.ActionLink("Nuevo Paciente", "Create", new { }, new { @class = "btn btn-info" })
+    @Html.ActionLink("Nuevo Pacientes", "Create", new { }, new { @class = "btn btn-info" })
+    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Nuevo Paciente</a>
 </p>
 
 <form method="get" action="@Url.Action("Index", new { isDetail=false})"

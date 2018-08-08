@@ -5,13 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-white">Lista de Medicamentos</h2>
-
-<p>
-    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Crear Nueva Medicina</a>
-</p>
-
-
+<table width="100%" height="100%">
+    <tr>
+        <td align="left">
+            <h2>Lista de Medicamentos</h2>
+            <p><a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Crear Nueva Medicina</a></p>
+        </td>
+        <td align="right">
+            <img src="~/Content/images/sertevet1.jpg" width="50%" height="100%" alt="Placeholder" class="img-responsive" align="right" />
+        </td>
+    </tr>
+</table>
+<br />
 <div class="table-responsive" style="width:auto">
     <table class="table table-borderless table-striped text-md-center text-white" id="MedList"
            style="width:100%">
