@@ -234,19 +234,19 @@ namespace VetSoft.Presentation.Controllers
                     Value = x.ID.ToString()
                 })
                 .ToList();
-            var obj = new PacienteViewModel(pac);
+            var obj = new PacienteSingleModel(pac);
             return View(obj);
         }
 
         [Route("Paciente/Editar/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Editar(PacienteViewModel paciente)
+        public async Task<ActionResult> Editar(PacienteSingleModel paciente)
         {
             if (ModelState.IsValid)
             {
                 var pac = await db.Paciente.FindAsync(paciente.ID);
-                pac.PacienteDeViewModel(paciente);
+                pac.PacienteDeSingleModel(paciente);
                 db.Entry(pac).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -299,8 +299,8 @@ namespace VetSoft.Presentation.Controllers
             {
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
-            db.Configuration.UseDatabaseNullSemantics = false;
-            var pac = await db.Paciente.AsNoTracking().Include(x => x.Propietarios).FirstAsync(x => x.ID == id.Value);
+            //db.Configuration.UseDatabaseNullSemantics = false;
+            var pac = await db.Paciente.Include(x => x.Propietarios).FirstAsync(x => x.ID == id.Value);
             if (pac == null)
             {
                 return HttpNotFound();

@@ -89,7 +89,7 @@ namespace VetSoft.Presentation.Helpers
                 var editarBtn = new TagBuilder("a");
                 editarBtn.AddCssClass("card-link-btn");
                 editarBtn.MergeAttribute("title", "Editar Datos Paciente");
-                editarBtn.MergeAttribute("href", $"{urlHelper.Action("Editar")}/{item.ID}");
+                editarBtn.MergeAttribute("href", $"{urlHelper.Action("Editar", new { id = item.ID })}");
                 editarBtn.InnerHtml = " <i class='fas fa-edit'></i> ";
                 var deleteBtn = new TagBuilder("span");
                 deleteBtn.AddCssClass("card-link-btn");
@@ -199,7 +199,7 @@ namespace VetSoft.Presentation.Helpers
             var editarBtn = new TagBuilder("a");
             editarBtn.AddCssClass("card-link-btn");
             editarBtn.MergeAttribute("title", "Editar Datos Paciente");
-            editarBtn.MergeAttribute("href", $"{urlHelper.Action("Editar")}/{model.ID}");
+            editarBtn.MergeAttribute("href", $"{urlHelper.Action("Editar", new { id = model.ID})}");
             editarBtn.InnerHtml = " <i class='fas fa-edit'></i> ";
             var deleteBtn = new TagBuilder("span");
             deleteBtn.AddCssClass("card-link-btn");

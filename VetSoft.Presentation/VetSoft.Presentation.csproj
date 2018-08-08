@@ -212,6 +212,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ChequeoViewModel.cs" />
+    <Compile Include="Models\CitaDataModel.cs" />
     <Compile Include="Models\IdentiyModels.cs" />
     <Compile Include="Models\MedicacionViewModel.cs" />
     <Compile Include="Models\MedicamentosViewModel.cs" />
@@ -366,6 +367,7 @@
     <Content Include="Views\Paciente\DetalleView.cshtml" />
     <Content Include="Views\Chequeos\Nuevo.cshtml" />
     <Content Include="Views\Chequeos\HistoricoPaciente.cshtml" />
+    <Content Include="Views\Home\CitasDia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

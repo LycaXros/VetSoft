@@ -5,6 +5,8 @@ var diasSemana = ["DOM", "LUN", "MAR", "MIE", "JUE", "VIE", "SAB"];
 var hoy, diaSemHoy, diaHoy, mesHoy, añoHoy, acCal;
 var tituloDom, añoDom, ant, pos, f0, mesCal, añoCal;
 var mesAnt, mesPos, primeroMes;
+var citasMes = {};
+
 
 $(document).ready(function () {
     hoy = new Date();
@@ -12,6 +14,7 @@ $(document).ready(function () {
     diaHoy = hoy.getDate();
     mesHoy = hoy.getMonth();
     añoHoy = hoy.getFullYear();
+
 
     tituloDom = document.getElementById("currentMonth");
     ant = document.getElementById("prevMonth");
@@ -25,7 +28,9 @@ $(document).ready(function () {
 
     cabecera();
     primeraLinea();
-    escribirDias();
+
+    CargarCitasArray(mesHoy, añoHoy);
+    //escribirDias();
 });
 var cabecera = function () {
     tituloDom.innerHTML = meses[mesCal] + '<br><span style="font-size:18px">' + añoCal + '</span>';
@@ -63,6 +68,8 @@ var escribirDias = function () {
             mianno = diames.getFullYear()
             celda = fila.getElementsByTagName("td")[j];
             celda.innerHTML = midia;
+            var citaData = GetCheckData(midia);
+            //console.log(checkData);
 
             if (i % 2 == 0) {
                 celda.style.backgroundColor = "#eee";
@@ -85,6 +92,13 @@ var escribirDias = function () {
                 celda.style.backgroundColor = "#b3ffb3";
                 celda.innerHTML = "<cite title='Fecha Actual'>" + midia + "</cite>";
             }
+
+            if (citaData != null) {
+                celda.innerHTML =
+                    celda.innerHTML + 
+                    "<br />" +
+                    "<a href='" + citaData.Url + "' class='btn' title='Tiene " + citaData.Cantidad + " citas.'> Ver Citas</a>";
+            }
             midia = midia + 1;
             diames.setDate(midia);
         }
@@ -99,8 +113,10 @@ var proximoMes = function () {
     mesCal = nuevomes.getMonth();
     añoCal = nuevomes.getFullYear();
     $.notify("Mes actual: " + meses[mesCal], "info");
+    CargarCitasArray(mesCal, añoCal);
+
     cabecera();
-    escribirDias();
+    //escribirDias();
 };
 
 var anteriorMes = function () {
@@ -110,7 +126,51 @@ var anteriorMes = function () {
     mesCal = nuevomes.getMonth();
     añoCal = nuevomes.getFullYear();
     $.notify("Mes actual: " + meses[mesCal], "info");
-    cabecera();
-    escribirDias();
+    CargarCitasArray(mesCal, añoCal);
 
+    cabecera();
+    //escribirDias();
+
+};
+
+var CargarCitasArray = function (mes, año) {
+
+    mes = mes + 1;
+    if (mes > 12)
+        mes = 1;
+    var opt = {
+        type: "GET",
+        url: "/Citas/Listar/" + año + "/" + mes,
+        success: function (data) {
+            citasMes = data;
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    };
+    //$.ajax(opt);
+    var url = "/Citas/Listar/" + año + "/" + mes;
+    $.getJSON(url, function (data) {
+        console.log(data);
+        citasMes = data;
+        escribirDias();
+    });
+
+};
+
+var GetCheckData = function (dia) {
+    var obj = null;
+    if (citasMes !== undefined && citasMes.length > 0)
+        $.each(citasMes, function (i, val) {
+            if (val.Dia == dia) {
+                obj = {
+                    Dia: val.Dia,
+                    Cantidad: val.Cantidad,
+                    Url: val.Url
+                };
+            }
+
+        });
+
+    return obj;
 };
