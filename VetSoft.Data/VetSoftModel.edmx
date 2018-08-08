@@ -51,7 +51,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Tipo" Type="int" Nullable="false" />
           <Property Name="Indicacion" Type="ntext" Nullable="false" />
-          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
           <Property Name="ChequeoID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Medicamento">
@@ -521,7 +521,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Tipo" Type="Int32" Nullable="false" />
           <Property Name="Indicacion" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" Nullable="true" />
           <Property Name="ChequeoID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Chequeo" Relationship="VetSoftDBModel.FK_Medicacion_Chequeo" FromRole="Medicacion" ToRole="Chequeo" />
           <NavigationProperty Name="Medicamento" Relationship="VetSoftDBModel.FK_Medicacion_Medicamento" FromRole="Medicacion" ToRole="Medicamento" />

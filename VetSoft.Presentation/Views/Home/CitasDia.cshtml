@@ -1,0 +1,44 @@
+﻿@model IEnumerable<VetSoft.Presentation.Models.CitaDataModel>
+
+@{
+    ViewBag.Title = "CitasDia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Citas para el dia @ViewBag.Fecha</h2>
+
+<table class="table table-striped table-borderless">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaString)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Motivo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Paciente)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Motivo)
+            </td>
+            <td>
+                <ul class="list-group">
+                    <li class="list-group-item">Nombre : @Html.DisplayFor(m => item.Paciente.FullName)</li>
+                    <li class="list-group-item">Edad : @Html.DisplayFor(m => item.Paciente.Edad)</li>
+                    <li class="list-group-item">Raza : @Html.DisplayFor(m => item.Paciente.Raza.Nombre)</li>
+                </ul>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

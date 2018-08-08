@@ -14,6 +14,7 @@
 
     .labelBold {
         font-weight: bold;
+        color:white;
     }
 
     span.error {
@@ -25,7 +26,7 @@
 </style>
 
 <h2>Nuevo chequeo</h2>
-
+@Html.HiddenFor(model => User.Identity.Name)
 <div id="detallePaciente">
     <h3 class=" border border-bottom-only ">Detalle del Paciente</h3>
     <div class="container">
@@ -138,14 +139,23 @@
             </div>
         </div>
         <div class="form-group form-row">
-            <label class="form-check-label col-md-4 col-sm-12">
-                <input type="checkbox" class="form-check-input" name="AllowCite" value="" id="CheckCita"> Proxima Cita?
+            <label class=" control-label col-md-4 labelBold">
+                Proxima Cita?
             </label>
-            <div id="CalendarContainer" class=" col-sm-12 col-md-8 container ">
-                <div class=" row">
-                    @Html.Label("CitaDate", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBox("FechaCita", "", new { @class = "form-control", type = "date", min = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"), id = "fechaInput" })
+            <div class=" col-md-8">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <input type="checkbox" class="form-check-input form-text" name="AllowCite" value="" id="CheckCita">
+                    </div>
+                    <div id="CalendarContainer" class="container ">
+                        <div class=" row">
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.FechaCitaProx,""
+                               , new { @class = "form-control", type = "date"
+                                        , min = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")
+                               , id = "fechaInput" })
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -176,7 +186,7 @@
             <tr>
                 <td>
                     @Html.DropDownList("TipoMedID", (SelectList)ViewBag.TipoMed, "---Seleccione--",
-                            new { @class = "form-control", id = "TipoMed_ID" })
+                                 new { @class = "form-control", id = "TipoMed_ID" })
                     <span class="error">Seleccione un tipo Valido</span>
                 </td>
                 <td>
@@ -309,15 +319,21 @@
 
             alert("Hola Paciente :" + checkModel.Paciente.FullName);
         };
+        var dataForm = null;
 
-
+        var requestRunning = false;
         var SubmitForm = function (form) {
+            if (requestRunning)
+                return;
+
             $.validator.unobtrusive.parse(form);
 
             if ($(form).valid()) {
-                var antiForgeryToken = $(form).find("input[name=__RequestVerificationToken]").val();
+                dataForm = $(form).serialize();
+                console.log(dataForm);
+                var antiForgeryToken = $(form).find("input[name=__RequestVerificationToken]").val().trim();
                 PrepareModel();
-                $.ajax({
+                var opt = {
                     type: "POST",
                     url: form.action,
                     data: JSON.stringify(checkModel),
@@ -325,6 +341,7 @@
                     dataType: "JSON",
                     contentType: "application/json",
                     success: function (data) {
+                        var timeReload = 3500;
                         if (data.success) {
 
                             $.notify(data.message, {
@@ -332,14 +349,21 @@
                                 className: "success"
                             })
                         } else {
+                            timeReload = 10000;
                             $.notify(data.message, {
                                 globalPosition: "top center",
                                 className: "alert"
                             })
                         }
-                        setTimeout("location=('" + data.redirectUrl+"');", 3500);
+                        setTimeout("location=('" + data.redirectUrl + "');", timeReload);
+                    },
+                    complete: function () {
+                        requestRunning = false;
                     }
-                });
+                };
+
+                requestRunning = true;
+                $.ajax(opt);
             }
             return false;
         };
@@ -368,6 +392,7 @@
             });
 
             checkModel.Fecha = ChangeFecha(checkModel.Fecha);
+            checkModel.FechaCitaProx = $("#fechaInput").val();
             checkModel.Paciente.FechaIngreso = ChangeFecha(checkModel.Paciente.FechaIngreso);
             checkModel.Paciente.FechaNac = ChangeFecha(checkModel.Paciente.FechaNac);
             $.each(checkModel.Paciente.Propietarios, function (i, val) {

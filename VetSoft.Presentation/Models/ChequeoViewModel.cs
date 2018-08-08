@@ -49,11 +49,27 @@ namespace VetSoft.Presentation.Models
         public double Peso { get; set; }
         public DateTime Fecha { get; set; }
 
+        public DateTime? FechaCitaProx { get; set; }
+
         [Required(ErrorMessage = "Debe de digitar las observaciones sobre el estado del paciente")]
         [StringLength(1000, MinimumLength = 4, ErrorMessage = "Muy pocas Palabras, escriba con más detalle")]
         [Display(Name = "Observaciones")]
         [DataType(DataType.MultilineText)]
         public string Observaciones { get; set; }
+
+        public Chequeo ReturnModel(Chequeo check)
+        {
+
+            check.PacienteID = PacienteID;
+        check.VetID = 0;
+        check.Prediagnostico = Prediagnostico;
+        check.Costo = Costo;
+        check.Peso = Peso;
+        check.Fecha = Fecha;
+        check.Observaciones = Observaciones;
+            
+            return check;
+        }
 
         public PacienteSingleModel Paciente { get; set; }
         public List<MedicacionSingleModel> Medicacion { get; set; }
