@@ -56,7 +56,23 @@ namespace VetSoft.Presentation.Models
             p.Email = propietario.Email;
             p.Telefono = propietario.Telefono;
             p.Mascotas = propietario.Mascotas
-                .Select(x => new PropietarioPaciente {
+                .Select(x => new PropietarioPaciente
+                {
+                    ClienteID = x.ClienteID,
+                    PacienteID = x.PacienteID,
+                    Tipo = x.Tipo,
+                    FechaRegistro = x.FechaRegistro
+                }).ToList();
+        }
+        public static void PropietarioDeViewModel(this Propietario p, PropietarioSingleValModel propietario)
+        {
+            p.Nombre = propietario.Nombre;
+            p.Apellido = propietario.Apellido;
+            p.Email = propietario.Email;
+            p.Telefono = propietario.Telefono;
+            p.Mascotas = propietario.Mascotas
+                .Select(x => new PropietarioPaciente
+                {
                     ClienteID = x.ClienteID,
                     PacienteID = x.PacienteID,
                     Tipo = x.Tipo,

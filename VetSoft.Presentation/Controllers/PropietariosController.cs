@@ -26,9 +26,19 @@ namespace VetSoft.Presentation.Controllers
         public async Task<JsonResult> GetList()
         {
             var lista = await ListarPropietarios();
-            var dataToShow = lista.Select(x => new
-            {
-                x.ID, x.Nombre, x.Telefono, x.Apellido, x.Email, NumeroMascotas=x.Mascotas.Count
+            var dataToShow = lista.Select(x => {
+                var dir = x.Direccion.ToString();
+                //dir.Replace(';', ',');
+                return new
+                {
+                    x.ID,
+                    x.Nombre,
+                    x.Telefono,
+                    x.Apellido,
+                    x.Email,
+                    Direccion = dir,
+                    NumeroMascotas = x.Mascotas.Count
+                };
             }).ToList();
             return Json(new { data = dataToShow }, JsonRequestBehavior.AllowGet);
         }

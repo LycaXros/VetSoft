@@ -20,7 +20,12 @@ namespace VetSoft.Presentation
                     "~/Scripts/otf.js"
 
                 ));
+            bundles.Add(new ScriptBundle("~/bundles/FoolProofVal").Include(
+                    "~/Client Scripts/mvcfoolproof.unobtrusive.min.js",
+                    "~/Client Scripts/MvcFoolproofJQueryValidation.min.js",
+                    "~/Client Scripts/MvcFoolproofValidation.min.js"
 
+                ));
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
