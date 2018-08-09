@@ -1,4 +1,4 @@
-﻿@model VetSoft.Presentation.Models.PropietarioViewModel
+﻿@model PropietarioViewModel
 
 
 @using (Html.BeginForm("AddOrUpdate", "Propietarios", FormMethod.Post,
@@ -35,14 +35,14 @@
     <div class="form-group form-row">
         @Html.LabelFor(model => model.Telefono, new { @class = "control-label col-md-4" })
         <div class="col-md-8">
-            @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control", data_mask = "(000)000-0000", data_mask_clearifnotmatch = "true", placeholder = "(999)999-9999" })
+            @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control phoneMask"})
             @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group form-row">
         @Html.LabelFor(model => model.Telefono_2, new { @class = "control-label col-md-4" })
         <div class="col-md-8">
-            @Html.TextBoxFor(model => model.Telefono_2, new { @class = "form-control", data_mask = "(000)000-0000", data_mask_clearifnotmatch = "true", placeholder = "(999)999-9999" })
+            @Html.TextBoxFor(model => model.Telefono_2, new { @class = "form-control phoneMask"})
             @Html.ValidationMessageFor(model => model.Telefono_2, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -60,3 +60,4 @@
     </div>
 
 }
+

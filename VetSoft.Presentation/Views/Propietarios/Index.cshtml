@@ -1,4 +1,4 @@
-﻿@model VetSoft.Presentation.Models.PropietarioViewModel
+﻿@model PropietarioViewModel
 @{
     ViewBag.Title = "Propietarios";
 }
@@ -32,6 +32,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Telefono)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </th>
                 <th>Opciones</th>
             </tr>
         </thead>
@@ -48,6 +51,9 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Telefono)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Direccion)
                 </th>
                 <th></th>
             </tr>
@@ -77,6 +83,10 @@
                         close: function () {
                             Popup.dialog('destroy').remove();
                         }
+                    });
+                    $(".phoneMask").mask("(000)000-0000", {
+                        placeholder: "(999)999-9999",
+                        clearIfNotMatch: true
                     });
                 });
         };
@@ -149,10 +159,11 @@
                     { data: "Apellido" },
                     { data: "Email" },
                     { data: "Telefono" },
+                    { data: "Direccion" },
                     {
                         data: "ID",
                         render: function (data) {
-                            return "<a class='btn btn-info btn-sm' onclick=PopupForm('@Url.Action("NuevoEditar","Propietario")/" + data + "') ><i class='fas fa-pencil-alt'></i> Editar </a> " +
+                            return "<a class='btn btn-info btn-sm' onclick=PopupForm('@Url.Action("NuevoEditar", "Propietario")/" + data + "') ><i class='fas fa-pencil-alt'></i> Editar </a> " +
                                    "<a class='btn btn-danger btn-sm' onclick=EliminarRegistro("+data+")><i class='fas fa-trash'></i> Eliminar </a> "
 
                         },

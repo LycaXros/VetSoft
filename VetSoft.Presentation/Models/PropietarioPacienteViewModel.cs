@@ -65,8 +65,12 @@ namespace VetSoft.Presentation.Models
     }
     public class PropPacViewModel
     {
-
+        public PropPacViewModel()
+        {
+            Paciente = new PacienteViewModel();
+            Propietario = new PropietarioSingleValModel();
+        }
         public PacienteViewModel Paciente { get; set; }
-        public PropietarioViewModel Propietario { get; set; }
+        public PropietarioSingleValModel Propietario { get; set; }
     }
 }

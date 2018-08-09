@@ -150,7 +150,10 @@ namespace VetSoft.Presentation.Controllers
             //    Value = x.ID.ToString()
             //})
             //.ToList();
-            return View();
+            PropPacViewModel model = new PropPacViewModel();
+            model.Propietario.NeedID = true;
+            model.Propietario.NeedOther = true;
+            return View(model);
         }
 
         [Route("Paciente/Nuevo")]
@@ -211,7 +214,8 @@ namespace VetSoft.Presentation.Controllers
                 }).ToList();
             ViewBag.Razas = new SelectList(db.Raza.ToList(), "ID", "Nombre",model.Paciente.RazaID);
             ViewBag.PropietariosList = listaP;
-            return View();
+            model.Propietario.NeedOther = false;
+            return View(model);
         }
 
         [Route("Paciente/Editar/{id?}")]
