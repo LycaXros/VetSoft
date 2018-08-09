@@ -57,6 +57,9 @@ else if ((bool)ViewBag.TienePropietario)
     <h3>No Tiene Propietario </h3>
     <a class="btn" onclick="PopupForm('@Url.Action("SelectPropietario", new { id = Model.ID})')">Seleccionar Propietario</a>
 }
+<div>
+    <a href="@Url.Action("Index")" class="btn btn-danger">Volver a la lista</a>
+</div>
 @section scripts{
     <script type="text/javascript">
 
