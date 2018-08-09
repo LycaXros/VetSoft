@@ -53,16 +53,16 @@ namespace VetSoft.Presentation.Models
         
         [Required]
         [DataType(DataType.EmailAddress, ErrorMessage = "Ingrese un Correo Valido")]
-        [Display(Name = "Direccion de Correo Electronico")]
+        [Display(Name = "Dirección de Correo Electronico")]
         public string Email { get; set; }
 
         [Required]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Increse de esta forma '(000)000-0000'")]
-        [Display(Name = "Numero Telefonico")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Increse con este formato '(000)000-0000'")]
+        [Display(Name = "Número Telefónico")]
         public string Telefono { get; set; }
 
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Increse de esta forma '(000)000-0000'")]
-        [Display(Name = "Numero Telefonico de Respaldo")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Increse con este formato '(000)000-0000'")]
+        [Display(Name = "Numero Telefónico Alternativo")]
         public string Telefono_2 { get; set; }
 
 

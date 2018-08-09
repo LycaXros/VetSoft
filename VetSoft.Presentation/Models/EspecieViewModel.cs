@@ -33,7 +33,7 @@ namespace VetSoft.Presentation.Models
         [Display(Name = "Nombre Especie")]
         public string Nombre { get; set; }
 
-        [Display(Name = "Especificacion Especie")]
+        [Display(Name = "Especificación Especie")]
         public string Nombre_Esp { get; set; }
 
         public List<RazaSingleModel> Razas { get; set; }
