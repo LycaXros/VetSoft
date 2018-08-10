@@ -27,7 +27,7 @@ namespace VetSoft.Presentation.Controllers
         {
             var lista = await ListarPropietarios();
             var dataToShow = lista.Select(x => {
-                var dir = x.Direccion.ToString();
+                //var dir = x.Direccion.ToString();
                 //dir.Replace(';', ',');
                 return new
                 {
@@ -36,7 +36,7 @@ namespace VetSoft.Presentation.Controllers
                     x.Telefono,
                     x.Apellido,
                     x.Email,
-                    Direccion = dir,
+                    x.Direccion,
                     NumeroMascotas = x.Mascotas.Count
                 };
             }).ToList();
