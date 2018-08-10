@@ -51,7 +51,15 @@ namespace VetSoft.Presentation.Controllers
                 return View(model);
             }
             return RedirectToAction("Index", "Paciente");
+
         }
+
+        //public ActionResult PrintPage(int id)
+        //{
+        //    var PDF = IronPdf.HtmlToPdf.
+        //        StaticRenderUrlAsPdf(new Uri("http://localhost:53683/Reportes/ReporteCitasPaciente.aspx"));
+        //    return File(PDF.BinaryData, "application/pdf", "Something.Pdf");
+        //}
 
         [HttpPost]
         [Route("Chequeo/Nuevo/{id}")]
