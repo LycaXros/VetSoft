@@ -62,13 +62,8 @@ namespace VetSoft.Presentation.Models
         [Display(Name = "Número Telefónico")]
         public string Telefono { get; set; }
 
-<<<<<<< HEAD
         [DataType(DataType.PhoneNumber, ErrorMessage = "Increse con este formato '(000)000-0000'")]
         [Display(Name = "Numero Telefónico Alternativo")]
-=======
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Increse de esta forma '(000)000-0000'")]
-        [Display(Name = "Numero Telefonico Alterno")]
->>>>>>> master
         public string Telefono_2 { get; set; }
 
         [Required]
