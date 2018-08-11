@@ -12,7 +12,7 @@ namespace VetSoft.Presentation.Reportes
         protected void Page_Load(object sender, EventArgs e)
         {
 
-           // IronPdf.AspxToPdf.RenderThisPageAsPdf(IronPdf.AspxToPdf.FileBehavior.InBrowser, "Prueba.pdf");
+           // IronPdf.AspxToPdf.RenderThisPageAsPdf(IronPdf.AspxToPdf.FileBehavior.InBrowser, "Prueba.pdf", new IronPdf.PdfPrintOptions() { DPI = 300 });
         }
     }
 }
