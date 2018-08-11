@@ -72,6 +72,10 @@ namespace VetSoft.Presentation.Models
         public string Direccion { get; set; }
 
 
+        public string FullName()
+        {
+            return $"{Nombre} {Apellido}";
+        }
         public List<PropietarioPacienteSingleModel> Mascotas { get; set; }
     }
 
@@ -185,7 +189,10 @@ namespace VetSoft.Presentation.Models
         [StringLength(500, ErrorMessage = "La Direccion no puede ser tan pequeña", MinimumLength = 10)]
         public string Direccion { get; set; }
 
-        
+        public string FullName()
+        {
+            return $"{Nombre} {Apellido}";
+        }
         public List<PropietarioPacienteSingleModel> Mascotas { get; set; }
     }
 

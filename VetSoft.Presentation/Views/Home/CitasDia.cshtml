@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<VetSoft.Presentation.Models.CitaDataModel>
 
 @{
-    ViewBag.Title = "CitasDia";
+    ViewBag.Title = "Citas del Dia " + ViewBag.Fecha;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Citas para el dia @ViewBag.Fecha</h2>
 
-<div id="tableDiv">
+<div id="tableDiv" class="table-responsive">
     <table class="table table-striped table-borderless">
         <thead class="thead-dark">
             <tr>

@@ -33,9 +33,13 @@
             }
         </style>
         <div class="container notPrint">
-            <%--holas--%>
+            <br />
+            <span onclick="MakePrint()" class="btn btn-primary"> Imprimir </span> || 
+            <asp:HyperLink Text="Volver a la Lista" runat="server" CssClass="btn btn-primary" ID="GoBackID" />
+            
         </div>
         <div class="container toPrint">
+            <br />
             <div>
                 <div class="d-flex justify-content-center">
                     <img alt="Logo" class="auto-style3 " src="../Content/images/sertevet1.jpg" />
@@ -135,17 +139,18 @@
             </div>
             <br />
             <div class="d-flex justify-content-center">
-                <span class="auto-style2"><strong>RESUMEN DE VACUNACIÓN</strong></span>
+                <span class="auto-style2"><strong>RESUMEN DE MEDICACIÓN</strong></span>
             </div>
             <br />
             <div class="container">
-                <asp:ListView runat="server" ID="VacunasList">
+                <asp:ListView runat="server" ID="MedList">
                     <ItemTemplate>
                         
             <div class="row" style="font-weight: 700">
-                <div class="col-4">Fecha: <span class="auto-style1"><%# Eval("Fecha") %></span></div>
-                <div class="col-4">Vacuna: <span class="auto-style1"><%# Eval("Vacuna") %></span></div>
-                <div class="col-4">Proxima Cita: <span class="auto-style1"><%# Eval("Prox") %></span></div>
+                <div class="col-3">Fecha: <span class="auto-style1"><%# Eval("Fecha") %></span></div>
+                <div class="col-3">Tipo: <span class="auto-style1"><%# Eval("Tipo") %></span></div>
+                <div class="col-3">Medicacion: <span class="auto-style1"><%# Eval("Med") %></span></div>
+                <div class="col-3">Proxima Cita: <span class="auto-style1"><%# Eval("Prox") %></span></div>
 
                 </div>
 
@@ -153,24 +158,6 @@
                 </asp:ListView>
             </div>
 <br />
-            <div class="d-flex justify-content-center">
-                <span class="auto-style2"><strong>RESUMEN DE Desparasitacion</strong></span>
-            </div>
-            <br />
-            <div class="container">
-                <asp:ListView runat="server" ID="DesparasitacionList">
-                    <ItemTemplate>
-                        
-            <div class="row" style="font-weight: 700">
-                <div class="col-4">Fecha: <span class="auto-style1"><%# Eval("Fecha") %></span></div>
-                <div class="col-4">Vacuna: <span class="auto-style1"><%# Eval("Vacuna") %></span></div>
-                <div class="col-4">Proxima Cita: <span class="auto-style1"><%# Eval("Prox") %></span></div>
-
-                </div>
-
-                    </ItemTemplate>
-                </asp:ListView>
-            </div>
                 <div class="d-flex justify-content-center">
                     <p >
                         Ave. Charles de Gualle #54, Villa Carmen, Santo Domingo Este<br />
@@ -181,5 +168,10 @@
                 </div>
         </div>
     </form>
+    <script type="text/javascript">
+        var MakePrint = function () {
+            window.print();
+        };
+    </script>
 </body>
 </html>
