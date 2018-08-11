@@ -240,6 +240,13 @@
     <Compile Include="Models\RazaViewModel.cs" />
     <Compile Include="Models\Utilidades.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\ReporteCertificadoVacunacion.aspx.cs">
+      <DependentUpon>ReporteCertificadoVacunacion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteCertificadoVacunacion.aspx.designer.cs">
+      <DependentUpon>ReporteCertificadoVacunacion.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\ReporteCitasPaciente.aspx.cs">
       <DependentUpon>ReporteCitasPaciente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -291,6 +298,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Reportes\ReporteCertificadoVacunacion.aspx" />
     <Content Include="Reportes\ReporteCitasPaciente.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
