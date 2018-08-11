@@ -8,17 +8,21 @@
         <h3 class="text-center">No existe Contenido que Mostrar</h3>
     }
     else
-    {
-        @Html.PacienteCuadros(Model)
-        <div id="pagedList" data-otf-target="#listaPacientes">
-            @Html.PagedListPager(Model, page => Url.Action("Index", new { page,
-           isDetail = false }),
-             new PagedListRenderOptions()
-             {
-                 Display = PagedListDisplayMode.IfNeeded,
-                 DisplayPageCountAndCurrentLocation = true,
+    {<div class="text-black-50">
+            @Html.PacienteCuadros(Model)
+            <div id="pagedList" data-otf-target="#listaPacientes">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new
+                {
+                    page,
+                    isDetail = false
+                }),
+                           new PagedListRenderOptions()
+                           {
+                               Display = PagedListDisplayMode.IfNeeded,
+                               DisplayPageCountAndCurrentLocation = true,
 
-             });
+                           });
+            </div>
         </div>
     }
 </div>

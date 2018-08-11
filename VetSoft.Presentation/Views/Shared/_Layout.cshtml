@@ -8,7 +8,7 @@
     @Styles.Render("~/Content/css")
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     @Scripts.Render("~/bundles/modernizr")
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
 </head>
 <body>
     <div class="navbar navbar-expand-md bg-danger navbar-dark @*fixed-top*@">
@@ -26,7 +26,7 @@
                     <li class="nav-item">@Html.ActionLink("Razas", "", "Razas", new { area = "" }, new { @class = "nav-link text-white" })</li>
                     <li class="nav-item">@Html.ActionLink("Pacientes", "Index", "Paciente", new { area = "" }, new { @class = "nav-link text-white" })</li>
                     <li class="nav-item">@Html.ActionLink("Propietarios", "", "Propietarios", new { area = "" }, new { @class = "nav-link text-white" })</li>
-                    <li class="nav-item">@Html.ActionLink("Medicamentos", "", "Medicamentos", new { area = "" }, new { @class = "nav-link text-white" })</li>
+                    @*<li class="nav-item">@Html.ActionLink("Medicamentos", "", "Medicamentos", new { area = "" }, new { @class = "nav-link text-white" })</li>*@
 
                 </ul>
                 <div>
