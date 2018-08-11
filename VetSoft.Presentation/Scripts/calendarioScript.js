@@ -93,7 +93,7 @@ var escribirDias = function () {
                 celda.innerHTML = "<cite title='Fecha Actual'>" + midia + "</cite>";
             }
 
-            if (citaData != null) {
+            if (citaData != null && mimes == mesHoy) {
                 celda.innerHTML =
                     celda.innerHTML + 
                     "<br />" +

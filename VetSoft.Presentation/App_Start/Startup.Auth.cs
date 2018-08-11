@@ -27,7 +27,7 @@ namespace VetSoft.Presentation
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
                 LogoutPath = new PathString("/Account/LogOff"),
-                ExpireTimeSpan = TimeSpan.FromMinutes(5.0),
+                ExpireTimeSpan = TimeSpan.FromMinutes(10.0),
                 //Provider = new CookieAuthenticationProvider
                 //{
                 //    // Permite a la aplicación validar la marca de seguridad cuando el usuario inicia sesión.
