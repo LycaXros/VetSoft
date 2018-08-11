@@ -4,13 +4,18 @@
     ViewBag.Title = "Pacientes";
 }
 
-<h2>Pacientes</h2>
-
-<p>
-    @Html.ActionLink("Nuevo Pacientes", "Create", new { }, new { @class = "btn btn-info" })
-    <a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Nuevo Paciente</a>
-</p>
-
+<table width="100%" height="100%">
+    <tr>
+        <td align="left">
+            <h2>Pacientes</h2>
+            <p><a href="@Url.Action("Create")" class="btn btn-info"><i class="fas fa-plus-square"></i> Nuevo Paciente</a></p>
+        </td>
+        <td align="right">
+            <img src="~/Content/images/sertevet1.jpg" width="40%" height="100%" alt="Placeholder" class="img-responsive" align="right" />
+        </td>
+    </tr>
+</table>
+<br />
 <form method="get" action="@Url.Action("Index", new { isDetail=false})"
       data-otf-ajax="true" data-otf-target="#listaPacientes">
 
@@ -28,8 +33,9 @@
     </div>
 </form>
 <br />
-@Html.Partial("_PacienteList", Model)
-
+<div class="text-body">
+    @Html.Partial("_PacienteList", Model)
+</div>
 
 <div class="row ">
     <div class=" col">
