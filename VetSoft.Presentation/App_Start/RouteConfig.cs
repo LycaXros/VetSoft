@@ -12,7 +12,18 @@ namespace VetSoft.Presentation
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            //routes.f
+            routes.MapPageRoute(
+                "ReporteCequeo",
+                "Chequeo/Reporte/{ChequeoID}",
+                "~/Reportes/ReporteCertificadoVacunacion",
+                true, null,
+                new RouteValueDictionary { { "outgoing", new AspxRouteConstraint() } }
+                );
             routes.MapMvcAttributeRoutes();
+
+            //routes.MapPageRoute("", "Chequeo/Reporte/{ChequeoID}", "~/Reportes/ReporteCertificadoVacunacion");
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

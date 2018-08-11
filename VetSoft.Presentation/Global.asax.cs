@@ -22,4 +22,12 @@ namespace VetSoft.Presentation
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
         }
     }
+
+    public class AspxRouteConstraint : IRouteConstraint
+    {
+        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
+        {
+            return routeDirection == RouteDirection.IncomingRequest;
+        }
+    }
 }
