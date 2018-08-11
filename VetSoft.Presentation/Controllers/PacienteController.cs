@@ -193,7 +193,8 @@ namespace VetSoft.Presentation.Controllers
                     db.PropietarioPaciente.Add(proppac);
                     await db.SaveChangesAsync();
 
-                    return RedirectToAction("Index");
+                    //return RedirectToAction("Index");
+                    return RedirectToAction("Nuevo", "Chequeos", new {id = model.Paciente.ID });
                 }
 
             }

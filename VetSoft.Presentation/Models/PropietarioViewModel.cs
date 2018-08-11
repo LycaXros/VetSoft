@@ -75,13 +75,13 @@ namespace VetSoft.Presentation.Models
         public List<PropietarioPacienteSingleModel> Mascotas { get; set; }
     }
 
-    public class Direccion
+    public class DireccionC
     {
-        public Direccion()
+        public DireccionC()
         {
 
         }
-        public Direccion(string fullDir)
+        public DireccionC(string fullDir)
         {
             var splitted = fullDir.Split(';');
 
