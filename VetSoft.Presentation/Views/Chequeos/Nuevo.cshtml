@@ -286,7 +286,7 @@
             });
 
 
-            JumpAlert();
+            //JumpAlert();
         });
 
         var CrearTabla = function () {
@@ -325,7 +325,7 @@
         var requestRunning = false;
         var SubmitForm = function (form) {
             if (requestRunning)
-                return;
+                return false;
 
             $.validator.unobtrusive.parse(form);
 
@@ -356,7 +356,10 @@
                                 className: "alert"
                             })
                         }
-                        setTimeout("location=('" + data.redirectUrl + "');", timeReload);
+                        setTimeout(function () {
+                            requestRunning = false;
+                            window.location = (data.redirectUrl);
+                        }, timeReload / 10);
                     },
                     complete: function () {
                         requestRunning = false;

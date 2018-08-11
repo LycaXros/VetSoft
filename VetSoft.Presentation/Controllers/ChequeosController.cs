@@ -95,7 +95,7 @@ namespace VetSoft.Presentation.Controllers
                     return Json(new
                     {
                         success = true,
-                        redirectUrl = Url.Action("Index", "Paciente"),
+                        redirectUrl = Url.Action("HistoricoPaciente", "Chequeos", new { id = checkModel.PacienteID}),
                         message = "Logrado"
                     },
                         JsonRequestBehavior.AllowGet);

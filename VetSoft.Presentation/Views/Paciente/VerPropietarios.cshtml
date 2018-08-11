@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Propietario(s) de @Model.Nombre</h2>
+<h2>Propietario(s) de @Model.FullName</h2>
 
 @if (Model.Propietarios.Count > 0)
 {
@@ -22,7 +22,7 @@
             @foreach (var item in Model.Propietarios.ToList())
             {
                 <tr>
-                    <td>@item.Propietario.Nombre</td>
+                    <td>@item.Propietario.FullName()</td>
                     <td>
                         @switch (item.Tipo)
                         {
@@ -43,8 +43,8 @@
 
                     <td>
                         <a href="@Url.Action("Detalle","Propietarios", new { id = item.ClienteID})" 
-                           class="btn btn-link btn-sm disabled" > Ver Detalle </a>|
-                        <span class="btn btn-danger btn-sm"
+                           class="btn btn-link btn-sm disabled" style="display:none" > Ver Detalle </a>
+                        <span class="btn btn-danger btn-sm" style="display:none"
                               onclick="EliminarProp(@item.ClienteID, @item.PacienteID)">Eliminar</span>
                     </td>
                 </tr>

@@ -31,7 +31,7 @@ namespace VetSoft.Presentation.Models
         [Display(Name = "Identificador de la Especie")]
         public int EspecieID { get; set; }
 
-        [Display(Name = "Especie Madre")]
+        [Display(Name = "Especie")]
         public EspecieSingleModel Especie { get; set; }
         public List<PacienteSingleModel> Animales { get; set; }
 
@@ -67,7 +67,7 @@ namespace VetSoft.Presentation.Models
         [Display(Name = "Identificador de la Especie")]
         public int EspecieID { get; set; }
 
-        [Display(Name = "Especie Madre")]
+        [Display(Name = "Especie ")]
         public EspecieSingleModel Especie { get; set; }
 
     }

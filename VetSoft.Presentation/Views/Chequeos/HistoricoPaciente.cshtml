@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Historico de Chequeos Paciente</h2>
+<h2>Historico de Chequeos @Model.FullName</h2>
 
 <hr />
 <div class="table-responsive">
@@ -88,7 +88,7 @@
                     {
                         data: "ID",
                         render: function (data) {
-                            return "<span> Hola </span>"
+                            return "<a class='btn btn-primary' href='../../Reportes/ReporteCertificadoVacunacion.aspx?ChequeoID="+data+"' > Ver Detalle Medicacion </a>"
                         },
                         searchable:false,
                         orderable: false,
@@ -132,7 +132,7 @@
 
             function format(d) {
                 
-                var $table = $("<table class='table table-bordered table-striped detailTable' style='margin-left: 50px;' />");
+                var $table = $("<table class='table table-bordered table-striped detailTable text-body' style='margin-left: 50px;' />");
                 $table.append("<thead class='thead-dark'><tr> <th> Numero Medicacion </th>  <th>Nombre Medicacion</th>  <th>Indicaciones</th> </tr></thead>");
 
                 var $tbody = $("<tbody />");

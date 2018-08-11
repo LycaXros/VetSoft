@@ -92,7 +92,7 @@ namespace VetSoft.Presentation.Helpers
                 editarBtn.MergeAttribute("href", $"{urlHelper.Action("Editar", new { id = item.ID })}");
                 editarBtn.InnerHtml = " <i class='fas fa-edit'></i> ";
                 var deleteBtn = new TagBuilder("span");
-                deleteBtn.AddCssClass("card-link-btn");
+                deleteBtn.AddCssClass("card-link-btn notDisplay");
                 deleteBtn.MergeAttribute("onclick", $"DeleteThis({item.ID})");
                 deleteBtn.InnerHtml = "Eliminar";
                 var linkVer = LinkExtensions.ActionLink(htmlHelper, "Ver Lista de Chequeos", "HistoricoPaciente", "Chequeos", new { id = item.ID }, htmlAttributes: new { @class = "card-link" });
@@ -105,7 +105,7 @@ namespace VetSoft.Presentation.Helpers
                 footerText.Append(linkVer.ToHtmlString());
                 footerText.Append(" | ");
                 footerText.Append(deleteBtn.ToString(TagRenderMode.Normal));
-                footerText.Append(" | ");
+                footerText.Append("  ");
                 footerText.Append(linkPro.ToHtmlString());
                 footerText.Append(" | ");
                 footerText.Append(nuevoCheck.ToHtmlString());
@@ -202,7 +202,7 @@ namespace VetSoft.Presentation.Helpers
             editarBtn.MergeAttribute("href", $"{urlHelper.Action("Editar", new { id = model.ID})}");
             editarBtn.InnerHtml = " <i class='fas fa-edit'></i> ";
             var deleteBtn = new TagBuilder("span");
-            deleteBtn.AddCssClass("card-link-btn");
+            deleteBtn.AddCssClass("card-link-btn notDisplay");
             deleteBtn.MergeAttribute("onclick", $"DeleteThis({model.ID})");
             deleteBtn.InnerHtml = "Eliminar";
             var linkVer = LinkExtensions.ActionLink(htmlHelper, "Ver Lista de Chequeos", "HistoricoPaciente", "Chequeos", new { id = model.ID }, htmlAttributes: new { @class = "card-link" });
@@ -215,7 +215,7 @@ namespace VetSoft.Presentation.Helpers
             footerText.Append(linkVer.ToHtmlString());
             footerText.Append(" | ");
             footerText.Append(deleteBtn.ToString(TagRenderMode.Normal));
-            footerText.Append(" | ");
+            footerText.Append("  ");
             footerText.Append(linkPro.ToHtmlString());
             footerText.Append(" | ");
             footerText.Append(nuevoCheck.ToHtmlString());

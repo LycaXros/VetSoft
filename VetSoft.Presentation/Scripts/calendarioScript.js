@@ -93,7 +93,7 @@ var escribirDias = function () {
                 celda.innerHTML = "<cite title='Fecha Actual'>" + midia + "</cite>";
             }
 
-            if (citaData != null && mimes == mesHoy) {
+            if (citaData != null && mimes == mesCal) {
                 celda.innerHTML =
                     celda.innerHTML + 
                     "<br />" +
@@ -113,10 +113,21 @@ var proximoMes = function () {
     mesCal = nuevomes.getMonth();
     añoCal = nuevomes.getFullYear();
     $.notify("Mes actual: " + meses[mesCal], "info");
+    
+    cabecera();
+    CargarCitasArray(mesCal, añoCal);
+//escribirDias();
+};
+
+var GoToday = function () {
+    var nuevomes = new Date();
+    mesCal = nuevomes.getMonth();
+    añoCal = nuevomes.getFullYear();
+
+    $.notify("Mes actual: " + meses[mesCal], "info");
+    cabecera();
     CargarCitasArray(mesCal, añoCal);
 
-    cabecera();
-    //escribirDias();
 };
 
 var anteriorMes = function () {
@@ -126,9 +137,11 @@ var anteriorMes = function () {
     mesCal = nuevomes.getMonth();
     añoCal = nuevomes.getFullYear();
     $.notify("Mes actual: " + meses[mesCal], "info");
-    CargarCitasArray(mesCal, añoCal);
 
     cabecera();
+    CargarCitasArray(mesCal, añoCal);
+
+
     //escribirDias();
 
 };
