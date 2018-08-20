@@ -12,6 +12,7 @@ namespace VetSoft.Presentation.Models
         public PacienteViewModel()
         {
             this.Propietarios = new List<PropietarioPacienteViewModel>();
+            this.Chequeos = new List<ChequeoViewModel>();
         }
         public PacienteViewModel(Paciente paciente)
         {
@@ -27,10 +28,16 @@ namespace VetSoft.Presentation.Models
             FechaNac = paciente.FechaNac;
             FechaIngreso = paciente.FechaIngreso;
             Propietarios = new List<PropietarioPacienteViewModel>();
+            Chequeos = new List<ChequeoViewModel>();
             paciente.Propietarios.ToList()
                 .ForEach(x =>
                 {
                     Propietarios.Add(new PropietarioPacienteViewModel(x));
+                });
+            paciente.Chequeo.ToList()
+                .ForEach(x =>
+                {
+                    Chequeos.Add(new ChequeoViewModel(x));
                 });
         }
 
@@ -109,7 +116,7 @@ namespace VetSoft.Presentation.Models
 
         public RazaViewModel Raza { get; set; }
         public List<PropietarioPacienteViewModel> Propietarios { get; set; }
-
+        public List<ChequeoViewModel> Chequeos { get; private set; }
     }
 
     public class PacienteSingleModel

@@ -79,6 +79,51 @@ namespace VetSoft.Presentation.Controllers
 
             return Json(l, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        [Route("Paciente/{id}/Grafica1")]
+        public async Task<ActionResult> PesoGrafica(int? id)
+        {
+            if (id == null)
+               {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            var pac = await db.Paciente.FindAsync(id);
+            if (pac == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new PacienteSingleModel(pac);
+
+            return View(model);
+        }
+
+        [Route("Paciente/{id}/PesoList")]
+        public JsonResult PesoList(int? id)
+        {
+
+            if (id == null)
+            {
+                return Json(new { success= false, message = "No Exite parametro"},JsonRequestBehavior.AllowGet);
+            }
+            var pac =  db.Paciente.Find(id);
+            if (pac == null)
+            {
+                return Json(new { success = false, message = "No Paciente" }, JsonRequestBehavior.AllowGet);
+            }
+            var model = new PacienteViewModel(pac);
+
+            var ch = model.Chequeos
+                .Select(x=>
+                {
+                    var f = x.Fecha.ToShortDateString();
+                    return new
+                    {
+                        x.Peso,
+                        Fecha = f
+                    };
+                }).ToList();
+            return Json(new { success = true, data = ch }, JsonRequestBehavior.AllowGet);
+        }
 
         // GET: Paciente
         [Route("Pacientes", Order = 1)]

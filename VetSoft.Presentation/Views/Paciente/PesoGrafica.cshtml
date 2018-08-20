@@ -1,0 +1,67 @@
+﻿@model PacienteSingleModel
+@{
+    ViewBag.Title = "Graficas Peso Paciente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Grafica de Pesos</h2>
+
+
+<div id="myPieChart" style="width:500px; height:500px" />
+
+<br />
+@section scripts{
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+        var data1 = [];
+        function drawChart() {
+            // Define the chart to be drawn.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Fecha');
+            data.addColumn('number', 'Peso');
+            getData();
+            var d = [["asdas", 11], ["s", 22]];
+            $.each(data1, function (i, val) {
+                d = [val.y, val.x];
+                data.addRow(d)
+            });
+            // data.addRows(d);
+            var options = {
+                title: 'Historico Peso',
+                legend: { position: 'bottom' },
+                width: 500,
+                height: 500,
+               
+            };
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.LineChart(document.getElementById('myPieChart'));
+            chart.draw(data, options);
+        }
+        var getData = function () {
+            var opt = {
+                url: "@Url.Action("PesoList", new { id = Model.ID })",
+                success: function (d) {
+                    if (d.success) {
+                        $.each(d.data, function (i, val) {
+                            
+                            data1.push(
+                                {
+                                    x:val.Peso, y: val.Fecha
+                                }
+                            );
+                        });
+                        return "F";
+                    } else {
+                        $.notify(d.message, "alert");
+                        return null;
+                    }
+                }
+            };
+            $.get(opt);
+        };
+        getData();
+    </script>
+}
